@@ -18,7 +18,7 @@
      var myId = "tetsId";
      var msg = "Hello, world!";
  //构造虚拟DOM
-     const element =<h1 id = {myId}> { msg } <h1> 
+     const element = <h1 id = {myId}> { msg } </h1> 
  //将虚拟DOM渲染到真实DOM
      ReactDOM.render(
            element,        
@@ -31,7 +31,9 @@
       向外提供特定功能的js程序，就是一个js文件
 ###### 3.2 组件
       用来实现特定（局部）功能效果的代码集合（html/css/js）
-      
+##### 4、定义组件
+###### 方式1：工厂函数组件
+    function 
       
       
       
