@@ -13,7 +13,7 @@
 ##### 2、元素渲染
       ReactDOM.render(VOM,containerDOM）
 例：[firstReact](https://github.com/cqujlj/React/blob/master/html/firstReact.html)
-   //可在JSX中使用JavaScript表达式，表达式放在{}中
+   note：可在JSX中使用JavaScript表达式，表达式放在{}中
 ##### 3、模块和组件
 ###### 3.1 模块
       向外提供特定功能的js程序，就是一个js文件
@@ -21,7 +21,6 @@
       用来实现特定（局部）功能效果的代码集合（html/css/js）
 ##### 4、定义组件
 ###### 方式1：工厂函数组件
-    function 
       
       
       
