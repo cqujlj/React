@@ -13,7 +13,7 @@
 ##### 2、元素渲染
    <div id="example"></div>
    <script type="text/babel">
-     const element =<h1>Hello, world!</h1>;  //构造虚拟DOM
+     const element =<h1> Hello, world!</h1>  //构造虚拟DOM
      ReactDOM.render(
            element,         //将虚拟DOM渲染到真实DOM
            document.getElementById('example')
