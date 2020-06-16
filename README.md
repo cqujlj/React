@@ -18,7 +18,7 @@
      var myId = "tetsId";
      var msg = "Hello, world!";
  //构造虚拟DOM
-     const element =<h1 id = {myId}> { msg } </h1> 
+     const element =<h1 id = {myId}> { msg } <h1> 
  //将虚拟DOM渲染到真实DOM
      ReactDOM.render(
            element,        
