@@ -12,19 +12,7 @@
      const element = <h1> hello, react </h1>    //note： JSX语法，不是字符串、不是HTML
 ##### 2、元素渲染
       ReactDOM.render(VOM,containerDOM）
-例：
-   <div id="example"></div>
-   <script type="text/babel">
-     var myId = "tetsId";
-     var msg = "Hello, world!";
- //构造虚拟DOM
-     const element = <h1 id = {myId}> { msg } </h1> 
- //将虚拟DOM渲染到真实DOM
-     ReactDOM.render(
-           element,        
-           document.getElementById('example')
-      );
-   </script>
+例：[firstReact](https://github.com/cqujlj/React/blob/master/html/firstReact.html)
    //可在JSX中使用JavaScript表达式，表达式放在{}中
 ##### 3、模块和组件
 ###### 3.1 模块
