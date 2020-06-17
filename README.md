@@ -61,16 +61,34 @@
                     )
               }
         }
-###### 指定属性值的类型和必要性
+###### 指定属性值的类型和必要性 --> 可以声明prop为指定的基本数据类型
          PersonMsg.prototype = {
                     name : PropTypes.string.isRequired,   //name是必填项
                     age : PropTypes.number,
+                    //requiredAny: React.PropTypes.any.isRequired,    // 不可空的任意类型
                 };
 ###### 指定默认值
         PersonMsg.defaultProps = {
             age:18,
         };
-##### 5.3 refs 
+###### 
+######  将对象的所有属性通过props传递：    <Person{...person}>
+###### 在父组件中设置 state， 并通过在子组件上使用 props 将其传递到子组件上
+             ReactDOM.render(<PersonMsg {...person}/>, document.getElementById('idName'))
+            [示例](html/06-state$$props.html)
+##### 5.3 refs --> 事件处理
+######  组件内的标签都可以定义ref属性来标识自己
+            方式1：<input type="text" ref="content"/>
+            方式2：<input type="text" ref={input=>this.input=input}/>   //将当前的input 赋值给组件里面的input
+###### 事件处理
+            通过onXxxx属性来指定组件内的事件处理函数，如onClick、onBlur -->  <input type="text"  onBlur={this.handleBlur}/>
+            react中的事件是通过委托方式处理的（委托给最外层元素）
+            通过event.target可以得到发生事件的DOM元素 --》 handleBlur(event){  alert(event.target.value) }
+            note：
+              //要在constructor中给处理函数强制绑定this
+              this.handleBlur=this.handleClick.bind(this)
+            
+            
       
       
       
