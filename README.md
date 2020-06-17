@@ -13,7 +13,7 @@
 ##### 2、元素渲染
       ReactDOM.render(VOM,containerDOM）
 例1：[firstReact](https://github.com/cqujlj/React/blob/master/html/01-firstReact.html)
-例2：[展示列表数据]（https://github.com/cqujlj/React/blob/master/html/02-%E5%B1%95%E7%A4%BA%E5%88%97%E8%A1%A8%E6%95%B0%E6%8D%AE.html）
+例2：[展示列表数据](https://github.com/cqujlj/React/blob/master/html/02-listData.html)
    note：可在JSX中使用JavaScript表达式，表达式放在{}中
 ##### 3、模块和组件
 ###### 3.1 模块
