@@ -8,7 +8,7 @@
 
 ## React JavaScript XML（JSX）: 用于申明react当中的元素 
 ## 基本用法：
-#####  1、创建VDOM元素对象
+##### 1、创建VDOM元素对象
      * const element = <h1> hello, react </h1> *    //note： JSX语法，不是字符串、不是HTML
 ##### 2、元素渲染
       * ReactDOM.render(VOM,containerDOM） *
@@ -28,18 +28,18 @@
 ##### 5.1 state
         组件 --> 状态机，通过与用户交互，实现不同状态，然后渲染UI，使得用户界面和数据保持一致
         使用方法：
-###### （1）初始化state
+###### (1)初始化state
                 constructor(props) {
                         super(props);
                         this.state = {
                             isShowText: true
                         };
-        ###### （2）获取stat
+###### (2)获取stat
               this.state.isShowText
-        ###### （3）修改state
+###### (3)修改state
          this.setState({ isShowText : !this.state.isShowText})
-##### 5.2 props
-##### 5.3 refs
+##### 5.2 props 
+##### 5.3 refs 
       
       
       
