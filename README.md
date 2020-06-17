@@ -27,7 +27,7 @@
 #### 5、组件的3个属性
 ##### 5.1 state
         组件 --> 状态机，通过与用户交互，实现不同状态，然后渲染UI，使得用户界面和数据保持一致
-       [代码实例](html/04-components-state.html)
+代码实例[state的基本用法](https://github.com/cqujlj/React/blob/master/html/04-components-state.html)
 ###### (1)初始化state,通过一个类的构造函数来初始化this.state，类组件始终使用props调用基础构造函数
                 constructor(props) {
                         super(props);
@@ -40,7 +40,7 @@
          this.setState({ isShowText : !this.state.isShowText})
 ##### 5.2 props 
     props不可变，子组件只能通过props来传递参数
-    [代码实例]html/05-components-props.html)
+代码实例[props的基本用法](https://github.com/cqujlj/React/blob/master/html/05-components-props.html)
 ###### 在函数组件中使用：props.属性名
     function PersonMsg(props) {
             return (
@@ -74,10 +74,10 @@
 ###### 
 ######  将对象的所有属性通过props传递：    <Person{...person}>
 ###### 在父组件中设置 state， 并通过在子组件上使用 props 将其传递到子组件上
-             ReactDOM.render(<PersonMsg {...person}/>, document.getElementById('idName'))
-            [代码实例](html/06-state$$props.html)
+         ReactDOM.render(<PersonMsg {...person}/>, document.getElementById('idName'))
+代码实例[父子组件传值](https://github.com/cqujlj/React/blob/master/html/06-state$$props.html)
 ##### 5.3 refs --> 事件处理
-        [代码实例](html/06-components-refs.html)
+代码实例[refs事件处理](html/06-components-refs.html)
 ######  组件内的标签都可以定义ref属性来标识自己
             方式1：<input type="text" ref="content"/>
             方式2：<input type="text" ref={input=>this.input=input}/>   //将当前的input 赋值给组件里面的input
