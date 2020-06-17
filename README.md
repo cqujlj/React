@@ -25,7 +25,7 @@
       接受带有数据的单个“ props”（代表属性）对象参数并返回React元素,使用参数：{props.属性名}
 ###### 方式2：ES6类组件  （复杂组件）
       使用参数：{this.props.属性名}
-代码示例：[使用工厂函数组件和ES6类组件]()
+代码示例：[使用工厂函数组件和ES6类组件](https://github.com/cqujlj/React/blob/master/html/03-components.html)
       
       
       
