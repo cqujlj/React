@@ -12,7 +12,8 @@
      const element = <h1> hello, react </h1>    //note： JSX语法，不是字符串、不是HTML
 ##### 2、元素渲染
       ReactDOM.render(VOM,containerDOM）
-例：[firstReact](https://github.com/cqujlj/React/blob/master/html/firstReact.html)
+例1：[firstReact](https://github.com/cqujlj/React/blob/master/html/firstReact.html)
+例2：
    note：可在JSX中使用JavaScript表达式，表达式放在{}中
 ##### 3、模块和组件
 ###### 3.1 模块
