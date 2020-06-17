@@ -77,7 +77,7 @@
          ReactDOM.render(<PersonMsg {...person}/>, document.getElementById('idName'))
 代码示例：[父子组件传值](https://github.com/cqujlj/React/blob/master/html/06-state$$props.html)
 ##### 5.3 refs --> 事件处理
-代码实例[refs事件处理](html/06-components-refs.html)
+代码示例：[refs事件处理](html/06-components-refs.html)
 ######  组件内的标签都可以定义ref属性来标识自己
             方式1：<input type="text" ref="content"/>
             方式2：<input type="text" ref={input=>this.input=input}/>   //将当前的input 赋值给组件里面的input
