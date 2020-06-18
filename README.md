@@ -15,38 +15,65 @@
        constructor(props) {
                 super(props);   //必须使用super，否则会导致this指向错误
             }
-#### 挂载阶段 Mounting
-###### componentWillMount()
+### 挂载阶段 Mounting
+##### componentWillMount()
        一般在服务端渲染时使用。代表的过程时：组件已由constructor()初始化数据后，但是DOM还没有渲染
-###### componentDidMount()
+##### componentDidMount()
       组件第一次渲染完成，DOM节点已经生成；在这里可以调用ajax请求，返回数据setState后组件会重新渲染
-#### 更新阶段 Update
-###### componentWillReceiveProps (nextProps)   //新版本是： getDerivedStateFromProps(nextProps, prevState)
+### 更新阶段 Update
+##### componentWillReceiveProps (nextProps)   //新版本是： getDerivedStateFromProps(nextProps, prevState)
       1、在接受父组件改变后的props需要重新渲染组件时用得比较多
       2、接受一个参数：nextProps
       3、通过对比nextProps和this.props，将nextProps的state为当前组件的state，从而重新渲染组件
-        componentWillReceiveProps (nextProps) {
-           nextProps.openNotice !== this.props.openNotice&&this.setState({
-           openNotice:nextProps.openNotice
-       }，() => {
-          console.log(this.state.openNotice:nextProps)
-          //将state更新为nextProps,在setState的第二个参数（回调）可以打印出新的state
-         })
-       }
-###### shouldComponentUpdate(nextProps,nextState)
+  代码实现：  componentWillReceiveProps (nextProps) {
+             nextProps.openNotice !== this.props.openNotice&&this.setState({
+             openNotice:nextProps.openNotice
+          }，() => {
+              console.log(this.state.openNotice:nextProps)
+             //将state更新为nextProps,在setState的第二个参数（回调）可以打印出新的state
+            })
+        }
+            // before
+          componentWillReceiveProps(nextProps) {
+            if (nextProps.isLogin !== this.props.isLogin) {
+              this.setState({ 
+                isLogin: nextProps.isLogin,   
+              });
+            }
+            if (nextProps.isLogin) {
+              this.handleClose();
+            }
+          }
+
+          // after
+          static getDerivedStateFromProps(nextProps, prevState) {
+            if (nextProps.isLogin !== prevState.isLogin) {
+              return {
+                isLogin: nextProps.isLogin,
+              };
+            }
+            return null;
+          }
+
+##### shouldComponentUpdate(nextProps,nextState)
       1、主要用于性能优化；唯一用于控制组件重新渲染的生命周期。
       2、由于setState之后，state会发生变化，组件会进入重新渲染的流程，return false可以组织组件的更新；
       3、父组件的重新渲染会导致其子组件的重新渲染，但不需要所有子组件都渲染，因此需要在子组件的该生命周期中做判断
-###### componentWillUpdate (nextProps,nextState)  //新版本：getSnapshotBeforeUpdate(prevProps, prevState)
+##### componentWillUpdate (nextProps,nextState)  //新版本：getSnapshotBeforeUpdate(prevProps, prevState)
       当shouldComponentUpdate返回true；组件进入重新渲染阶段
-###### componentDidUpdate(prevProps,prevState)
+##### componentDidUpdate(prevProps,prevState)
       组件更新完毕后，react在第一次初始化成功会进入会进入componentDidmount,之后每次重新渲染后都会进入这个生命周期
       参数prevProps：更新前的props；prevState：更新前的state
-###### render()
+代码实现： componentDidUpdate(prevProps, prevState) {
+            if (!prevState.isLogin && this.props.isLogin) {
+              this.handleClose();
+            }
+          }
+##### render()
       render函数会插入jsx生成的dom结构，react会生成一份虚拟DOM树，在每一次组件更新时，在此react会通过其diff算法比较更新前后的新旧DOM树，
       比较以后，找到最小的有差异的DOM节点，并重新渲染。
-#### 卸载阶段 Unmounting
-###### componentWillUnmount ()
+### 卸载阶段 Unmounting
+##### componentWillUnmount ()
       完成组件的卸载和数据的销毁
       1、clear在组件中所有的setTimeout、setInterval
       2、移除所有组件中监听 removeEventlistener
