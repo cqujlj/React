@@ -91,8 +91,7 @@
       const element = <h1> hello, react </h1>    //note： JSX语法，不是字符串、不是HTML
 #### 2、元素渲染
       ReactDOM.render(VOM,containerDOM）   //会覆盖挂载到的containerDOM原生中的所有内容，引入组件可解决这个问题
-例1：[firstReact](https://github.com/cqujlj/React/blob/master/html/01-firstReact.html)
-例2：[展示列表数据](https://github.com/cqujlj/React/blob/master/html/02-listData.html)
+代码实例：[firstReact](https://github.com/cqujlj/React/blob/master/html/01-firstReact.html)
 #### 3、JSX嵌入表达式
      若jsx的内容时动态的，可在JSX中使用JavaScript表达式，
      书写规则：{表达式}  表达式可以是变量、字符串、数组、函数调用等任意js表达式
@@ -126,6 +125,24 @@
      <div className={"message " + (this.state.active ? "active": "")}>你好啊</div>  //active: false
 ###### style属性：style后面跟的是一个对象类型，对象中是样式的属性名和属性值；属性名转成驼峰标识，而不是连接符-
      <div style={{fontSize: "30px", color: "red", backgroundColor: "blue"}}>我是文本</div>
+##### 3.4 jsx列表渲染
+     vue方式：v-for   react方式：数组的map高阶函数（使用最多）
+###### map高阶函数 --> 展示列表  array.map(callback[,thisArg])
+     参数：
+     (1) currentValue：callback 数组中正在处理的当前元素。
+     (2) index可选：callback 数组中正在处理的当前元素的索引。
+     (3) array可选：map 方法调用的数组。
+     (4) thisArg可选：执行 callback 函数时值被用作this。
+     用例：
+     this.state.movies.map((item,index) => {
+              return <li  key={index}>{item}</li>
+            })
+代码实例：[展示列表数据](https://github.com/cqujlj/React/blob/master/html/02-listData.html)
+###### filter函数 --> 处理数组，获取设定条件下的元素
+###### slice函数 --> 处理数组，截取数组中的一部分内容
+     用例：
+     this.state.numbers.filter(item => item >= 50).slice(0, 3).map(item => {
+              return <li>{item}</li>
 #### 4、JSX监听事件
      React 事件的命名采用小驼峰式（camelCase），而不是纯小写
      通过{}传入一个事件处理函数，这个函数会在事件发生时被执行
