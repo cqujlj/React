@@ -94,21 +94,72 @@
       ReactDOM.render(VOM,containerDOM）   //会覆盖挂载到的containerDOM原生中的所有内容，引入组件可解决这个问题
 例1：[firstReact](https://github.com/cqujlj/React/blob/master/html/01-firstReact.html)
 例2：[展示列表数据](https://github.com/cqujlj/React/blob/master/html/02-listData.html)
-     
-     note：若jsx的内容时动态的，可在JSX中使用JavaScript表达式，
+#### 3、JSX嵌入表达式
+     若jsx的内容时动态的，可在JSX中使用JavaScript表达式，
      书写规则：{表达式}  表达式可以是变量、字符串、数组、函数调用等任意js表达式
-     注释方式：{/* 我是一段注释 */}  
-#### 3、模块和组件
-##### 3.1 模块： 向外提供特定功能的js程序，就是一个js文件
-##### 3.2 组件：用来实现特定（局部）功能效果的代码集合（html/css/js）
-#### 4、定义组件
+###### 注释方式：{/* 我是一段注释 */}  
+##### 3.1 嵌入变量
+###### 情况1：当变量是Number、String、Array类型时，可以直接显示
+      <h2>{this.state.name}</h2>  //name:"Jack"
+      <h2>{this.state.age}</h2>   //age:10
+      <h2>{this.state.hobbies}</h2>  //hobbies:["篮球", "唱跳", "rap"]
+###### 情况2：“当变量是null、undefined、Boolean,则需要转换成字符串；
+     比如toString方法、和空字符串拼接，String(变量)等方式
+     <h2>{this.state.flag}</h2>   //flag:true   不显示
+        <h2>{this.state.flag + ""}</h2>   //变成字符串后，显示
+###### 情况3：对象类型不能作为子元素
+       <h2>123{this.state.friend}</h2>  // friend: { name: "kobe", age: 40}  报错
+##### 3.2 嵌入表达式
+###### 运算表达式 ：<h2>{this.state.firstName + " " + this.state.lastName}</h2>
+###### 三元表达式 ：<h2>{this.state.age >= 18 ? "成年人": "未成年人"}</h2>
+###### 执行一个函数 ： <h2>{this.sayHello("kobe")}</h2>
+##### 3.3 jsx绑定属性
+###### title属性：
+      <h2 title={this.state.title}>Hello World</h2>  *title: "你好啊"*/,
+###### src属性：
+     <img src={this.state.imgUrl} alt=""/>  /*imgUrl: "https://users/upload_avatars/1102036/c3628b478f06.jpeg"*/,
+###### href属性：
+     <a href={this.state.link} target="_blank">百度一下</a>   /*link: "https://www.baidu.com"*/
+###### class属性：jsx中不允许直接写class，使用className替代
+     <div className={"message " + (this.state.active ? "active": "")}>你好啊</div>  //active: false
+###### style属性：style后面跟的是一个对象类型，对象中是样式的属性名和属性值；属性名转成驼峰标识，而不是连接符-
+     <div style={{fontSize: "30px", color: "red", backgroundColor: "blue"}}>我是文本</div>
+#### 4、JSX监听事件
+     React 事件的命名采用小驼峰式（camelCase），而不是纯小写
+     通过{}传入一个事件处理函数，这个函数会在事件发生时被执行
+     例：<button onClick={this.btnClick}>点我一下(React)</button>
+##### 4.1 this绑定问题
+     由于btnClick不是我们主动调用的，而是当onClick发生时，react内部调用了btnClick，这种方式调用函数不知道如何正确绑定this
+###### 解决方案
+     方法一：bind给btnClick显示绑定this  -->  <button onClick={this.btnClick.bind(this)}>点我</button>
+     方法二：通过在构造方法中直接给this.btnClick绑定this --> 在constructor中：this.btnClick = this.btnClick.bind(this);
+     方法三：使用箭头函数 -->  btnClick = () => { console.log(this); } } 
+     方案四：（推荐使用）事件监听时传入箭头函数  -->   <button onClick={() => this.btnClick()}>点我</button>
+##### 4.2 事件参数传递
+     情况一：获取event对象 --> 拿到event对象来做一些事情（比如阻止默认行为)
+      btnClick(e) {   /*如果用不到this，直接传入函数就可以获取到event对象*/
+          e.preventDefault();
+           console.log(e);
+       }
+     情况二：获取更多参数 --> 传入一个箭头函数，主动执行的事件函数，并且传入相关的其他参数
+      <a href="#" onClick={e => this.aClick(e, item, index)}>{item}</a>
+      aClick(e, item, index) {
+          e.preventDefault();
+          console.log(item, index);
+          console.log(e);
+     }
+#### 5、模块和组件
+##### 5.1 模块： 向外提供特定功能的js程序，就是一个js文件
+##### 5.2 组件：用来实现特定（局部）功能效果的代码集合（html/css/js）
+#### 6、定义组件
 ##### 方式1：工厂函数组件（简单组件）
       接受带有数据的单个“ props”（代表属性）对象参数并返回React元素,使用参数：{props.属性名}
 ##### 方式2：ES6类组件  （复杂组件）
      使用参数：{this.props.属性名}
 代码示例：[使用工厂函数组件和ES6类组件](https://github.com/cqujlj/React/blob/master/html/03-components.html)
-#### 5、组件的3个属性
-##### 5.1 state
+
+#### 7、组件的3个属性
+##### 7.1 state
      组件 --> 状态机，通过与用户交互，实现不同状态，然后渲染UI，使得用户界面和数据保持一致
 代码示例：[state的基本用法](https://github.com/cqujlj/React/blob/master/html/04-components-state.html)
 ###### 组件中的数据：
@@ -127,7 +178,7 @@
      this.state.isShowText
 ###### (3)修改state
      this.setState({ isShowText : !this.state.isShowText})
-##### 5.2 props 
+##### 7.2 props 
      props不可变，子组件只能通过props来传递参数
 代码示例：[props的基本用法](https://github.com/cqujlj/React/blob/master/html/05-components-props.html)
 ###### 在函数组件中使用：props.属性名
@@ -165,7 +216,7 @@
 ###### 在父组件中设置 state， 并通过在子组件上使用 props 将其传递到子组件上
      ReactDOM.render(<PersonMsg {...person}/>, document.getElementById('idName'))
 代码示例：[父子组件传值](https://github.com/cqujlj/React/blob/master/html/06-state$$props.html)
-##### 5.3 refs --> 事件处理
+##### 7.3 refs --> 事件处理
 代码示例：[refs事件处理](html/06-components-refs.html)
 ######  组件内的标签都可以定义ref属性来标识自己
      方式1：<input type="text" ref="content"/>
@@ -175,7 +226,7 @@
      react中的事件是通过委托方式处理的（委托给最外层元素）
      通过event.target可以得到发生事件的DOM元素 --》 handleBlur(event){  alert(event.target.value) }
      note：要在constructor中给处理函数强制绑定this --> this.handleBlur=this.handleClick.bind(this)
-代码实例[组件的组合使用](html/componentCombine.html)
+代码实例：[组件的组合使用](html/componentCombine.html)
             
       
       
