@@ -6,12 +6,12 @@
 ##### 2、react-dom.js：提供操作DOM的react扩展库，react渲染在不同平台所需要的核心代码
 ##### 3、babel.min.js：将jsx转换成React代码的工具
 ## 添加依赖
-#### 1、直接CDN引入：
+##### 1、直接CDN引入：
      react依赖：https://unpkg.com/react@16/umd/react.development.js
      react-dom依赖：https://unpkg.com/react-dom@16/umd/react-dom.development.js
      babel依赖：https://unpkg.com/babel-standalone@6/babel.min.js
-#### 2、下载，添加本地依赖
-#### 3、通过npm管理
+##### 2、下载，添加本地依赖
+##### 3、通过npm管理
 ## React生命周期
 #### 广义上：挂载、渲染、卸载
 ![react lifeCycle](https://github.com/cqujlj/React/blob/master/img/react.jpeg)
@@ -159,7 +159,7 @@
 ##### 方式2：ES6类组件  （复杂组件）
      使用参数：{this.props.属性名}
 代码示例：[使用工厂函数组件和ES6类组件](https://github.com/cqujlj/React/blob/master/html/03-components.html)
-#### 7、组件的3个属性
+#### 7、组件的3个属性  ***
 ##### 7.1 state
      组件 --> 状态机，通过与用户交互，实现不同状态，然后渲染UI，使得用户界面和数据保持一致
 代码示例：[state的基本用法](https://github.com/cqujlj/React/blob/master/html/04-components-state.html)
@@ -212,7 +212,6 @@
      PersonMsg.defaultProps = {
         age:18,
      };
-###### 
 ######  将对象的所有属性通过props传递：    <Person{...person}>
 ###### 在父组件中设置 state， 并通过在子组件上使用 props 将其传递到子组件上
      ReactDOM.render(<PersonMsg {...person}/>, document.getElementById('idName'))
@@ -228,7 +227,26 @@
      通过event.target可以得到发生事件的DOM元素 --》 handleBlur(event){  alert(event.target.value) }
      note：要在constructor中给处理函数强制绑定this --> this.handleBlur=this.handleClick.bind(this)
 代码实例：[组件的组合使用](html/componentCombine.html)
-            
+#### 8、条件渲染  --> 在React中，所有的条件判断都和普通的JavaScript代码一致
+代码实例[条件渲染-条件判断语句](https://github.com/cqujlj/React/blob/master/html/06-state$$props.html)
+##### 8.1 条件判断语句
+###### 当逻辑较多时，通过条件判断
+      if (this.state.isLogin) {
+         titleJsx = <h2>欢迎回来~</h2>
+       } else {
+         titleJsx = <h2>请先登录~</h2>
+      }
+##### 8.2 三元运算符
+###### 适用于没有太多逻辑的代码：只是根据不同的条件直接返回不同的结果
+     <button onClick={e => this.loginBtnClick()}>{this.state.isLogin ? "退出": "登录"}</button>
+##### 8.3 &&与运算符
+     适用情况：如果条件成立，渲染某一个组件，如果条件不成立，什么内容也不渲染
+     {this.state.isLogin && <h2>{this.state.username}</h2>}
+     三元运算符做法：{this.state.isLogin ? <h2>{this.state.username}</h2>: null}
+     note：在组件的render方法中返回null并不会影响组件的生命周期
+##### 8.4 display --> vue种的v-show效果
+     <h2 style={{display: nameDisplay}}>{username}</h2>
+     
       
       
       
