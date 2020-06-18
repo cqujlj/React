@@ -52,7 +52,7 @@
                  }
                }
 
-               // after
+             // after
                static getDerivedStateFromProps(nextProps, prevState) {
                  if (nextProps.isLogin !== prevState.isLogin) {
                    return {
@@ -71,11 +71,12 @@
 ##### (4) componentDidUpdate(prevProps,prevState)
       组件更新完毕后，react在第一次初始化成功会进入会进入componentDidmount,之后每次重新渲染后都会进入这个生命周期
       参数prevProps：更新前的props；prevState：更新前的state
-代码实现： componentDidUpdate(prevProps, prevState) {
-            if (!prevState.isLogin && this.props.isLogin) {
-              this.handleClose();
+      代码实现：
+      componentDidUpdate(prevProps, prevState) {
+          if (!prevState.isLogin && this.props.isLogin) {
+           this.handleClose();
             }
-          }
+       }
 ##### (5) render()
       render函数会插入jsx生成的dom结构，react会生成一份虚拟DOM树，在每一次组件更新时，在此react会通过其diff算法比较更新前后的新旧DOM树，
       比较以后，找到最小的有差异的DOM节点，并重新渲染。
@@ -103,30 +104,31 @@
 ##### 方式1：工厂函数组件（简单组件）
       接受带有数据的单个“ props”（代表属性）对象参数并返回React元素,使用参数：{props.属性名}
 ##### 方式2：ES6类组件  （复杂组件）
-      使用参数：{this.props.属性名}
-代码示例：[使用工厂函数组件和ES6类组件](https://github.com/cqujlj/React/blob/master/html/03-components.html)
+     使用参数：{this.props.属性名}
+     代码示例：[使用工厂函数组件和ES6类组件](https://github.com/cqujlj/React/blob/master/html/03-components.html)
 #### 5、组件的3个属性
 ##### 5.1 state
-        组件 --> 状态机，通过与用户交互，实现不同状态，然后渲染UI，使得用户界面和数据保持一致
-代码示例：[state的基本用法](https://github.com/cqujlj/React/blob/master/html/04-components-state.html)
-     组件中的数据
+     组件 --> 状态机，通过与用户交互，实现不同状态，然后渲染UI，使得用户界面和数据保持一致
+     代码示例：[state的基本用法](https://github.com/cqujlj/React/blob/master/html/04-components-state.html)
+###### 组件中的数据：
      1、参与界面更新的数据（数据流）：当数据变量时，需要重新渲染组件；定义在当前对象的state
-定义：在构造函数中：this.state = {定义的数据}
-     更新状态：this.setState()
+           定义：在构造函数中：this.state = {定义的数据}
+           更新状态：this.setState()
      2、不参与界面更新的数据：当数据变化时，不需要重新渲染
 ###### (1)初始化state,通过一个类的构造函数来初始化this.state，类组件始终使用props调用基础构造函数
-                constructor(props) {
-                        super(props);
-                        this.state = {
-                            isShowText: true
-                        };
+     constructor(props) {
+       super(props);
+           this.state = {
+           isShowText: true
+           }
+     };
 ###### (2)获取stat
-         this.state.isShowText
+     this.state.isShowText
 ###### (3)修改state
-         this.setState({ isShowText : !this.state.isShowText})
+     this.setState({ isShowText : !this.state.isShowText})
 ##### 5.2 props 
-          props不可变，子组件只能通过props来传递参数
-          代码示例：[props的基本用法](https://github.com/cqujlj/React/blob/master/html/05-components-props.html)
+     props不可变，子组件只能通过props来传递参数
+     代码示例：[props的基本用法](https://github.com/cqujlj/React/blob/master/html/05-components-props.html)
 ###### 在函数组件中使用：props.属性名
     function PersonMsg(props) {
             return (
@@ -137,7 +139,7 @@
             )
         }
 ###### 在ES6类组件中使用  this.props.属性名
-      class Person extends React.Component {
+     class Person extends React.Component {
             render(){
                 return(
                     <ul>
@@ -148,33 +150,31 @@
               }
         }
 ###### 指定属性值的类型和必要性 --> 可以声明prop为指定的基本数据类型
-         PersonMsg.prototype = {
-                    name : PropTypes.string.isRequired,   //name是必填项
-                    age : PropTypes.number,
-                    //requiredAny: React.PropTypes.any.isRequired,    // 不可空的任意类型
-                };
+     PersonMsg.prototype = {
+          name : PropTypes.string.isRequired,   //name是必填项
+          age : PropTypes.number,
+          //requiredAny: React.PropTypes.any.isRequired,    // 不可空的任意类型
+       };
 ###### 指定默认值
-        PersonMsg.defaultProps = {
-            age:18,
-        };
+     PersonMsg.defaultProps = {
+        age:18,
+     };
 ###### 
 ######  将对象的所有属性通过props传递：    <Person{...person}>
 ###### 在父组件中设置 state， 并通过在子组件上使用 props 将其传递到子组件上
-         ReactDOM.render(<PersonMsg {...person}/>, document.getElementById('idName'))
-         代码示例：[父子组件传值](https://github.com/cqujlj/React/blob/master/html/06-state$$props.html)
+     ReactDOM.render(<PersonMsg {...person}/>, document.getElementById('idName'))
+     代码示例：[父子组件传值](https://github.com/cqujlj/React/blob/master/html/06-state$$props.html)
 ##### 5.3 refs --> 事件处理
           代码示例：[refs事件处理](html/06-components-refs.html)
 ######  组件内的标签都可以定义ref属性来标识自己
-            方式1：<input type="text" ref="content"/>
-            方式2：<input type="text" ref={input=>this.input=input}/>   //将当前的input 赋值给组件里面的input
+     方式1：<input type="text" ref="content"/>
+     方式2：<input type="text" ref={input=>this.input=input}/>   //将当前的input 赋值给组件里面的input
 ###### 事件处理
-            通过onXxxx属性来指定组件内的事件处理函数，如onClick、onBlur -->  <input type="text"  onBlur={this.handleBlur}/>
-            react中的事件是通过委托方式处理的（委托给最外层元素）
-            通过event.target可以得到发生事件的DOM元素 --》 handleBlur(event){  alert(event.target.value) }
-            note：
-              //要在constructor中给处理函数强制绑定this
-              this.handleBlur=this.handleClick.bind(this)
-             代码实例[组件的组合使用](html/componentCombine.html)
+     通过onXxxx属性来指定组件内的事件处理函数，如onClick、onBlur -->  <input type="text"  onBlur={this.handleBlur}/>
+     react中的事件是通过委托方式处理的（委托给最外层元素）
+     通过event.target可以得到发生事件的DOM元素 --》 handleBlur(event){  alert(event.target.value) }
+     note：要在constructor中给处理函数强制绑定this --> this.handleBlur=this.handleClick.bind(this)
+     代码实例[组件的组合使用](html/componentCombine.html)
             
       
       
