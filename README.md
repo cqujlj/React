@@ -5,7 +5,8 @@
 ##### react.js：React的核心库
 ##### react-dom.js：提供操作DOM的react扩展库
 ##### babel.min.js：解析JSX语法代码转成纯JS语法代码的库
-
+## React生命周期
+![Image text](https://github.com/cqujlj/React/blob/master/img/react.jpeg)
 ## React JavaScript XML（JSX）: 用于申明react当中的元素 
 ## 基本用法：
 ##### 1、创建VDOM元素对象
@@ -88,7 +89,7 @@
             note：
               //要在constructor中给处理函数强制绑定this
               this.handleBlur=this.handleClick.bind(this)
-            
+代码实例[组件的组合使用](html/componentCombine.html)
             
       
       
