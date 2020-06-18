@@ -135,14 +135,35 @@
      (4) thisArg可选：执行 callback 函数时值被用作this。
      用例：
      this.state.movies.map((item,index) => {
-              return <li  key={index}>{item}</li>
-            })
+              return <li  key={index}>{item*2*}</li>  /*可以在回调函数中对数据做一些操作*/ /*在 map() 方法中的元素需要设置 key 属性*/
+            }) 
 代码实例：[展示列表数据](https://github.com/cqujlj/React/blob/master/html/02-listData.html)
 ###### filter函数 --> 处理数组，获取设定条件下的元素
 ###### slice函数 --> 处理数组，截取数组中的一部分内容
      用例：
      this.state.numbers.filter(item => item >= 50).slice(0, 3).map(item => {
               return <li>{item}</li>
+##### 3.5 关于key
+###### key帮助 React 识别哪些元素改变了，比如被添加或删除
+     一个元素的 key 一般是这个元素在列表中拥有的一个独一无二的字符串。如使用数据中的 id 来作为元素的 key   key={todo.id}
+     当元素没有确定 id 的时候，可以使用元素索引 index 作为 key；key={index}；如果列表项目的顺序可能会变化，不建议使用索引来用作 key 值
+###### 用key提取组件 --> 元素的 key 只有放在就近的数组上下文中才有意义
+     如果你提取出一个 ListItem 组件，你应该把 key 保留在数组中的这个 <ListItem /> 元素上，而不是放在 ListItem 组件中的 <li> 元素上
+     例：function ListItem(props) {
+               // 这里不需要指定 key：
+               return <li>{props.value}</li>;
+             }
+              // key 应该在数组的上下文中被指定
+            const listItems = numbers.map((number) => <ListItem key={number.toString()} value={number} /> );
+###### JSX 允许在大括号中嵌入任何表达式，所以我们可以内联 map() 返回的结果
+     例： <ul>
+           {numbers.map((number) =>
+             <ListItem key={number.toString()  value={number} />
+           )}
+         </ul>
+###### key只是在兄弟节点之间必须唯一
+     数组元素中使用的 key 在其兄弟节点之间应该是独一无二的。然而，它们不需要是全局唯一的。
+     当我们生成两个不同的数组时，我们可以使用相同的 key 值
 #### 4、JSX监听事件
      React 事件的命名采用小驼峰式（camelCase），而不是纯小写
      通过{}传入一个事件处理函数，这个函数会在事件发生时被执行
