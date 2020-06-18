@@ -1,10 +1,17 @@
 # React  
-用于构建用户界面的JavaScript库
-声明式、组件化、一次学习
-### 三个库
-##### react.js：React的核心库
-##### react-dom.js：提供操作DOM的react扩展库
-##### babel.min.js：解析JSX语法代码转成纯JS语法代码的库
+     用于构建用户界面的JavaScript库
+     声明式编程、组件化开发、多平台适配、
+## 三个库
+##### react.js：React的核心库，包含react所必须的核心代码
+##### react-dom.js：提供操作DOM的react扩展库，react渲染在不同平台所需要的核心代码
+##### babel.min.js：将jsx转换成React代码的工具
+#### 添加依赖
+##### 1、直接CDN引入：
+     react依赖：https://unpkg.com/react@16/umd/react.development.js
+     react-dom依赖：https://unpkg.com/react-dom@16/umd/react-dom.development.js
+     babel依赖：https://unpkg.com/babel-standalone@6/babel.min.js
+##### 2、下载，添加本地依赖
+##### 3、通过npm管理
 ## React生命周期
 #### 广义上：挂载、渲染、卸载
 ![react lifeCycle](https://github.com/cqujlj/React/blob/master/img/react.jpeg)
@@ -83,7 +90,7 @@
 ##### 1、创建VDOM元素对象
       const element = <h1> hello, react </h1>    //note： JSX语法，不是字符串、不是HTML
 ##### 2、元素渲染
-       ReactDOM.render(VOM,containerDOM）
+       ReactDOM.render(VOM,containerDOM）   //会覆盖挂载到的containerDOM原生中的所有内容，引入组件可解决这个问题
 例1：[firstReact](https://github.com/cqujlj/React/blob/master/html/01-firstReact.html)
 例2：[展示列表数据](https://github.com/cqujlj/React/blob/master/html/02-listData.html)
    note：可在JSX中使用JavaScript表达式，表达式放在{}中
@@ -100,6 +107,11 @@
 ##### 5.1 state
         组件 --> 状态机，通过与用户交互，实现不同状态，然后渲染UI，使得用户界面和数据保持一致
 代码示例：[state的基本用法](https://github.com/cqujlj/React/blob/master/html/04-components-state.html)
+     组件中的数据
+     1、参与界面更新的数据（数据流）：当数据变量时，需要重新渲染组件；定义在当前对象的state
+     定义：在构造函数中：this.state = {定义的数据}
+     更新状态：this.setState()
+     2、不参与界面更新的数据：当数据变化时，不需要重新渲染
 ###### (1)初始化state,通过一个类的构造函数来初始化this.state，类组件始终使用props调用基础构造函数
                 constructor(props) {
                         super(props);
