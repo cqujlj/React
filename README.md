@@ -94,9 +94,10 @@
       ReactDOM.render(VOM,containerDOM）   //会覆盖挂载到的containerDOM原生中的所有内容，引入组件可解决这个问题
 例1：[firstReact](https://github.com/cqujlj/React/blob/master/html/01-firstReact.html)
 例2：[展示列表数据](https://github.com/cqujlj/React/blob/master/html/02-listData.html)
-      note：若jsx的内容时动态的，可在JSX中使用JavaScript表达式，
-      书写规则：{表达式}  表达式可以是变量、字符串、数组、函数调用等任意js表达式
-      注释方式：{/* 我是一段注释 */}  
+     
+     note：若jsx的内容时动态的，可在JSX中使用JavaScript表达式，
+     书写规则：{表达式}  表达式可以是变量、字符串、数组、函数调用等任意js表达式
+     注释方式：{/* 我是一段注释 */}  
 #### 3、模块和组件
 ##### 3.1 模块： 向外提供特定功能的js程序，就是一个js文件
 ##### 3.2 组件：用来实现特定（局部）功能效果的代码集合（html/css/js）
