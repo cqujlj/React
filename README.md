@@ -5,18 +5,18 @@
 ##### 1、react.js：React的核心库，包含react所必须的核心代码
 ##### 2、react-dom.js：提供操作DOM的react扩展库，react渲染在不同平台所需要的核心代码
 ##### 3、babel.min.js：将jsx转换成React代码的工具
-#### 添加依赖
-##### 1、直接CDN引入：
+## 添加依赖
+#### 1、直接CDN引入：
      react依赖：https://unpkg.com/react@16/umd/react.development.js
      react-dom依赖：https://unpkg.com/react-dom@16/umd/react-dom.development.js
      babel依赖：https://unpkg.com/babel-standalone@6/babel.min.js
-##### 2、下载，添加本地依赖
-##### 3、通过npm管理
+#### 2、下载，添加本地依赖
+#### 3、通过npm管理
 ## React生命周期
 #### 广义上：挂载、渲染、卸载
 ![react lifeCycle](https://github.com/cqujlj/React/blob/master/img/react.jpeg)
 #### 1、初始化阶段 initialization
-##### (1) constructor()
+#### (1) constructor()
      完成react数据的初始化，可接受两个参数：props和context；
      在函数内部使用这两个参数时需要使用super()传入
        constructor(props) {
@@ -61,7 +61,6 @@
                  }
                  return null;
                }
-
 ##### (2) shouldComponentUpdate(nextProps,nextState)
       1、主要用于性能优化；唯一用于控制组件重新渲染的生命周期。
       2、由于setState之后，state会发生变化，组件会进入重新渲染的流程，return false可以组织组件的更新；
@@ -87,10 +86,10 @@
       2、移除所有组件中监听 removeEventlistener
       3、在组件中的ajax请求返回setState,而你组件销毁的时候，请求还未完成，报warning
 ## React JavaScript XML（JSX）: 用于申明react当中的元素 
-## 基本用法：
-##### 1、创建VDOM元素对象(JSX的顶层只能有一个根元素)
+### 基本用法：
+#### 1、创建VDOM元素对象(JSX的顶层只能有一个根元素)
       const element = <h1> hello, react </h1>    //note： JSX语法，不是字符串、不是HTML
-##### 2、元素渲染
+#### 2、元素渲染
       ReactDOM.render(VOM,containerDOM）   //会覆盖挂载到的containerDOM原生中的所有内容，引入组件可解决这个问题
 例1：[firstReact](https://github.com/cqujlj/React/blob/master/html/01-firstReact.html)
 例2：[展示列表数据](https://github.com/cqujlj/React/blob/master/html/02-listData.html)
@@ -110,9 +109,12 @@
 ###### 情况3：对象类型不能作为子元素
        <h2>123{this.state.friend}</h2>  // friend: { name: "kobe", age: 40}  报错
 ##### 3.2 嵌入表达式
-###### 运算表达式 ：<h2>{this.state.firstName + " " + this.state.lastName}</h2>
-###### 三元表达式 ：<h2>{this.state.age >= 18 ? "成年人": "未成年人"}</h2>
-###### 执行一个函数 ： <h2>{this.sayHello("kobe")}</h2>
+###### 运算表达式 ：
+     <h2>{this.state.firstName + " " + this.state.lastName}</h2>
+###### 三元表达式 ：
+     <h2>{this.state.age >= 18 ? "成年人": "未成年人"}</h2>
+###### 执行一个函数 ： 
+     <h2>{this.sayHello("kobe")}</h2>
 ##### 3.3 jsx绑定属性
 ###### title属性：
       <h2 title={this.state.title}>Hello World</h2>  *title: "你好啊"*/,
@@ -157,7 +159,6 @@
 ##### 方式2：ES6类组件  （复杂组件）
      使用参数：{this.props.属性名}
 代码示例：[使用工厂函数组件和ES6类组件](https://github.com/cqujlj/React/blob/master/html/03-components.html)
-
 #### 7、组件的3个属性
 ##### 7.1 state
      组件 --> 状态机，通过与用户交互，实现不同状态，然后渲染UI，使得用户界面和数据保持一致
