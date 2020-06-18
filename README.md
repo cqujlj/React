@@ -228,7 +228,6 @@
      note：要在constructor中给处理函数强制绑定this --> this.handleBlur=this.handleClick.bind(this)
 代码实例：[组件的组合使用](html/componentCombine.html)
 #### 8、条件渲染  --> 在React中，所有的条件判断都和普通的JavaScript代码一致
-代码实例[条件渲染-条件判断语句](https://github.com/cqujlj/React/blob/master/html/06-state$$props.html)
 ##### 8.1 条件判断语句
 ###### 当逻辑较多时，通过条件判断
       if (this.state.isLogin) {
@@ -246,6 +245,7 @@
      note：在组件的render方法中返回null并不会影响组件的生命周期
 ##### 8.4 display --> vue种的v-show效果
      <h2 style={{display: nameDisplay}}>{username}</h2>
+代码实例[条件渲染-条件判断语句](https://github.com/cqujlj/React/blob/master/html/07-Conditional%20Rendering.html)
      
       
       
