@@ -25,35 +25,35 @@
       1、在接受父组件改变后的props需要重新渲染组件时用得比较多
       2、接受一个参数：nextProps
       3、通过对比nextProps和this.props，将nextProps的state为当前组件的state，从而重新渲染组件
-  代码实现：  componentWillReceiveProps (nextProps) {
-             nextProps.openNotice !== this.props.openNotice&&this.setState({
-             openNotice:nextProps.openNotice
-          }，() => {
-              console.log(this.state.openNotice:nextProps)
-             //将state更新为nextProps,在setState的第二个参数（回调）可以打印出新的state
-            })
-        }
+      代码实现：  componentWillReceiveProps (nextProps) {
+                  nextProps.openNotice !== this.props.openNotice&&this.setState({
+                  openNotice:nextProps.openNotice
+                          }，() => {
+                   console.log(this.state.openNotice:nextProps)
+                  //将state更新为nextProps,在setState的第二个参数（回调）可以打印出新的state
+                 })
+             }
             // before
-          componentWillReceiveProps(nextProps) {
-            if (nextProps.isLogin !== this.props.isLogin) {
-              this.setState({ 
-                isLogin: nextProps.isLogin,   
-              });
-            }
-            if (nextProps.isLogin) {
-              this.handleClose();
-            }
-          }
+               componentWillReceiveProps(nextProps) {
+                 if (nextProps.isLogin !== this.props.isLogin) {
+                   this.setState({ 
+                     isLogin: nextProps.isLogin,   
+                   });
+                 }
+                 if (nextProps.isLogin) {
+                   this.handleClose();
+                 }
+               }
 
-          // after
-          static getDerivedStateFromProps(nextProps, prevState) {
-            if (nextProps.isLogin !== prevState.isLogin) {
-              return {
-                isLogin: nextProps.isLogin,
-              };
-            }
-            return null;
-          }
+               // after
+               static getDerivedStateFromProps(nextProps, prevState) {
+                 if (nextProps.isLogin !== prevState.isLogin) {
+                   return {
+                     isLogin: nextProps.isLogin,
+                   };
+                 }
+                 return null;
+               }
 
 ##### shouldComponentUpdate(nextProps,nextState)
       1、主要用于性能优化；唯一用于控制组件重新渲染的生命周期。
