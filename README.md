@@ -87,13 +87,16 @@
       3、在组件中的ajax请求返回setState,而你组件销毁的时候，请求还未完成，报warning
 ## React JavaScript XML（JSX）: 用于申明react当中的元素 
 ## 基本用法：
-##### 1、创建VDOM元素对象
+##### 1、创建VDOM元素对象(JSX的顶层只能有一个根元素)
       const element = <h1> hello, react </h1>    //note： JSX语法，不是字符串、不是HTML
 ##### 2、元素渲染
-       ReactDOM.render(VOM,containerDOM）   //会覆盖挂载到的containerDOM原生中的所有内容，引入组件可解决这个问题
+**ReactDOM.render(VOM,containerDOM）**   //会覆盖挂载到的containerDOM原生中的所有内容，引入组件可解决这个问题
 例1：[firstReact](https://github.com/cqujlj/React/blob/master/html/01-firstReact.html)
 例2：[展示列表数据](https://github.com/cqujlj/React/blob/master/html/02-listData.html)
-   note：可在JSX中使用JavaScript表达式，表达式放在{}中
+**note：若jsx的内容时动态的，可在JSX中使用JavaScript表达式，**
+**书写规则：{表达式}  表达式可以是变量、字符串、数组、函数调用等任意js表达式**
+**注释：{/* 我是一段注释 */}**   
+
 #### 3、模块和组件
 ##### 3.1 模块： 向外提供特定功能的js程序，就是一个js文件
 ##### 3.2 组件：用来实现特定（局部）功能效果的代码集合（html/css/js）
@@ -109,8 +112,8 @@
 代码示例：[state的基本用法](https://github.com/cqujlj/React/blob/master/html/04-components-state.html)
      组件中的数据
      1、参与界面更新的数据（数据流）：当数据变量时，需要重新渲染组件；定义在当前对象的state
-     定义：在构造函数中：this.state = {定义的数据}
-     更新状态：this.setState()
+**定义：在构造函数中：this.state = {定义的数据}
+     更新状态：this.setState()**
      2、不参与界面更新的数据：当数据变化时，不需要重新渲染
 ###### (1)初始化state,通过一个类的构造函数来初始化this.state，类组件始终使用props调用基础构造函数
                 constructor(props) {
@@ -119,11 +122,11 @@
                             isShowText: true
                         };
 ###### (2)获取stat
-              this.state.isShowText
+         this.state.isShowText
 ###### (3)修改state
          this.setState({ isShowText : !this.state.isShowText})
 ##### 5.2 props 
-    props不可变，子组件只能通过props来传递参数
+**props不可变，子组件只能通过props来传递参数**
 代码示例：[props的基本用法](https://github.com/cqujlj/React/blob/master/html/05-components-props.html)
 ###### 在函数组件中使用：props.属性名
     function PersonMsg(props) {
