@@ -2,9 +2,9 @@
      用于构建用户界面的JavaScript库
      声明式编程、组件化开发、多平台适配、
 ## 三个库
-##### react.js：React的核心库，包含react所必须的核心代码
-##### react-dom.js：提供操作DOM的react扩展库，react渲染在不同平台所需要的核心代码
-##### babel.min.js：将jsx转换成React代码的工具
+##### 1、react.js：React的核心库，包含react所必须的核心代码
+##### 2、react-dom.js：提供操作DOM的react扩展库，react渲染在不同平台所需要的核心代码
+##### 3、babel.min.js：将jsx转换成React代码的工具
 #### 添加依赖
 ##### 1、直接CDN引入：
      react依赖：https://unpkg.com/react@16/umd/react.development.js
@@ -15,20 +15,20 @@
 ## React生命周期
 #### 广义上：挂载、渲染、卸载
 ![react lifeCycle](https://github.com/cqujlj/React/blob/master/img/react.jpeg)
-#### 初始化阶段 initialization
-##### constructor()
+#### 1、初始化阶段 initialization
+##### (1) constructor()
      完成react数据的初始化，可接受两个参数：props和context；
      在函数内部使用这两个参数时需要使用super()传入
        constructor(props) {
                 super(props);   //必须使用super，否则会导致this指向错误
             }
-### 挂载阶段 Mounting
-##### componentWillMount()
+### 2、挂载阶段 Mounting
+##### (1) componentWillMount()
        一般在服务端渲染时使用。代表的过程时：组件已由constructor()初始化数据后，但是DOM还没有渲染
-##### componentDidMount()
+##### (2) componentDidMount()
       组件第一次渲染完成，DOM节点已经生成；在这里可以调用ajax请求，返回数据setState后组件会重新渲染
-### 更新阶段 Update
-##### componentWillReceiveProps (nextProps)   //新版本是： getDerivedStateFromProps(nextProps, prevState)
+### 3、更新阶段 Update
+##### (1) componentWillReceiveProps (nextProps)   //新版本是： getDerivedStateFromProps(nextProps, prevState)
       1、在接受父组件改变后的props需要重新渲染组件时用得比较多
       2、接受一个参数：nextProps
       3、通过对比nextProps和this.props，将nextProps的state为当前组件的state，从而重新渲染组件
@@ -62,13 +62,13 @@
                  return null;
                }
 
-##### shouldComponentUpdate(nextProps,nextState)
+##### (2) shouldComponentUpdate(nextProps,nextState)
       1、主要用于性能优化；唯一用于控制组件重新渲染的生命周期。
       2、由于setState之后，state会发生变化，组件会进入重新渲染的流程，return false可以组织组件的更新；
       3、父组件的重新渲染会导致其子组件的重新渲染，但不需要所有子组件都渲染，因此需要在子组件的该生命周期中做判断
-##### componentWillUpdate (nextProps,nextState)  //新版本：getSnapshotBeforeUpdate(prevProps, prevState)
+##### (3) componentWillUpdate (nextProps,nextState)  //新版本：getSnapshotBeforeUpdate(prevProps, prevState)
       当shouldComponentUpdate返回true；组件进入重新渲染阶段
-##### componentDidUpdate(prevProps,prevState)
+##### (4) componentDidUpdate(prevProps,prevState)
       组件更新完毕后，react在第一次初始化成功会进入会进入componentDidmount,之后每次重新渲染后都会进入这个生命周期
       参数prevProps：更新前的props；prevState：更新前的state
 代码实现： componentDidUpdate(prevProps, prevState) {
@@ -76,11 +76,11 @@
               this.handleClose();
             }
           }
-##### render()
+##### (5) render()
       render函数会插入jsx生成的dom结构，react会生成一份虚拟DOM树，在每一次组件更新时，在此react会通过其diff算法比较更新前后的新旧DOM树，
       比较以后，找到最小的有差异的DOM节点，并重新渲染。
-### 卸载阶段 Unmounting
-##### componentWillUnmount ()
+### 4、卸载阶段 Unmounting
+##### (1) componentWillUnmount ()
       完成组件的卸载和数据的销毁
       1、clear在组件中所有的setTimeout、setInterval
       2、移除所有组件中监听 removeEventlistener
@@ -96,7 +96,6 @@
 **note：若jsx的内容时动态的，可在JSX中使用JavaScript表达式，**
 **书写规则：{表达式}  表达式可以是变量、字符串、数组、函数调用等任意js表达式**
 **注释：{/* 我是一段注释 */}**   
-
 #### 3、模块和组件
 ##### 3.1 模块： 向外提供特定功能的js程序，就是一个js文件
 ##### 3.2 组件：用来实现特定（局部）功能效果的代码集合（html/css/js）
