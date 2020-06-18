@@ -284,7 +284,6 @@
 ##### 8.4 display --> vue种的v-show效果
      <h2 style={{display: nameDisplay}}>{username}</h2>
 代码实例[条件渲染-条件判断语句](https://github.com/cqujlj/React/blob/master/html/07-Conditional%20Rendering.html)
-     
-      
-      
-      
+#### 9、表单
+     react的表单元素通常会保持一些内部的state；可变的状态通常保存在组件的状态属性中，并且只能用 setState() 方法进行更新
+代码实例[表单组件的使用](https://github.com/cqujlj/React/blob/master/html/08-froms.html) 
