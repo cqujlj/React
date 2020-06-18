@@ -90,12 +90,12 @@
 ##### 1、创建VDOM元素对象(JSX的顶层只能有一个根元素)
       const element = <h1> hello, react </h1>    //note： JSX语法，不是字符串、不是HTML
 ##### 2、元素渲染
-ReactDOM.render(VOM,containerDOM）   //会覆盖挂载到的containerDOM原生中的所有内容，引入组件可解决这个问题
-例1：[firstReact](https://github.com/cqujlj/React/blob/master/html/01-firstReact.html)
-例2：[展示列表数据](https://github.com/cqujlj/React/blob/master/html/02-listData.html)
-note：若jsx的内容时动态的，可在JSX中使用JavaScript表达式，
-书写规则：{表达式}  表达式可以是变量、字符串、数组、函数调用等任意js表达式
-注释方式：{/* 我是一段注释 */}  
+      ReactDOM.render(VOM,containerDOM）   //会覆盖挂载到的containerDOM原生中的所有内容，引入组件可解决这个问题
+      例1：[firstReact](https://github.com/cqujlj/React/blob/master/html/01-firstReact.html)
+      例2：[展示列表数据](https://github.com/cqujlj/React/blob/master/html/02-listData.html)
+      note：若jsx的内容时动态的，可在JSX中使用JavaScript表达式，
+      书写规则：{表达式}  表达式可以是变量、字符串、数组、函数调用等任意js表达式
+      注释方式：{/* 我是一段注释 */}  
 #### 3、模块和组件
 ##### 3.1 模块： 向外提供特定功能的js程序，就是一个js文件
 ##### 3.2 组件：用来实现特定（局部）功能效果的代码集合（html/css/js）
@@ -125,8 +125,8 @@ note：若jsx的内容时动态的，可在JSX中使用JavaScript表达式，
 ###### (3)修改state
          this.setState({ isShowText : !this.state.isShowText})
 ##### 5.2 props 
-props不可变，子组件只能通过props来传递参数
-代码示例：[props的基本用法](https://github.com/cqujlj/React/blob/master/html/05-components-props.html)
+          props不可变，子组件只能通过props来传递参数
+          代码示例：[props的基本用法](https://github.com/cqujlj/React/blob/master/html/05-components-props.html)
 ###### 在函数组件中使用：props.属性名
     function PersonMsg(props) {
             return (
@@ -161,9 +161,9 @@ props不可变，子组件只能通过props来传递参数
 ######  将对象的所有属性通过props传递：    <Person{...person}>
 ###### 在父组件中设置 state， 并通过在子组件上使用 props 将其传递到子组件上
          ReactDOM.render(<PersonMsg {...person}/>, document.getElementById('idName'))
-代码示例：[父子组件传值](https://github.com/cqujlj/React/blob/master/html/06-state$$props.html)
+         代码示例：[父子组件传值](https://github.com/cqujlj/React/blob/master/html/06-state$$props.html)
 ##### 5.3 refs --> 事件处理
-代码示例：[refs事件处理](html/06-components-refs.html)
+          代码示例：[refs事件处理](html/06-components-refs.html)
 ######  组件内的标签都可以定义ref属性来标识自己
             方式1：<input type="text" ref="content"/>
             方式2：<input type="text" ref={input=>this.input=input}/>   //将当前的input 赋值给组件里面的input
@@ -174,7 +174,7 @@ props不可变，子组件只能通过props来传递参数
             note：
               //要在constructor中给处理函数强制绑定this
               this.handleBlur=this.handleClick.bind(this)
-代码实例[组件的组合使用](html/componentCombine.html)
+             代码实例[组件的组合使用](html/componentCombine.html)
             
       
       
