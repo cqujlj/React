@@ -288,12 +288,12 @@
      react的表单元素通常会保持一些内部的state；可变的状态通常保存在组件的状态属性中，并且只能用 setState() 方法进行更新
 代码实例[表单组件的使用](https://github.com/cqujlj/React/blob/master/html/08-froms.html) 
 ##### 包含表单组件的分类
-     1、受控组件：表单项输入数据能够自动收集成状态
+###### 1、受控组件：表单项输入数据能够自动收集成状态
      例：<input type="password" value={this.state.pwd} onChange={this.handleChange}/>  //textarea、select都可以
      由于在表单元素上设置了 value 属性，因此显示的值将始终为 this.state.value，这使得 React 的 state 成为唯一数据源
      对于受控组件来说，输入的值始终由 React 的 state 驱动
      当要处理多个input时，给每个input元素设置name属性，根据event.target.name 的值选择要执行的操作
-     2、非受控组件：需要时才手动读取表单输入框中的数据
+###### 2、非受控组件：需要时才手动读取表单输入框中的数据
      例：<input type="text" ref = {input => this.nameInput = input}/>
      非受控组件没有设置value值，在需要该输入值时，手动读取：const name = this.nameInput.value
 代码实例：[textarea、select表单实例](https://github.com/cqujlj/React/blob/master/html/08-froms-select.html)
@@ -305,3 +305,8 @@
       子组件：<input type='text' value={ this.props.content } onChange={ this.handleChange } />
 代码实例：[状态提升](https://github.com/cqujlj/React/blob/master/html/09-Lifting%20State%20Up.html)
 #### 11、组合VS继承
+     推荐使用组合而非继承来实现组件间的代码重用
+代码实例[父子组件](https://github.com/cqujlj/React/blob/master/html/11-Composition-Inheritance.html)
+##### 11.1  children prop
+     组件可以接受任意 props，包括基本数据类型，React 元素以及函数
+     组件使用一个特殊的 children prop 来将他们的子组件传递到渲染结果中 （组件的属性可以是组件,可以将任何东西作为 props 进行传递）
