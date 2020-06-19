@@ -287,3 +287,12 @@
 #### 9、表单
      react的表单元素通常会保持一些内部的state；可变的状态通常保存在组件的状态属性中，并且只能用 setState() 方法进行更新
 代码实例[表单组件的使用](https://github.com/cqujlj/React/blob/master/html/08-froms.html) 
+##### 包含表单组件的分类
+     1、受控组件：表单项输入数据能够自动收集成状态
+     例：<input type="password" value={this.state.pwd} onChange={this.handleChange}/>  //textarea、select都可以
+     由于在表单元素上设置了 value 属性，因此显示的值将始终为 this.state.value，这使得 React 的 state 成为唯一数据源
+     对于受控组件来说，输入的值始终由 React 的 state 驱动
+     2、非受控组件：需要时才手动读取表单输入框中的数据
+     例：<input type="text" ref = {input => this.nameInput = input}/>
+     非受控组件没有设置value值，在需要该输入值时，手动读取：const name = this.nameInput.value
+代码实例：[textarea、select表单实例](https://github.com/cqujlj/React/blob/master/html/08-froms-select.html)
