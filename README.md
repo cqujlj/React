@@ -292,7 +292,12 @@
      例：<input type="password" value={this.state.pwd} onChange={this.handleChange}/>  //textarea、select都可以
      由于在表单元素上设置了 value 属性，因此显示的值将始终为 this.state.value，这使得 React 的 state 成为唯一数据源
      对于受控组件来说，输入的值始终由 React 的 state 驱动
+     当要处理多个input时，给每个input元素设置name属性，根据event.target.name 的值选择要执行的操作
      2、非受控组件：需要时才手动读取表单输入框中的数据
      例：<input type="text" ref = {input => this.nameInput = input}/>
      非受控组件没有设置value值，在需要该输入值时，手动读取：const name = this.nameInput.value
 代码实例：[textarea、select表单实例](https://github.com/cqujlj/React/blob/master/html/08-froms-select.html)
+#### 10、状态提升
+     多个组件需要反映相同的变化数据，这时我们建议将共享状态提升到最近的共同父组件中去
+     代码实例：[状态提升](https://github.com/cqujlj/React/blob/master/html/08-froms-select.html)
+#### 11、组合VS继承
