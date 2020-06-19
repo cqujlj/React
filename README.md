@@ -206,6 +206,7 @@
            定义：在构造函数中：this.state = {定义的数据}
            更新状态：this.setState()
      2、不参与界面更新的数据：当数据变化时，不需要重新渲染
+     note：React的数据流是自上而下的，所以是从父组件向子组件进行传递
 ###### (1)初始化state,通过一个类的构造函数来初始化this.state，类组件始终使用props调用基础构造函数
      constructor(props) {
        super(props);
@@ -217,8 +218,9 @@
      this.state.isShowText
 ###### (3)修改state
      this.setState({ isShowText : !this.state.isShowText})
+     note：state是组件内部的状态（数据），不能够直接修改，必须要通过setState来改变值的状态，从而达到更新组件内部数据的作用
 ##### 7.2 props 
-     props不可变，子组件只能通过props来传递参数
+     组件内部的this.props属性是只读的不可修改，子组件只能通过props来传递参数
 代码示例：[props的基本用法](https://github.com/cqujlj/React/blob/master/html/05-components-props.html)
 ###### 在函数组件中使用：props.属性名
     function PersonMsg(props) {
@@ -304,9 +306,21 @@
       父组件中： this.state = { content: '' };
       子组件：<input type='text' value={ this.props.content } onChange={ this.handleChange } />
 代码实例：[状态提升](https://github.com/cqujlj/React/blob/master/html/09-Lifting%20State%20Up.html)
-#### 11、组合VS继承
+#### 11、组合 VS 继承
      推荐使用组合而非继承来实现组件间的代码重用
 代码实例[父子组件](https://github.com/cqujlj/React/blob/master/html/11-Composition-Inheritance.html)
 ##### 11.1  children prop
      组件可以接受任意 props，包括基本数据类型，React 元素以及函数
      组件使用一个特殊的 children prop 来将他们的子组件传递到渲染结果中 （组件的属性可以是组件,可以将任何东西作为 props 进行传递）
+#### 12、组件化的流程
+##### (1) 拆分组件，划分为组件层级
+##### (2) 实现静态组件：组件内指定render(),暂时没有动态数据、没有交互
+##### (3) 实现动态组件
+###### 动态显示初始化数据
+          Q1：数据保存在哪个组件内？
+            若只有一个组件需要使用该数据，则数据初始化在该组件内；
+            若多个组件需要使用该数据，则数据在这些组件的共同父组件内进行初始化
+          Q2：子组件中不能直接改变父组件的状态，那如何修改state？
+             父组件定义函数，传递给子组件，由组件调用来修改state  （state在哪个组件，更新state的行为就应该定义在哪个组件）
+###### 动实现交互功能
+      绑定事件监听
