@@ -299,5 +299,9 @@
 代码实例：[textarea、select表单实例](https://github.com/cqujlj/React/blob/master/html/08-froms-select.html)
 #### 10、状态提升
      多个组件需要反映相同的变化数据，这时我们建议将共享状态提升到最近的共同父组件中去
-     代码实例：[状态提升](https://github.com/cqujlj/React/blob/master/html/08-froms-select.html)
+     如：子组件1和子组件2都各自保存各自的 state ，要实现数据共享，就需要使用状态提升；
+         --> 即将两个组件需要共享的数据保存在共同的父组件中，然后子组件通过 props 获取父组件数据
+      父组件中： this.state = { content: '' };
+      子组件：<input type='text' value={ this.props.content } onChange={ this.handleChange } />
+代码实例：[状态提升](https://github.com/cqujlj/React/blob/master/html/09-Lifting%20State%20Up.html)
 #### 11、组合VS继承
