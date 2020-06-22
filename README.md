@@ -322,5 +322,19 @@
             若多个组件需要使用该数据，则数据在这些组件的共同父组件内进行初始化
           Q2：子组件中不能直接改变父组件的状态，那如何修改state？
              父组件定义函数，传递给子组件，由组件调用来修改state  （state在哪个组件，更新state的行为就应该定义在哪个组件）
-###### 动实现交互功能
+###### 实现交互功能
       绑定事件监听
+#### 13、父子组件通信
+###### 子组件是类组件：
+     class ChildCpn1 extends Component {
+       constructor(props) {
+       super(props);
+     }
+###### 子组件是函数组件
+     function ChildCpn2(props) {
+       const {name, age, height} = props;
+      }
+###### 在父组件中
+     <ChildCpn1 name="why" age="18" height="1.88"/>
+     <ChildCpn2 name="kobe" age="30" height="1.98"/>
+
