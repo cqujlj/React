@@ -4,7 +4,7 @@
 ## 三个库
 ##### 1、react.js：React的核心库，包含react所必须的核心代码
 ##### 2、react-dom.js：提供操作DOM的react扩展库，react渲染在不同平台所需要的核心代码
-##### 3、babel.min.js：将jsx转换成React代码的工具
+##### 3、babel.min.js：将jsx转换成React代码的工具 *//不存在 "React 代码"，babel 的功能应该是将 jsx / ES6、ES7 等语法转换为旧版本的 js 代码，如 ES5*
 ## 添加依赖
 ##### 1、直接CDN引入：
      react依赖：https://unpkg.com/react@16/umd/react.development.js
@@ -22,7 +22,7 @@
        constructor(props) {
                 super(props);   //必须使用super，否则会导致this指向错误
             }
-### 2、挂载阶段 Mounting
+### 2、挂载阶段 Mounting *// 16.8 版本以后，组件挂载阶段也会调用 getDerivedStateFromProps 生命周期方法*
 ##### (1) componentWillMount()
        一般在服务端渲染时使用。代表的过程时：组件已由constructor()初始化数据后，但是DOM还没有渲染
 ##### (2) componentDidMount()
@@ -61,7 +61,7 @@
                  }
                  return null;
                }
-##### (2) shouldComponentUpdate(nextProps,nextState)
+##### (2) shouldComponentUpdate(nextProps,nextState) 
       1、主要用于性能优化；唯一用于控制组件重新渲染的生命周期。
       2、由于setState之后，state会发生变化，组件会进入重新渲染的流程，return false可以组织组件的更新；
       3、父组件的重新渲染会导致其子组件的重新渲染，但不需要所有子组件都渲染，因此需要在子组件的该生命周期中做判断
@@ -114,7 +114,7 @@
      <h2>{this.state.age >= 18 ? "成年人": "未成年人"}</h2>
 ###### 执行一个函数 ： 
      <h2>{this.sayHello("kobe")}</h2>
-##### 3.3 jsx绑定属性
+##### 3.3 jsx绑定属性 *// React 的DOm组件中，大部分的 dom 节点名称都需要写成驼峰形式，并被透传给对应的 dom 节点*
 ###### title属性：
       <h2 title={this.state.title}>Hello World</h2>  *title: "你好啊"*/,
 ###### src属性：
@@ -174,7 +174,7 @@
      方法一：bind给btnClick显示绑定this  -->  <button onClick={this.btnClick.bind(this)}>点我</button>
      方法二：通过在构造方法中直接给this.btnClick绑定this --> 在constructor中：this.btnClick = this.btnClick.bind(this);
      方法三：使用箭头函数 -->  btnClick = () => { console.log(this); } } 
-     方案四：（推荐使用）事件监听时传入箭头函数  -->   <button onClick={() => this.btnClick()}>点我</button>
+     方案四：（推荐使用）事件监听时传入箭头函数  -->   <button onClick={() => this.btnClick()}>点我</button> *//推荐原因是？若设置 onClick 的回调为一个匿名函数，则每次 render 时都会创建一个新的方法，对用户自定义组件的性能优化有影响（每次父组件render时，其props都会变化）*
 ##### 4.2 事件参数传递
      情况一：获取event对象 --> 拿到event对象来做一些事情（比如阻止默认行为)
       btnClick(e) {   /*如果用不到this，直接传入函数就可以获取到event对象*/
@@ -192,13 +192,13 @@
 ##### 5.1 模块： 向外提供特定功能的js程序，就是一个js文件
 ##### 5.2 组件：用来实现特定（局部）功能效果的代码集合（html/css/js）
 #### 6、定义组件
-##### 方式1：工厂函数组件（简单组件）
+##### 方式1：工厂函数组件（简单组件）*//可以直接称为 函数组件*
       接受带有数据的单个“ props”（代表属性）对象参数并返回React元素,使用参数：{props.属性名}
 ##### 方式2：ES6类组件  （复杂组件）
      使用参数：{this.props.属性名}
 代码示例：[使用工厂函数组件和ES6类组件](https://github.com/cqujlj/React/blob/master/html/03-components.html)
 #### 7、组件的3个属性  ***
-##### 7.1 state
+##### 7.1 state *//把 state 翻译为 组件状态 更合适*
      组件 --> 状态机，通过与用户交互，实现不同状态，然后渲染UI，使得用户界面和数据保持一致
 代码示例：[state的基本用法](https://github.com/cqujlj/React/blob/master/html/04-components-state.html)
 ###### 组件中的数据：
@@ -242,7 +242,7 @@
                     )
               }
         }
-###### 指定属性值的类型和必要性 --> 可以声明prop为指定的基本数据类型
+###### 指定属性值的类型和必要性 --> 可以声明prop为指定的基本数据类型 *//复杂类型的 props 如何声明其类型*
      PersonMsg.prototype = {
           name : PropTypes.string.isRequired,   //name是必填项
           age : PropTypes.number,
