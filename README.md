@@ -4,7 +4,7 @@
 ## 三个库
 ##### 1、react.js：React的核心库，包含react所必须的核心代码
 ##### 2、react-dom.js：提供操作DOM的react扩展库，react渲染在不同平台所需要的核心代码
-##### 3、babel.min.js：将jsx转换成React代码的工具
+##### 3、babel.min.js：将ES6代码转换成ES6、jsx语法转换成JavaScript代码
 ## 添加依赖
 ##### 1、直接CDN引入：
      react依赖：https://unpkg.com/react@16/umd/react.development.js
@@ -12,6 +12,9 @@
      babel依赖：https://unpkg.com/babel-standalone@6/babel.min.js
 ##### 2、下载，添加本地依赖
 ##### 3、通过npm管理
+     npm i react --save
+     npm i react-dom --save
+     npm i babel-standalone --save
 ## React生命周期
 #### 广义上：挂载、渲染、卸载
 ![react lifeCycle](https://github.com/cqujlj/React/blob/master/img/react.jpeg)
@@ -27,6 +30,8 @@
        一般在服务端渲染时使用。代表的过程时：组件已由constructor()初始化数据后，但是DOM还没有渲染
 ##### (2) componentDidMount()
       组件第一次渲染完成，DOM节点已经生成；在这里可以调用ajax请求，返回数据setState后组件会重新渲染
+##### (3)getDerivedStateFromProps
+     将传入的props映射到state上面,替代componentWillReceiveProps
 ### 3、更新阶段 Update
 ##### (1) componentWillReceiveProps (nextProps)   //新版本是： getDerivedStateFromProps(nextProps, prevState)
       1、在接受父组件改变后的props需要重新渲染组件时用得比较多
@@ -172,9 +177,12 @@
      由于btnClick不是我们主动调用的，而是当onClick发生时，react内部调用了btnClick，这种方式调用函数不知道如何正确绑定this
 ###### 解决方案
      方法一：bind给btnClick显示绑定this  -->  <button onClick={this.btnClick.bind(this)}>点我</button>
+          缺点：每一次渲染是都会重新绑定一次bind
      方法二：通过在构造方法中直接给this.btnClick绑定this --> 在constructor中：this.btnClick = this.btnClick.bind(this);
+          好处：只需绑定一次，避免每次渲染时都要重新绑定
      方法三：使用箭头函数 -->  btnClick = () => { console.log(this); } } 
-     方案四：（推荐使用）事件监听时传入箭头函数  -->   <button onClick={() => this.btnClick()}>点我</button>
+     方案四：事件监听时传入箭头函数  -->   <button onClick={() => this.btnClick()}>点我</button>
+     *//bind跟使用箭头函数一样，实际上每次组件渲染时都生成了新的回调函数*
 ##### 4.2 事件参数传递
      情况一：获取event对象 --> 拿到event对象来做一些事情（比如阻止默认行为)
       btnClick(e) {   /*如果用不到this，直接传入函数就可以获取到event对象*/
@@ -199,7 +207,7 @@
 代码示例：[使用工厂函数组件和ES6类组件](https://github.com/cqujlj/React/blob/master/html/03-components.html)
 #### 7、组件的3个属性  ***
 ##### 7.1 state
-     组件 --> 状态机，通过与用户交互，实现不同状态，然后渲染UI，使得用户界面和数据保持一致
+     组件 --> 组件状态，通过与用户交互，实现不同状态，然后渲染UI，使得用户界面和数据保持一致
 代码示例：[state的基本用法](https://github.com/cqujlj/React/blob/master/html/04-components-state.html)
 ###### 组件中的数据：
      1、参与界面更新的数据（数据流）：当数据变量时，需要重新渲染组件；定义在当前对象的state
@@ -248,6 +256,43 @@
           age : PropTypes.number,
           //requiredAny: React.PropTypes.any.isRequired,    // 不可空的任意类型
        };
+###### PropTypes类型检查
+     MyComponent.propTypes = {
+     // 你可以将属性声明为 JS 原生类型，默认情况下
+     // 这些属性都是可选的。
+          arr: PropTypes.array,
+          bool: PropTypes.bool,
+          func: PropTypes.func,
+          num: PropTypes.number,
+          obj: PropTypes.object,
+          str: PropTypes.string,
+          sym: PropTypes.symbol,
+     
+     // 任何可被渲染的元素（包括数字、字符串、元素或数组）
+     // (或 Fragment) 也包含这些类型。
+          optionalNode: PropTypes.node,
+          optionalElement: PropTypes.element,   // 声明为任何可以被render的类型
+          optionalElementType: PropTypes.elementType,  //一个 React 元素类型（即，MyComponent)
+          optionalMessage: PropTypes.instanceOf(Message),  // JS 的 instanceof 操作符。 声明为类的实例
+          optionalEnum: PropTypes.oneOf(['News', 'Photos']),//指定它为枚举类型
+     
+     // 一个对象可以是几种类型中的任意一个类型
+          optionalUnion: PropTypes.oneOfType([
+          PropTypes.string,
+          PropTypes.number,
+          PropTypes.instanceOf(Message)
+     ]),
+      // 可以指定一个数组由某一类型的元素组成
+          optionalArrayOf: PropTypes.arrayOf(PropTypes.number),
+     // 可以指定一个对象由某一类型的值组成
+          optionalObjectOf: PropTypes.objectOf(PropTypes.number),
+     // 可以指定一个对象由特定的类型值组成
+          optionalObjectWithShape: PropTypes.shape({
+          color: PropTypes.string,
+          fontSize: PropTypes.number
+     ),
+      children: PropTypes.element.isRequired //通过 PropTypes.element 来确保传递给组件的 children 中只包含一个元素
+     }
 ###### 指定默认值
      PersonMsg.defaultProps = {
         age:18,
@@ -325,6 +370,7 @@
 ###### 实现交互功能
       绑定事件监听
 #### 13、父子组件通信
+##### 13.1 父组件传值给子组件
 ###### 子组件是类组件：
      class ChildCpn1 extends Component {
        constructor(props) {
@@ -337,4 +383,8 @@
 ###### 在父组件中
      <ChildCpn1 name="why" age="18" height="1.88"/>
      <ChildCpn2 name="kobe" age="30" height="1.98"/>
+##### 13.2 子组件传值给父组件
+     在子组件CounterButton中：<button onClick={{props.btnClick}>{props.operator}</button>   
+     在父组件中： <CounterButton operator="+1" btnClick={e => this.changeCounter(1)} />
+     让父组件给子组件传递一个回调函数，在子组件中调用这个函数即可
 
