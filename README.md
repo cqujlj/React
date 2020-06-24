@@ -387,4 +387,51 @@
      在子组件CounterButton中：<button onClick={{props.btnClick}>{props.operator}</button>   
      在父组件中： <CounterButton operator="+1" btnClick={e => this.changeCounter(1)} />
      让父组件给子组件传递一个回调函数，在子组件中调用这个函数即可
-
+##### 13.3 兄弟（同级）组件传值
+     安装pubsub：npm install --save pubsub-js
+     使用：import PubSub from "pubsub-js"
+     发数据的同级组件：
+          pubsub(){ 
+           PubSub.publish("event",this.state.msg)
+          }
+          <button onClick={this.pubsub.bind(this)}>点我给兄弟发数据</button>
+     接受数据的同级组件：
+          PubSub.subscribe((evt,msg)=>{
+               console.log(evt,msg)
+           })
+#### 14、插槽的使用
+##### 14.1 children实现
+     每个组件都可以获取到 props.children：它包含组件的开始标签和结束标签之间的内容
+     在子组件NavBar中： {/*有多个元素时，children指向一个数组*/}
+       <div className="nav-bar">
+         <div className="item left">{this.props.children[0]}</div>
+         <div className="item center">{this.props.children[1]}</div>
+         <div className="item right">{this.props.children[2]}</div>
+       </div>
+      父组件中：
+        <NavBar>
+          <div>返回</div>
+          <div>购物街</div>
+          <div>更多</div>
+        </NavBar>
+     缺点：通过索引值获取传入的元素很容易出错，不能精准的获取传入的原生
+##### 14.2 props实现
+     子组件NavBar中：
+     const {leftSlot,centerSlot,rightSlot} = this.props
+     <div className="nav-bar">
+        <div className="item left">{leftSlot}</div>
+        <div className="item center">{centerSlot}</div>
+        <div className="item right">{rightSlot}</div>
+      </div>
+      父组件中：
+      render() {
+    const navLeft = <div>返回</div>;
+    const navCenter = <div>购物街</div>;
+    const navRight = <div>更多</div>;
+    return (
+      <div>
+        <NavBar leftSlot={navLeft} centerSlot={navCenter} rightSlot={navRight} />
+      </div>
+    )
+  }
+  优点：能根据属性名，在传入和获取时更加的精准
