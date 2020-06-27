@@ -432,6 +432,24 @@
       <div>
         <NavBar leftSlot={navLeft} centerSlot={navCenter} rightSlot={navRight} />
       </div>
-    )
-  }
+        )
+     }
   优点：能根据属性名，在传入和获取时更加的精准
+#### 15. 路由 react-router-dom
+##### 15.1安装：npm install --sava react-router-dom
+     react-router-dom:更多选项
+     react-router:提供核心API
+     路由模式：HashRouter ：
+              BrowerRouter
+##### 15.2使用
+###### (1)导入：import {Route,Link,NavLink,Redirect} from "react-router-dom"
+###### (2)index.js中，路由模式包裹根组件：ReactDOM.render( <BrowserRouter> <App /> </BrowserRouter>  document.getElementById('root'));
+###### (3)路由导航/配置：
+          导入组件：import Home from './components/home/Home'
+                   import Profile from './components/profile/Profile'
+           路由跳转：<Link to="/home" >Home页面 </Link>
+                    <Link to="/profile">Profile页面 </Link>
+                    <Redirect from='/' to='/home'/>   {/*重定向，每次打开网页都回直接到home页面*/}
+           路由配置：
+                    <Route path='/home' component = {Home}/>
+                    <Route path='/profile' component = {Profile}/>
