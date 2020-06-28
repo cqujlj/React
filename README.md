@@ -441,7 +441,7 @@
      react-router:提供核心API
      路由模式：HashRouter ：
               BrowerRouter
-##### 15.2使用
+##### 15.2 路由的使用
 ###### (1)导入：import {Route,Link,NavLink,Redirect} from "react-router-dom"
 ###### (2)index.js中，路由模式包裹根组件：ReactDOM.render( <BrowserRouter> <App /> </BrowserRouter>  document.getElementById('root'));
 ###### (3)路由导航/配置：
@@ -473,16 +473,52 @@
           动态路由方式发送：<button onClick={()=>{ this.props.history.push({pathname='/home',query:{name:"JACK"})}}>点我去Home</button>
      (2)接收：this.props.location.query.name
 ##### 路由渲染方式
-     (1)
-     (2)
-     (3)
+     (1)<Route component>:只有当访问不地址和路由匹配时，一个react component才会被渲染；此时组件接受route props(match,location,history)
+     (2)<Route render>:适用于内联渲染 不会引起意料之外得中心挂载
+     (3)<Route children>：不管地址是否匹配都会被调用
 ##### Route的三个属性
-     (1)path：
-     (2)exact：
-     (3)strict：
+     (1)path(string)：路由匹配路径 如果没有指定path，则该路由每次都会被匹配渲染
+     (2)exact(bool)：true：要求path和location.pathname必须完全匹配
+     (3)strict(bool)：true:有结尾斜线得路径只能匹配有斜线得location.pathname
 ##### 路由切换的三个属性
      (1)location：指你当前的位置，将要去的位置，或是之前所在的位置
      (2)match：match 对象包含了 <Route path> 如何与 URL 匹配的信息,如：params，url，
      (3)history：可变的，建议从 <Route> 的 prop 里来获取 location；常用方法：push()  go() 
 ##### WithRouter:让不是路由切换的组件也具有路由切换的三个属性
-    
+     function App(){
+        let [val0,setVal0] = userState(0);
+        let [val1,setVal1] = userState(1);
+       return(
+         <div>
+               使用数据：{val}----{val1}
+               修改数据：<bytton onClick={()=>{setVal0(val0 + 1)}}>点击修改</button>
+         </div>
+       )
+     }
+     userState:定义一个状态，返回一个数组[当前状态值，用于更改状态的函数]
+#### 16. redux
+     专门的状态管理库，集中管理react中的多个组件的状态
+     需求状态：某个组件的状态需要共享的时候    组件中的状态需要改变另一个组件的状态时
+##### 三大原则：
+     (1)单一数据源：整个react项目只有一个store用于管理状态
+     (2)state可读：不能直接修改state，应该通过redux中特定的方法来修改
+     (3)使用纯函数来操作：action来改变redux的state
+##### 安装：npm install --save redux
+##### 创建store：保存数据的地方，只能有一个store.js
+    store.js: import {createStore} from "redux"
+              import {data} from "./reducer"
+              export const store = createStore(data)   //createStore:用于生成store，接受一个函数作为参数，返回新生成的store对象
+##### state
+     ·store对象包含所有数据
+     ·获取当前时刻的state：store.getState();
+     ·获取某个时点的数据，多store生成快照： const state = store.getState();
+     ·一个state对应一个view
+##### action
+     state的变化会导致view的变化，action是改变state的唯一方法
+     action是一个对象，type属性是必要的，标识action的名称；
+     action.js：export add = (num)=>{
+               return{
+                    type:"ADD",
+                    data:num
+                 }
+               }
