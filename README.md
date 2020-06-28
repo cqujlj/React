@@ -445,11 +445,44 @@
 ###### (1)导入：import {Route,Link,NavLink,Redirect} from "react-router-dom"
 ###### (2)index.js中，路由模式包裹根组件：ReactDOM.render( <BrowserRouter> <App /> </BrowserRouter>  document.getElementById('root'));
 ###### (3)路由导航/配置：
-          导入组件：import Home from './components/home/Home'
+           导入组件：import Home from './components/home/Home'
                    import Profile from './components/profile/Profile'
-           路由跳转：<Link to="/home" >Home页面 </Link>
+           路由跳转：<Link to="/home" >Home页面 </Link>   或者<NavLink>
                     <Link to="/profile">Profile页面 </Link>
                     <Redirect from='/' to='/home'/>   {/*重定向，每次打开网页都回直接到home页面*/}
            路由配置：
                     <Route path='/home' component = {Home}/>
                     <Route path='/profile' component = {Profile}/>
+          note:
+          1、Link VS NavLink
+          Link:为应用提供声明式的、无障碍导航; 
+          属性 to:string:跳转到某个地址  
+               to:objetc:需要跳转到的地址（location）  
+               replace:为 true 时，点击链接后将使用新地址替换掉访问历史记录里面的原地址,默认为false，点击链接后将在原有访问历史记录的基础上添加一个新的纪录
+          NavLink：是<Link> 的一个特定版本, 会在匹配上当前 URL 的时候会给已经渲染的元素添加样式参数
+          2、<Switch>：只渲染出第一个与当前访问地址匹配的 <Route> 若没有匹配则渲染 <Redirect>
+          3、<Redirect>：<Redirect> 渲染时将导航到一个新地址，这个新地址覆盖在访问历史信息里面的本该访问的那个地址。
+##### 路由传参
+###### (1)prams方式：
+     (1)配置参数：<Route path="/home/:name"/>
+     (2)发送参数：<Link to='/home/JACK'>跳转到Home</Link>
+     (3)接受参数：this.props.match.params.name
+###### (2)query方式：
+     不需要配置参数，直接发送/接收即可
+     (1)发送：<Link to={{ pathname='/home',query:{name:"JACK"}}}>跳转到Home</Link>
+          动态路由方式发送：<button onClick={()=>{ this.props.history.push({pathname='/home',query:{name:"JACK"})}}>点我去Home</button>
+     (2)接收：this.props.location.query.name
+##### 路由渲染方式
+     (1)
+     (2)
+     (3)
+##### Route的三个属性
+     (1)path：
+     (2)exact：
+     (3)strict：
+##### 路由切换的三个属性
+     (1)location：指你当前的位置，将要去的位置，或是之前所在的位置
+     (2)match：match 对象包含了 <Route path> 如何与 URL 匹配的信息,如：params，url，
+     (3)history：可变的，建议从 <Route> 的 prop 里来获取 location；常用方法：push()  go() 
+##### WithRouter:让不是路由切换的组件也具有路由切换的三个属性
+    
