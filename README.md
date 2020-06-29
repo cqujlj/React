@@ -275,7 +275,6 @@
           optionalElementType: PropTypes.elementType,  //一个 React 元素类型（即，MyComponent)
           optionalMessage: PropTypes.instanceOf(Message),  // JS 的 instanceof 操作符。 声明为类的实例
           optionalEnum: PropTypes.oneOf(['News', 'Photos']),//指定它为枚举类型
-     
      // 一个对象可以是几种类型中的任意一个类型
           optionalUnion: PropTypes.oneOfType([
           PropTypes.string,
@@ -503,17 +502,41 @@
      (1)单一数据源：整个react项目只有一个store用于管理状态
      (2)state可读：不能直接修改state，应该通过redux中特定的方法来修改
      (3)使用纯函数来操作：action来改变redux的state
-##### 安装：npm install --save redux
-##### 创建store：保存数据的地方，只能有一个store.js
-    store.js: import {createStore} from "redux"
-              import {data} from "./reducer"
-              export const store = createStore(data)   //createStore:用于生成store，接受一个函数作为参数，返回新生成的store对象
-##### state
+##### (1) 安装：npm install --save redux
+##### (2) 创建reducer：
+     reducer：一个函数，传入两个参数 state和action；返回新的state；(previousState, action) => newState
+     例：const products = (state ={list:[],page:1,total:0},action)=>{
+              switch (action.type) {
+                  case "PRODUCT_LOADED":
+                      console.log(action);
+                      return {...state};  ////修改redux中的数据，必须在reducer中进行
+                  default:
+                      return state;
+              }
+          };
+###### ① state
      ·store对象包含所有数据
      ·获取当前时刻的state：store.getState();
      ·获取某个时点的数据，多store生成快照： const state = store.getState();
      ·一个state对应一个view
-##### action
+###### ② action
+     发出做某件事的请求，本身不做任何逻辑处理，只是一个纯函数（在js中就是一个普通的对象）
+     action 内必须使用一个字符串类型的type字段来表示将要执行的动作
+     dispatch(action)方法更新 state
+     例：const loadProduct = (payload)=> async dispatch => {
+              console.log(payload);
+              const res = await ListApi;
+              //当异步操作完成之后，通过dispatch触发reducer改变数据
+              dispatch({
+                  type:'PRODUCT_LOADED',
+                  payload:{...res,page:payload.page}
+              });
+          };
+##### (3) 创建store：保存数据的地方，只能有一个store.js
+    store.js: import {createStore} from "redux"
+              import {data} from "./reducer"
+              export const store = createStore(data)   //createStore:用于生成store，接受一个函数作为参数，返回新生成的store对象
+##### (4) action
      state的变化会导致view的变化，action是改变state的唯一方法
      action是一个对象，type属性是必要的，标识action的名称；
      action.js：export add = (num)=>{
@@ -522,3 +545,28 @@
                     data:num
                  }
                }
+     · dispatch(action) //触发 state 改变的【唯一途径】
+#### (5)在组件中使用
+     react-redux 提供了两个重要的对象，Provider 和 connect；
+     Provider使 React 组件可被连接（connectable）；
+     connect把 React 组件和 Redux 的 store 真正连接起来
+###### connect详解：connect([mapStateToProps], [mapDispatchToProps], [mergeProps], [options])
+     connect有四个参数：
+     (1) apStateToProps(state, ownProps) : stateProps 
+          把store的数组作为props绑定到组件上
+          ownProps：是组件自己的props
+     (2) mapDispatchToProps：将 action 作为 props 绑定到组件上
+     (3)mergeProps <—— Object.assign ：将stateProps、dispatchProps和ownProps进行合并
+     (4) options
+     例：  
+     onst mapStateToProps = state => state.notices;  //当有两个reducer时
+           export default connect(mapStateToProps) (withRouter(Frame));
+###### 在根组件index.js中：
+     导入Provider：import {Provider} from "react-redux"
+     包裹根组件： <Provider store={store}>    {/* 将store的数据放到了整个项目中，一个项目只有一个根store*/}
+                     <App/> 
+                  </Provider>,
+###### 在Product.js组件
+     import {connect} from "react-redux"  //导入connect
+     import {loadProduct} from "../../../store/actions/productAction";  //导入action方法
+     export default connect(state => state.products)(List) //导出组件时
