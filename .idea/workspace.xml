@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="f2d2d863-e525-40f1-83c8-cccbbfbedd84" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/my-react-app/src/components/frame/Frame.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/my-react-app/src/frame.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/my-react-app/src/login.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/my-react-app/src/networks/auth.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/my-react-app/src/networks/product.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/my-react-app/src/networks/requrie.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/my-react-app/src/notice.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/my-react-app/src/pages/Login.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/my-react-app/src/pages/PageNotFound.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/my-react-app/src/pages/admin/dashboard/Index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/my-react-app/src/pages/admin/notices/Notice.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/my-react-app/src/pages/admin/products/Edits.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/my-react-app/src/pages/admin/products/List.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/my-react-app/src/routes/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/my-react-app/src/store/actions/productAction.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/my-react-app/src/store/reducers/noticeReducer.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/my-react-app/src/store/reducers/productReducer.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/my-react-app/src/store/store.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/my-react-app/src/units/auth.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-react-app/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/my-react-app/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-react-app/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/my-react-app/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-react-app/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/my-react-app/src/App.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-react-app/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/my-react-app/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-react-app/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/my-react-app/src/index.js" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+        <option value="CSS File" />
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/my-react-app" />
+  </component>
+  <component name="ProjectId" id="1dOulpozztUr6OtnUGYV33nRENG" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="F:\reactProject\my-react-app\src\networks" />
+      <recent name="F:\reactProject\my-react-app\src" />
+      <recent name="F:\reactProject\my-react-app\src\components\home" />
+      <recent name="F:\reactProject\my-react-app\src\components" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Node.js.test1.js">
+    <configuration name="teset.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/html/teset.js" working-dir="$PROJECT_DIR$/html">
+      <method v="2" />
+    </configuration>
+    <configuration name="test1.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/js/test1.js" working-dir="$PROJECT_DIR$/js">
+      <method v="2" />
+    </configuration>
+    <configuration name="test2.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/js/test2.js" working-dir="$PROJECT_DIR$/js">
+      <method v="2" />
+    </configuration>
+    <configuration name="test.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/js/test.js" working-dir="$PROJECT_DIR$/js">
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Node.js.test1.js" />
+        <item itemvalue="Node.js.test2.js" />
+        <item itemvalue="Node.js.test.js" />
+        <item itemvalue="Node.js.teset.js" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f2d2d863-e525-40f1-83c8-cccbbfbedd84" name="Default Changelist" comment="" />
+      <created>1592308614311</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1592308614311</updated>
+      <workItem from="1592308616569" duration="4760000" />
+      <workItem from="1592356251608" duration="19493000" />
+      <workItem from="1592391003132" duration="9014000" />
+      <workItem from="1592442864750" duration="3927000" />
+      <workItem from="1592460996180" duration="3396000" />
+      <workItem from="1592482379494" duration="3439000" />
+      <workItem from="1592489749587" duration="231000" />
+      <workItem from="1592528710032" duration="7911000" />
+      <workItem from="1592549129219" duration="7284000" />
+      <workItem from="1592877116910" duration="6970000" />
+      <workItem from="1593053468537" duration="67000" />
+      <workItem from="1593136972542" duration="13000" />
+      <workItem from="1593172276509" duration="728000" />
+      <workItem from="1593222489613" duration="4624000" />
+      <workItem from="1593306544265" duration="17834000" />
+      <workItem from="1593392005773" duration="29162000" />
+      <workItem from="1593479013969" duration="685000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

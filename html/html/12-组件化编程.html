@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>组件化编程</title>
+    <script src="https://cdn.staticfile.org/react/16.4.0/umd/react.development.js"></script>
+    <script src="https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js"></script>
+    <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+    <script src="https://cdn.bootcss.com/prop-types/15.6.1/prop-types.js"></script>
+</head>
+<body>
+<div  id="app"></div>
+<div id="app2"></div>
+<script type="text/babel">
+    // props是react中一个重要属性 是组件对外的接口  props可以从组件外部向组件内部进行数据传送
+    //        组件不能修改props
+    function Com1( props ){
+        return (
+            <div>我是一个无状态组件,{props.text},{props.num},{props.name}</div>
+        )
+    }
+    //设置默认值
+    Com1.defaultProps = {
+        name:"我是name的默认值"
+    };
+    //类型检查
+    Com1.propsTypes = {
+        num:PropTypes.number.isRequired   //num必须是数字，且必须传值
+    };
+    class Com2 extends React.Component{
+        //另外一种设置默认值方式
+        static defaultProps = {
+            weight:11111111111
+        };
+        render(){
+            return(
+                <div>我是类组件,{this.props.text},{this.props.num},{this.props.weight}</div>
+            )
+        }
+    }
+    // Com2.defaultProps = {
+    //   weight:47
+    // };
+    Com2.propTypes = {
+      age:PropTypes.number.isRequired
+    };
+    let obj = {
+        text:"Jack",
+        age:18,
+        num:20
+    };
+    ReactDOM.render(<Com1 {...obj}/>,document.getElementById("app"));
+    ReactDOM.render(<Com2 {...obj}/>,document.getElementById("app2"));
+</script>
+</body>
+</html>

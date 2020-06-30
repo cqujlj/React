@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.staticfile.org/react/16.4.0/umd/react.development.js"></script>
+    <script src="https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js"></script>
+    <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+    <script src="https://cdn.bootcss.com/prop-types/15.6.1/prop-types.js"></script>
+    <script type="text/babel">
+
+        class App extends React.Component {
+            constructor(props) {
+                super(props);
+
+                this.state = {
+                    name: "why",
+                    age: 18,
+                    hobbies: ["篮球", "唱跳", "rap"],
+
+                    test1: null,
+                    test2: undefined,
+                    flag: true,
+
+                    friend: {
+                        name: "kobe",
+                        age: 40     /*对象类型不能作为子元素*/
+                    }
+                }
+            }
+
+            render() {
+                return (
+              <div>
+                    {/* 我是一段注释 */}
+                    <h2>Hello World</h2>
+
+
+                <div>
+                {/* 1.可以直接显示 */}
+                <h2>{this.state.name}</h2>
+                <h2>{this.state.age}</h2>
+                <h2>{this.state.hobbies}</h2>
+
+
+                {/* 2.不显示 */}
+                <h2>{this.state.test1}</h2>
+                <h2>{this.state.test1 + ""}</h2>
+                <h2>{this.state.test2}</h2>
+                <h2>{this.state.test2 + ""}</h2>
+                <h2>{this.state.flag}</h2>
+                <h2>{this.state.flag + ""}</h2>
+                </div>
+              </div>
+            )
+            }
+        }
+
+        ReactDOM.render(<App/>, document.getElementById("app"))
+    </script>
+</head>
+<body>
+<div id="app"></div>
+</body>
+</html>
