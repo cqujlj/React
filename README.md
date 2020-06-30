@@ -555,7 +555,8 @@
                           <App/> 
                        </Provider>,
 ###### connect详解：connect([mapStateToProps], [mapDispatchToProps], [mergeProps], [options])  返回一个加强之后的组件
-          connect有四个参数：
+          作用：包装原组件，将state和action通过props的方式传入到原组件内部；监听store tree变化，使其包装的原组件可以响应state变化
+          connect有四个参数，
           (1) mapStateToProps(state, ownProps)  
                把store的数组作为props绑定到组件上
                state：redux中的state
