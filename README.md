@@ -507,12 +507,17 @@
           专门的状态管理库，集中管理react中的多个组件的状态
           需求状态：某个组件的状态需要共享的时候    组件中的状态需要改变另一个组件的状态时
 ##### 三大原则：
-          (1)单一数据源：整个react项目只有一个store用于管理状态
-          (2)state可读：不能直接修改state，应该通过redux中特定的方法来修改
-          (3)使用纯函数来操作：action来改变redux的state
+          (1)整个应用的 state 被储存在一棵 object tree 中，并且这个 object tree 只存在于唯一一个 store 中
+          (2)唯一改变 state 的方法就是触发 action，action 是一个用于描述已发生事件的普通对象
+          (3)使用纯函数来操作：为了描述 action 如何改变 state tree ，你需要编写 reducers
 ##### (1) 安装：npm install --save redux
+     附加包：React 绑定库、开发者工具
+     npm install --save react-redux
+npm install --save-dev redux-devtools
 ##### (2) 创建reducer.js：
-          reducer：一个函数，传入两个参数 state和action；返回新的state；(previousState, action) => newState
+          reducer：Reducer 只是一些纯函数，它接收先前的 state 和 action，并返回新的 state
+          决定每个 action 如何改变应用的 state
+          (previousState, action) => newState
           例：const products = (state ={list:[],page:1,total:0},action)=>{
                    switch (action.type) {
                        case "ADD":
@@ -529,8 +534,10 @@
           ·一个state对应一个view
 ##### (3) action.js
           action：发出做某件事的请求，本身不做任何逻辑处理，只是一个纯函数（在js中就是一个普通的对象）
-          action 内必须使用一个字符串类型的type字段来表示将要执行的动作；action是一个对象，type属性是必要的，标识action的名称；
-          dispatch(action)方法更新 state,触发 state 改变的【唯一途径】
+          action 内必须使用一个字符串类型的type字段来表示将要执行的动作；
+          action是一个对象，type属性是必要的，标识action的名称；
+          改变内部 state 惟一方法是 dispatch 一个 action
+          在组件中执行某个时间调用action去改变state：props.dispatch({ type:"ADD"})  //
           例：export add = (num)=>{
                     return{
                          type:"ADD",
@@ -573,6 +580,7 @@
           import {loadProduct} from "../../../store/actions/productAction";  //导入action方法
           export default connect(state => state.products)(List) //导出组件时
 ##### (6) combineReducers(Object):
+     随着应用变大，你可以把它拆成多个小的 reducers，分别独立地操作 state tree 的不同部分
      把不同的reducer作为一个Object的value值，最终合并成一个rootReducer，传给createStore()
      合并之后的rootReducer可以调用各个reducer，并把它们结果合并成一个state，
      state对象的结构由传入多个reducer的key决定？
