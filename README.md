@@ -496,77 +496,83 @@
      }
      userState:定义一个状态，返回一个数组[当前状态值，用于更改状态的函数]
 #### 16. redux
-     专门的状态管理库，集中管理react中的多个组件的状态
-     需求状态：某个组件的状态需要共享的时候    组件中的状态需要改变另一个组件的状态时
+          专门的状态管理库，集中管理react中的多个组件的状态
+          需求状态：某个组件的状态需要共享的时候    组件中的状态需要改变另一个组件的状态时
 ##### 三大原则：
-     (1)单一数据源：整个react项目只有一个store用于管理状态
-     (2)state可读：不能直接修改state，应该通过redux中特定的方法来修改
-     (3)使用纯函数来操作：action来改变redux的state
+          (1)单一数据源：整个react项目只有一个store用于管理状态
+          (2)state可读：不能直接修改state，应该通过redux中特定的方法来修改
+          (3)使用纯函数来操作：action来改变redux的state
 ##### (1) 安装：npm install --save redux
-##### (2) 创建reducer：
-     reducer：一个函数，传入两个参数 state和action；返回新的state；(previousState, action) => newState
-     例：const products = (state ={list:[],page:1,total:0},action)=>{
-              switch (action.type) {
-                  case "PRODUCT_LOADED":
-                      console.log(action);
-                      return {...state};  ////修改redux中的数据，必须在reducer中进行
-                  default:
-                      return state;
-              }
-          };
-###### ① state
-     ·store对象包含所有数据
-     ·获取当前时刻的state：store.getState();
-     ·获取某个时点的数据，多store生成快照： const state = store.getState();
-     ·一个state对应一个view
-###### ② action
-     发出做某件事的请求，本身不做任何逻辑处理，只是一个纯函数（在js中就是一个普通的对象）
-     action 内必须使用一个字符串类型的type字段来表示将要执行的动作
-     dispatch(action)方法更新 state
-     例：const loadProduct = (payload)=> async dispatch => {
-              console.log(payload);
-              const res = await ListApi;
-              //当异步操作完成之后，通过dispatch触发reducer改变数据
-              dispatch({
-                  type:'PRODUCT_LOADED',
-                  payload:{...res,page:payload.page}
-              });
-          };
-##### (3) 创建store：保存数据的地方，只能有一个store.js
-    store.js: import {createStore} from "redux"
-              import {data} from "./reducer"
-              export const store = createStore(data)   //createStore:用于生成store，接受一个函数作为参数，返回新生成的store对象
-##### (4) action
-     state的变化会导致view的变化，action是改变state的唯一方法
-     action是一个对象，type属性是必要的，标识action的名称；
-     action.js：export add = (num)=>{
-               return{
-                    type:"ADD",
-                    data:num
-                 }
-               }
-     · dispatch(action) //触发 state 改变的【唯一途径】
-#### (5)在组件中使用
-     react-redux 提供了两个重要的对象，Provider 和 connect；
-     Provider使 React 组件可被连接（connectable）；
-     connect把 React 组件和 Redux 的 store 真正连接起来
-###### connect详解：connect([mapStateToProps], [mapDispatchToProps], [mergeProps], [options])
-     connect有四个参数：
-     (1) apStateToProps(state, ownProps) : stateProps 
-          把store的数组作为props绑定到组件上
-          ownProps：是组件自己的props
-     (2) mapDispatchToProps：将 action 作为 props 绑定到组件上
-     (3)mergeProps <—— Object.assign ：将stateProps、dispatchProps和ownProps进行合并
-     (4) options
-     例：  
-     onst mapStateToProps = state => state.notices;  //当有两个reducer时
-           export default connect(mapStateToProps) (withRouter(Frame));
-###### 在根组件index.js中：
-     导入Provider：import {Provider} from "react-redux"
-     包裹根组件： <Provider store={store}>    {/* 将store的数据放到了整个项目中，一个项目只有一个根store*/}
-                     <App/> 
-                  </Provider>,
-###### 在Product.js组件
-     import {connect} from "react-redux"  //导入connect
-     import {loadProduct} from "../../../store/actions/productAction";  //导入action方法
-     export default connect(state => state.products)(List) //导出组件时
+##### (2) 创建reducer.js：
+          reducer：一个函数，传入两个参数 state和action；返回新的state；(previousState, action) => newState
+          例：const products = (state ={list:[],page:1,total:0},action)=>{
+                   switch (action.type) {
+                       case "ADD":
+                           console.log(action);
+                           return {...state};  ////修改redux中的数据，必须在reducer中进行
+                       default:
+                           return state;
+                   }
+               };
+###### ·state
+          ·store对象包含所有数据
+          ·获取当前时刻的state：store.getState();
+          ·获取某个时点的数据，多store生成快照： const state = store.getState();
+          ·一个state对应一个view
+##### (3) action.js
+          action：发出做某件事的请求，本身不做任何逻辑处理，只是一个纯函数（在js中就是一个普通的对象）
+          action 内必须使用一个字符串类型的type字段来表示将要执行的动作；action是一个对象，type属性是必要的，标识action的名称；
+          dispatch(action)方法更新 state,触发 state 改变的【唯一途径】
+          例：export add = (num)=>{
+                    return{
+                         type:"ADD",
+                         data:num
+                      }
+                    }
+##### (4) 创建store.js：保存数据的地方，只能有一个store.js
+         store.js: import {createStore} from "redux"
+                   import {data} from "./reducer"
+                   export const store = createStore(data)   //createStore:用于生成store，接受一个函数作为参数，返回新生成的store对象
+##### (5) 在组件中使用
+          react-redux 提供了两个重要的对象，Provider 和 connect；
+          Provider使 React 组件可被连接（connectable）；
+          connect把 React 组件和 Redux 的 store 真正连接起来
+###### Provider组件
+     导入：import {Provider} from "react-redux"
+          import store from "./store/store";
+     包裹根组件，并传递state，Provider会帮我们维护state
+          · 在index.js中：
+          导入Provider：import {Provider} from "react-redux"
+          包裹根组件： <Provider store={store}>    {/* 将store的数据放到了整个项目中，一个项目只有一个根store*/}
+                          <App/> 
+                       </Provider>,
+###### connect详解：connect([mapStateToProps], [mapDispatchToProps], [mergeProps], [options])  返回一个加强之后的组件
+          connect有四个参数：
+          (1) mapStateToProps(state, ownProps)  
+               把store的数组作为props绑定到组件上
+               state：redux中的state
+               ownProps：是组件自己的props
+          (2) mapDispatchToProps(dispatch,ownProps)
+               将 action 作为 props 绑定到组件上
+               dispatch:是store中的dispatch
+          (3) mergeProps <—— Object.assign ：将stateProps、dispatchProps和ownProps进行合并
+          (4) options
+          例：  const mapStateToProps = state => state
+                export default connect(mapStateToProps) (withRouter(Frame));
+###### 在Product.js组件使用redux的state
+          import {connect} from "react-redux"  //导入connect
+          import {loadProduct} from "../../../store/actions/productAction";  //导入action方法
+          export default connect(state => state.products)(List) //导出组件时
+##### (6) combineReducers(Object):
+     把不同的reducer作为一个Object的value值，最终合并成一个rootReducer，传给createStore()
+     合并之后的rootReducer可以调用各个reducer，并把它们结果合并成一个state，
+     state对象的结构由传入多个reducer的key决定？
+     例：
+          有两个reducer：noticeReducer.js、productReducer.js
+          const reducers = {
+               notice:noticeReducer,
+               product:productReducer
+          }
+          const rootReducer = combineReducers(reducers);
+     note:combineReducers包裹的reducer会按照配置顺序进行调用
+          每一次reduce调用传递的state都是上一次的state，每个reducer之间互不干扰
