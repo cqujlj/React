@@ -96,7 +96,7 @@
       const element = <h1> hello, react </h1>    //note： JSX语法，不是字符串、不是HTML
 #### 2、元素渲染
       ReactDOM.render(VOM,containerDOM）   //会覆盖挂载到的containerDOM原生中的所有内容，引入组件可解决这个问题
-代码实例：[firstReact](https://github.com/cqujlj/React/blob/master/html/01-firstReact.html)
+代码实例：[firstReact](https://github.com/cqujlj/React/blob/master/html/html/01-firstReact.html)
 #### 3、JSX嵌入表达式
      若jsx的内容时动态的，可在JSX中使用JavaScript表达式，
      书写规则：{表达式}  表达式可以是变量、字符串、数组、函数调用等任意js表达式
@@ -142,7 +142,7 @@
      this.state.movies.map((item,index) => {
               return <li  key={index}>{item*2*}</li>  /*可以在回调函数中对数据做一些操作*/ /*在 map() 方法中的元素需要设置 key 属性*/
             }) 
-代码实例：[展示列表数据](https://github.com/cqujlj/React/blob/master/html/02-listData.html)
+代码实例：[展示列表数据](https://github.com/cqujlj/React/blob/master/html/html/02-%E5%B1%95%E7%A4%BA%E5%88%97%E8%A1%A8%E6%95%B0%E6%8D%AE.html)
 ###### filter函数 --> 处理数组，获取设定条件下的元素
 ###### slice函数 --> 处理数组，截取数组中的一部分内容
      用例：
@@ -204,11 +204,11 @@
       接受带有数据的单个“ props”（代表属性）对象参数并返回React元素,使用参数：{props.属性名}
 ##### 方式2：ES6类组件  （复杂组件）
      使用参数：{this.props.属性名}
-代码示例：[使用工厂函数组件和ES6类组件](https://github.com/cqujlj/React/blob/master/html/03-components.html)
+代码示例：[使用工厂函数组件和ES6类组件](https://github.com/cqujlj/React/blob/master/html/html/03-components.html)
 #### 7、组件的3个属性  ***
 ##### 7.1 state
      组件 --> 组件状态，通过与用户交互，实现不同状态，然后渲染UI，使得用户界面和数据保持一致
-代码示例：[state的基本用法](https://github.com/cqujlj/React/blob/master/html/04-components-state.html)
+代码示例：[state的基本用法](https://github.com/cqujlj/React/blob/master/html/html/04-components-state.html)
 ###### 组件中的数据：
      1、参与界面更新的数据（数据流）：当数据变量时，需要重新渲染组件；定义在当前对象的state
            定义：在构造函数中：this.state = {定义的数据}
@@ -229,7 +229,7 @@
      note：state是组件内部的状态（数据），不能够直接修改，必须要通过setState来改变值的状态，从而达到更新组件内部数据的作用
 ##### 7.2 props 
      组件内部的this.props属性是只读的不可修改，子组件只能通过props来传递参数
-代码示例：[props的基本用法](https://github.com/cqujlj/React/blob/master/html/05-components-props.html)
+代码示例：[props的基本用法](https://github.com/cqujlj/React/blob/master/html/html/05-components-props.html)
 ###### 在函数组件中使用：props.属性名
     function PersonMsg(props) {
             return (
@@ -299,9 +299,9 @@
 ######  将对象的所有属性通过props传递：    <Person{...person}>
 ###### 在父组件中设置 state， 并通过在子组件上使用 props 将其传递到子组件上
      ReactDOM.render(<PersonMsg {...person}/>, document.getElementById('idName'))
-代码示例：[父子组件传值](https://github.com/cqujlj/React/blob/master/html/06-state$$props.html)
+代码示例：[父子组件传值](https://github.com/cqujlj/React/blob/master/html/html/06-state%24%24props.html)
 ##### 7.3 refs --> 事件处理
-代码示例：[refs事件处理](html/06-components-refs.html)
+代码示例：[refs事件处理](https://github.com/cqujlj/React/blob/master/html/html/06-components-refs.html)
 ######  组件内的标签都可以定义ref属性来标识自己
      方式1：<input type="text" ref="content"/>
      方式2：<input type="text" ref={input=>this.input=input}/>   //将当前的input 赋值给组件里面的input
@@ -310,7 +310,7 @@
      react中的事件是通过委托方式处理的（委托给最外层元素）
      通过event.target可以得到发生事件的DOM元素 --》 handleBlur(event){  alert(event.target.value) }
      note：要在constructor中给处理函数强制绑定this --> this.handleBlur=this.handleClick.bind(this)
-代码实例：[组件的组合使用](html/componentCombine.html)
+代码实例：[组件的组合使用](https://github.com/cqujlj/React/blob/master/html/html/componentCombine.html)
 #### 8、条件渲染  --> 在React中，所有的条件判断都和普通的JavaScript代码一致
 ##### 8.1 条件判断语句
 ###### 当逻辑较多时，通过条件判断
@@ -329,10 +329,10 @@
      note：在组件的render方法中返回null并不会影响组件的生命周期
 ##### 8.4 display --> vue种的v-show效果
      <h2 style={{display: nameDisplay}}>{username}</h2>
-代码实例[条件渲染-条件判断语句](https://github.com/cqujlj/React/blob/master/html/07-Conditional%20Rendering.html)
+代码实例[条件渲染-条件判断语句](https://github.com/cqujlj/React/blob/master/html/html/07-Conditional%20Rendering.html)
 #### 9、表单
      react的表单元素通常会保持一些内部的state；可变的状态通常保存在组件的状态属性中，并且只能用 setState() 方法进行更新
-代码实例[表单组件的使用](https://github.com/cqujlj/React/blob/master/html/08-froms.html) 
+代码实例[表单组件的使用](https://github.com/cqujlj/React/blob/master/html/html/08-froms.html) 
 ##### 包含表单组件的分类
 ###### 1、受控组件：表单项输入数据能够自动收集成状态
      例：<input type="password" value={this.state.pwd} onChange={this.handleChange}/>  //textarea、select都可以
@@ -342,17 +342,17 @@
 ###### 2、非受控组件：需要时才手动读取表单输入框中的数据
      例：<input type="text" ref = {input => this.nameInput = input}/>
      非受控组件没有设置value值，在需要该输入值时，手动读取：const name = this.nameInput.value
-代码实例：[textarea、select表单实例](https://github.com/cqujlj/React/blob/master/html/08-froms-select.html)
+代码实例：[textarea、select表单实例](https://github.com/cqujlj/React/blob/master/html/html/08-froms-select.html)
 #### 10、状态提升
      多个组件需要反映相同的变化数据，这时我们建议将共享状态提升到最近的共同父组件中去
      如：子组件1和子组件2都各自保存各自的 state ，要实现数据共享，就需要使用状态提升；
          --> 即将两个组件需要共享的数据保存在共同的父组件中，然后子组件通过 props 获取父组件数据
       父组件中： this.state = { content: '' };
       子组件：<input type='text' value={ this.props.content } onChange={ this.handleChange } />
-代码实例：[状态提升](https://github.com/cqujlj/React/blob/master/html/09-Lifting%20State%20Up.html)
+代码实例：[状态提升](https://github.com/cqujlj/React/blob/master/html/html/09-Lifting%20State%20Up.html)
 #### 11、组合 VS 继承
      推荐使用组合而非继承来实现组件间的代码重用
-代码实例[父子组件](https://github.com/cqujlj/React/blob/master/html/11-Composition-Inheritance.html)
+代码实例[父子组件](https://github.com/cqujlj/React/blob/master/html/html/11-Composition-Inheritance.html)
 ##### 11.1  children prop
      组件可以接受任意 props，包括基本数据类型，React 元素以及函数
      组件使用一个特殊的 children prop 来将他们的子组件传递到渲染结果中 （组件的属性可以是组件,可以将任何东西作为 props 进行传递）
