@@ -202,8 +202,16 @@
 #### 6、定义组件
 ##### 方式1：工厂函数组件（简单组件）
       接受带有数据的单个“ props”（代表属性）对象参数并返回React元素,使用参数：{props.属性名}
+       function MyComponent(props) {
+            return <h2>函数组件---{props.name}</h2>
+        }
 ##### 方式2：ES6类组件  （复杂组件）
      使用参数：{this.props.属性名}
+      class MyComponent2 extends React.Component{
+            render(){
+                return <h2>类组件---{this.props.name}----</h2>
+            }
+        }
 代码示例：[使用工厂函数组件和ES6类组件](https://github.com/cqujlj/React/blob/master/html/html/03-components.html)
 #### 7、组件的3个属性  ***
 ##### 7.1 state
@@ -222,7 +230,7 @@
            isShowText: true
            }
      };
-###### (2)获取stat
+###### (2)获取state
      this.state.isShowText
 ###### (3)修改state
      this.setState({ isShowText : !this.state.isShowText})
