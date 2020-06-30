@@ -507,7 +507,7 @@
           专门的状态管理库，集中管理react中的多个组件的状态
           需求状态：某个组件的状态需要共享的时候    组件中的状态需要改变另一个组件的状态时
 ##### 三大原则：
-          (1)整个应用的 state 被储存在一棵 object tree 中，并且这个 object tree 只存在于唯一一个 store 中
+          (1)整个应用的 state 被储存在一棵 object tree 中，并且这个 object tree 只存在于唯一一个 store 中；当需要拆分数据处理逻辑时，可使用reducer 组合 而不是创建多个store
           (2)唯一改变 state 的方法就是触发 action，action 是一个用于描述已发生事件的普通对象
           (3)使用纯函数来操作：为了描述 action 如何改变 state tree ，你需要编写 reducers
 ##### (1) 安装：npm install --save redux
@@ -531,13 +531,16 @@ npm install --save-dev redux-devtools
           ·store对象包含所有数据
           ·获取当前时刻的state：store.getState();
           ·获取某个时点的数据，多store生成快照： const state = store.getState();
-          ·一个state对应一个view
+          · 更新state：dispatch(action)
+          · 注册监听器：subscribe(listener) 注册监听器
+          · 注销监听器：subscribe(listener) 返回的函数注销监听器
 ##### (3) action.js
           action：发出做某件事的请求，本身不做任何逻辑处理，只是一个纯函数（在js中就是一个普通的对象）
-          action 内必须使用一个字符串类型的type字段来表示将要执行的动作；
+          action 内必须使用一个字符串类型的type字段来表示将要执行的动作；为了维护命名一致性，一般讲action type汇总到一个actionType.js文件中，写成一个常量
           action是一个对象，type属性是必要的，标识action的名称；
           改变内部 state 惟一方法是 dispatch 一个 action
           在组件中执行某个时间调用action去改变state：props.dispatch({ type:"ADD"})  //
+          nnote：最好通过创建函数生成 action 对象，而不是在你 dispatch 的时候内联生成它们
           例：export add = (num)=>{
                     return{
                          type:"ADD",
@@ -580,10 +583,11 @@ npm install --save-dev redux-devtools
           import {loadProduct} from "../../../store/actions/productAction";  //导入action方法
           export default connect(state => state.products)(List) //导出组件时
 ##### (6) combineReducers(Object):
-     随着应用变大，你可以把它拆成多个小的 reducers，分别独立地操作 state tree 的不同部分
-     把不同的reducer作为一个Object的value值，最终合并成一个rootReducer，传给createStore()
-     合并之后的rootReducer可以调用各个reducer，并把它们结果合并成一个state，
-     state对象的结构由传入多个reducer的key决定？
+     · 随着应用变大，你可以把它拆成多个小的 reducers，分别独立地操作 state tree 的不同部分；
+     · 每个 reducer 只负责管理全局 state 中它负责的一部分。每个 reducer 的 state 参数都不同，分别对应它管理的那部分 state 数据
+     · 把不同的reducer作为一个Object的value值，最终合并成一个rootReducer，传给createStore()
+     · 合并之后的rootReducer可以调用各个reducer，并把它们结果合并成一个state，
+     · 每个 reducer 根据它们的 key 来筛选出 state 中的一部分数据并处理
      例：
           有两个reducer：noticeReducer.js、productReducer.js
           const reducers = {
