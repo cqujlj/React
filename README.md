@@ -602,14 +602,14 @@ npm install --save-dev redux-devtools
      (1) 通知reducer请求开始 --- {type:"FETCH-POSTS"}
      (2) 通知reducer请求成功 --- {type:"FETCH-POSTS",status:"success",response:{...}}
      (3) 通知reducer请求失败 --- {type:"FETCH-POSTS",status:"error",error:"Oops}
-##### 处理异步的方式：中间件
+##### 17.1 处理异步的方式：中间件
      默认情况下，createStore创建的store没有中间件，只支持同步数据流
      使用applyMiddleware()来增强，处理异步问题；
 ###### 中间件Middleware：
      独立运行于各个框架之间的代码，运行在action发送出去到达reducer之间的一段代码，
      本质是一个函数：可以访问请求对象和响应对象，可以对请求进行拦截处理，处理后将控制权向下传递，可以终止请求，向客户端做出响应；
 ###### applyMiddleware():该方法可以使用多个中间件，将所有中间件组成一个数组，依次执行。
-##### *** Middleware API:saga
+##### 17.2 *** Middleware API:saga
       redux-saga：是一个用于管理应用程序 Side Effect（例如异步获取数据，访问浏览器缓存等）的 library
       createSagaMiddleware(options): 创建一个 redux middleware，并将saga连接到redux store，通过createStore的第3个参数传入
       middleware.run(saga,...args): 动态运行saga，只能在applyMiddleware阶段之后执行saga
@@ -638,11 +638,11 @@ npm install --save-dev redux-devtools
           export default store
           sagaMiddleware.run(homeSaga);  //最后动态运行一下homeSaga
 ##### saga辅助函数：监听action，只要action发送过来，就会触发对应的saga函数调用
-##### takeEvery(pattern,saga,...args):允许同时启动多个异步任务  
+##### (1) takeEvery(pattern,saga,...args):允许同时启动多个异步任务  
      在发起dispatch到store并且匹配pattern的每个action
-##### takeLatest(pattern,saga,...args):在任何时刻 takeLatest只允许一个异步任务在执行 ，该任务为最后被启动那个   
+##### (2) takeLatest(pattern,saga,...args):在任何时刻 takeLatest只允许一个异步任务在执行 ，该任务为最后被启动那个   
      在发起dispatch到store并且匹配pattern的每个action，并自动取消之前已经启动但仍在执行的任务；
-##### throttle(ms,pattern,saga,...args):
+##### (3) throttle(ms,pattern,saga,...args):
      在发起dispatch到store并且匹配pattern的一个action，会执行一个异步，同时会接收一个对应action的异步任务，放到底层buffer(至多保留最近的一个)，
      第一个ms毫秒之内将不会执行异步任务 ？？？
 ##### Effect创建器 
