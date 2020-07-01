@@ -597,3 +597,60 @@ npm install --save-dev redux-devtools
           const rootReducer = combineReducers(reducers);
      note:combineReducers包裹的reducer会按照配置顺序进行调用
           每一次reduce调用传递的state都是上一次的state，每个reducer之间互不干扰
+#### 17、异步action处理
+     1每个API请求需要diapatch至少三种action：
+     (1) 通知reducer请求开始 --- {type:"FETCH-POSTS"}
+     (2) 通知reducer请求成功 --- {type:"FETCH-POSTS",status:"success",response:{...}}
+     (3) 通知reducer请求失败 --- {type:"FETCH-POSTS",status:"error",error:"Oops}
+##### 处理异步的方式：中间件
+     默认情况下，createStore创建的store没有中间件，只支持同步数据流
+     使用applyMiddleware()来增强，处理异步问题；
+###### 中间件Middleware：
+     独立运行于各个框架之间的代码，运行在action发送出去到达reducer之间的一段代码，
+     本质是一个函数：可以访问请求对象和响应对象，可以对请求进行拦截处理，处理后将控制权向下传递，可以终止请求，向客户端做出响应；
+###### applyMiddleware():该方法可以使用多个中间件，将所有中间件组成一个数组，依次执行。
+##### *** Middleware API:saga
+      redux-saga：是一个用于管理应用程序 Side Effect（例如异步获取数据，访问浏览器缓存等）的 library
+      createSagaMiddleware(options): 创建一个 redux middleware，并将saga连接到redux store，通过createStore的第3个参数传入
+      middleware.run(saga,...args): 动态运行saga，只能在applyMiddleware阶段之后执行saga
+###### 安装：npm install --save redux-saga
+     例：
+     1、创建一个homeSaga.js:
+          import {call,select} from "redux-saga/effects"
+          export function* homeSaga(){
+               console.log("homeSaga");
+               const user = yield  select(state => state.username)  //选择需要的数据
+               const res = yield call(axios.get,"url",{...user});  //异步请求
+               console.log(res)
+          }
+     note：当有多个saga分别管理不同页面的异步请求，
+          如saga1.js  saga2.js  saga3.js
+          export function* defSaga(){
+               yield all(saga1(),saga2(),saga3())
+          }
+     2、在store.js进行连接
+          import {reducer} from "./reducer"
+          import {homeSaga} from "./saga/homeSaga"
+          import {createStore,applyMiddleware} from "redux"
+          import createSagaMiddleware from "redux-saga"
+          const sagaMiddleware = createSagaMiddleware();  //创建sagaMiddleware，最后需要调用run来执行一个saga
+          const store = createStore(reducer,{},applyMiddleware(sagaMiddleware)); //传入reducer、state、中间件
+          export default store
+          sagaMiddleware.run(homeSaga);  //最后动态运行一下homeSaga
+##### saga辅助函数：监听action，只要action发送过来，就会触发对应的saga函数调用
+##### takeEvery(pattern,saga,...args):允许同时启动多个异步任务  
+     在发起dispatch到store并且匹配pattern的每个action
+##### takeLatest(pattern,saga,...args):在任何时刻 takeLatest只允许一个异步任务在执行 ，该任务为最后被启动那个   
+     在发起dispatch到store并且匹配pattern的每个action，并自动取消之前已经启动但仍在执行的任务；
+##### throttle(ms,pattern,saga,...args):
+     在发起dispatch到store并且匹配pattern的一个action，会执行一个异步，同时会接收一个对应action的异步任务，放到底层buffer(至多保留最近的一个)，
+     第一个ms毫秒之内将不会执行异步任务 ？？？
+##### Effect创建器 
+     effect：发送给 middleware 的指令以执行某些操作（Effect 是一个简单的对象，这个对象包含了一些给 middleware 解释执行的信息）
+###### (1)call(fn, ...args):方法调用
+     或者：yield apply(obj, obj.method, [arg1, arg2, ...])
+      例：const res = yield call(axios.get,"url",{...user});  //调用axios.get进行数据请求,call返回一个纯文本对象
+###### (2)select(selector,...args)
+     例：  const user = yield  select(state => state.username)   //选择需要的数据
+###### (3) take(pattern):等待一个action发生，只发生一次
+###### (4) put(action):派发action
