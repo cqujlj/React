@@ -650,7 +650,13 @@ npm install --save-dev redux-devtools
 ###### (1)call(fn, ...args):方法调用
      或者：yield apply(obj, obj.method, [arg1, arg2, ...])
       例：const res = yield call(axios.get,"url",{...user});  //调用axios.get进行数据请求,call返回一个纯文本对象
+       同步执行两个异步任务：
+            const [users, repos] = yield [
+                 call(fetch, '/users'),
+                 call(fetch, '/repos')
+           ]
 ###### (2)select(selector,...args)
      例：  const user = yield  select(state => state.username)   //选择需要的数据
 ###### (3) take(pattern):等待一个action发生，只发生一次
 ###### (4) put(action):派发action
+     yield put({ type: 'HOME_RECEIVED', hoem})
