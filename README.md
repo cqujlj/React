@@ -649,11 +649,12 @@ npm install --save-dev redux-devtools
      第一个ms毫秒之内将不会执行异步任务 ？？？
 ##### Effect创建器 
      effect：发送给 middleware 的指令以执行某些操作（Effect 是一个简单的对象，这个对象包含了一些给 middleware 解释执行的信息）
-###### (1)call(fn, ...args):方法调用
+###### (1)call(fn, ...args):方法调用，会阻塞
      或者：yield apply(obj, obj.method, [arg1, arg2, ...])
       例：const res = yield call(axios.get,"url",{...user});  //调用axios.get进行数据请求,call返回一个纯文本对象
       yield会暂停Generator的执行，直到返回的 Promise 被 resolve或者 reject
-       同步执行两个异步任务：
+      因此：call 是一个会阻塞的 Effect。即 Generator 在调用结束之前不能执行或处理任何其他事情
+      同步执行两个异步任务：
             const [users, repos] = yield [
                  call(fetch, '/users'),
                  call(fetch, '/repos')
@@ -667,3 +668,8 @@ npm install --save-dev redux-devtools
           }
 ###### (4) put(action):派发action
      yield put({ type: 'HOME_RECEIVED', hoem})
+###### (5) fork(fn, ...args),无阻塞调用
+     当我们 fork 一个 任务，任务会在后台启动，调用者也可以继续它自己的流程，而不用等待被 fork 的任务结束
+###### (6) cancel(task):取消任务调用
+      const task = yield fork(authorize, user, password)
+      cancel(task)
