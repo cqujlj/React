@@ -628,6 +628,7 @@ npm install --save-dev redux-devtools
           export function* defSaga(){
                yield all(saga1(),saga2(),saga3())
           }
+          all：同时并发多个 action，没有顺序
      2、在store.js进行连接
           import {reducer} from "./reducer"
           import {homeSaga} from "./saga/homeSaga"
@@ -640,6 +641,7 @@ npm install --save-dev redux-devtools
 ##### saga辅助函数：监听action，只要action发送过来，就会触发对应的saga函数调用
 ##### (1) takeEvery(pattern,saga,...args):允许同时启动多个异步任务  
      在发起dispatch到store并且匹配pattern的每个action
+     takeEvery('*')（使用通配符 * 模式），能捕获发起的所有类型的 action。
 ##### (2) takeLatest(pattern,saga,...args):在任何时刻 takeLatest只允许一个异步任务在执行 ，该任务为最后被启动那个   
      在发起dispatch到store并且匹配pattern的每个action，并自动取消之前已经启动但仍在执行的任务；
 ##### (3) throttle(ms,pattern,saga,...args):
@@ -650,6 +652,7 @@ npm install --save-dev redux-devtools
 ###### (1)call(fn, ...args):方法调用
      或者：yield apply(obj, obj.method, [arg1, arg2, ...])
       例：const res = yield call(axios.get,"url",{...user});  //调用axios.get进行数据请求,call返回一个纯文本对象
+      yield会暂停Generator的执行，直到返回的 Promise 被 resolve或者 reject
        同步执行两个异步任务：
             const [users, repos] = yield [
                  call(fetch, '/users'),
@@ -657,6 +660,10 @@ npm install --save-dev redux-devtools
            ]
 ###### (2)select(selector,...args)
      例：  const user = yield  select(state => state.username)   //选择需要的数据
-###### (3) take(pattern):等待一个action发生，只发生一次
+###### (3) take(pattern):暂停 Generator 直到一个匹配的 action 被发起，(等待一个action发生)只发生一次，
+     与takeEvery相同效果写法：
+          while（true）{
+               yield take("Pattern",data);
+          }
 ###### (4) put(action):派发action
      yield put({ type: 'HOME_RECEIVED', hoem})
