@@ -504,20 +504,31 @@
      }
      userState:定义一个状态，返回一个数组[当前状态值，用于更改状态的函数]
 #### Hook
-##### useState: 状态管理
+##### useState: 简单状态管理
      const [num,setNum] = useState(0);
-     useState 会返回一对值:num：当前状态和一个让你更新它的函数：setNum();
+     · useState 会返回一对值:num：当前状态和一个让你更新它的函数：setNum();
+     · 多次调用useState()，一个函数组件可以拥有多个状态
      替代类组件的this.state ={} ,setState()
-##### useEffect:它在第一次渲染之后和每次更新之后都会执行指定的操作
-     useEffect(fn,[]) //fn:要执行的操作，[]:监控的数据
+     例：const [state, setState] = useState(initialState);    //启用函数组件中的状态
+          setState(newState) 或  setState(state => state + 1)   //更新组件状态；组件重新渲染后，状态接收新值newState
+       note：一些规则：
+       (1) 仅顶层调用 Hook ：不能在循环，条件，嵌套函数等中调用useState()。在多个useState()调用中，渲染之间的调用顺序必须相同。
+       (2) 仅从React 函数调用 Hook:必须仅在函数组件或自定义钩子内部调用useState()。
+##### useEffect:Effect Hook 可以让你在函数组件中执行副作用操作（网络请求，监听事件....）
+      useEffect(fn,[]) //fn:要执行的操作，[]:监控的数据；返回一个回调函数，作用于清除上一次副作用遗留下来的状态
      默认情况下，它在第一次渲染之后和每次监控数据发生更新之后都会执行fn
-     相当于：componentDidMount()和componentDidUpdate() 组件加载和更新时执行同样的操作
+     可看做 componentDidMount，componentDidUpdate 和 componentWillUnmount 的组合
      useEffect 可以在组件渲染后实现各种不同的副作用。有些副作用可能需要清除，所以需要返回一个函数，不必清除，则不需要返回。
-##### useRef:
-##### useCallback:
+##### useRef:可变引用useRef()保存可变数据，这些数据在更改时不会触发重新渲染
+     例: const childrenRef = useRef(null)  //函数组件每次 render 之后，childrenRef不会被重复申明
+         console.log(childrenRef.current)
+##### useCallback:可以保证，无论 render 多少次，我们的函数都是同一个函数，减小不断创建的开销
+     例： const onClick = useCallback(() => {
+           console.log('button click')
+          }, [])
 #### 16. redux
      专门的状态管理库，集中管理react中的多个组件的状态
-     需求状态：某个组件的状态需要共享的时候    组件中的状态需要改变另一个组件的状态时
+     需求状态：某个组件的状态需要共享的时候、组件中的状态需要改变另一个组件的状态时
 ##### 三大原则：
      (1)整个应用的 state 被储存在一棵 object tree 中，并且这个 object tree 只存在于唯一一个 store 中；当需要拆分数据处理逻辑时，可使用reducer 组合 而不是创建多个store
      (2)唯一改变 state 的方法就是触发 action，action 是一个用于描述已发生事件的普通对象
@@ -525,7 +536,7 @@
 ##### (1) 安装：npm install --save redux
      附加包：React 绑定库、开发者工具
      npm install --save react-redux
-npm install --save-dev redux-devtools
+     npm install --save-dev redux-devtools
 ##### (2) 创建reducer.js：
      reducer：Reducer 只是一些纯函数，它接收先前的 state 和 action，并返回新的 state
      决定每个 action 如何改变应用的 state
