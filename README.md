@@ -493,8 +493,8 @@
      (3)history：可变的，建议从 <Route> 的 prop 里来获取 location；常用方法：push()  go() 
 ##### WithRouter:让不是路由切换的组件也具有路由切换的三个属性
      function App(){
-        let [val0,setVal0] = userState(0);
-        let [val1,setVal1] = userState(1);
+        let [val0,setVal0] = useState(0);
+        let [val1,setVal1] = useState(1);
        return(
          <div>
                使用数据：{val}----{val1}
@@ -503,58 +503,70 @@
        )
      }
      userState:定义一个状态，返回一个数组[当前状态值，用于更改状态的函数]
+#### Hook
+##### useState: 状态管理
+     const [num,setNum] = useState(0);
+     useState 会返回一对值:num：当前状态和一个让你更新它的函数：setNum();
+     替代类组件的this.state ={} ,setState()
+##### useEffect:它在第一次渲染之后和每次更新之后都会执行指定的操作
+     useEffect(fn,[]) //fn:要执行的操作，[]:监控的数据
+     默认情况下，它在第一次渲染之后和每次监控数据发生更新之后都会执行fn
+     相当于：componentDidMount()和componentDidUpdate() 组件加载和更新时执行同样的操作
+     useEffect 可以在组件渲染后实现各种不同的副作用。有些副作用可能需要清除，所以需要返回一个函数，不必清除，则不需要返回。
+##### useRef:
+##### useCallback:
 #### 16. redux
-          专门的状态管理库，集中管理react中的多个组件的状态
-          需求状态：某个组件的状态需要共享的时候    组件中的状态需要改变另一个组件的状态时
+     专门的状态管理库，集中管理react中的多个组件的状态
+     需求状态：某个组件的状态需要共享的时候    组件中的状态需要改变另一个组件的状态时
 ##### 三大原则：
-          (1)整个应用的 state 被储存在一棵 object tree 中，并且这个 object tree 只存在于唯一一个 store 中；当需要拆分数据处理逻辑时，可使用reducer 组合 而不是创建多个store
-          (2)唯一改变 state 的方法就是触发 action，action 是一个用于描述已发生事件的普通对象
-          (3)使用纯函数来操作：为了描述 action 如何改变 state tree ，你需要编写 reducers
+     (1)整个应用的 state 被储存在一棵 object tree 中，并且这个 object tree 只存在于唯一一个 store 中；当需要拆分数据处理逻辑时，可使用reducer 组合 而不是创建多个store
+     (2)唯一改变 state 的方法就是触发 action，action 是一个用于描述已发生事件的普通对象
+     (3)使用纯函数来操作：为了描述 action 如何改变 state tree ，你需要编写 reducers
 ##### (1) 安装：npm install --save redux
      附加包：React 绑定库、开发者工具
      npm install --save react-redux
 npm install --save-dev redux-devtools
 ##### (2) 创建reducer.js：
-          reducer：Reducer 只是一些纯函数，它接收先前的 state 和 action，并返回新的 state
-          决定每个 action 如何改变应用的 state
-          (previousState, action) => newState
-          例：const products = (state ={list:[],page:1,total:0},action)=>{
-                   switch (action.type) {
-                       case "ADD":
-                           console.log(action);
-                           return {...state};  ////修改redux中的数据，必须在reducer中进行
-                       default:
-                           return state;
-                   }
-               };
+     reducer：Reducer 只是一些纯函数，它接收先前的 state 和 action，并返回新的 state
+     决定每个 action 如何改变应用的 state
+     (previousState, action) => newState
+     例：const products = (state ={list:[],page:1,total:0},action)=>{
+              switch (action.type) {
+                  case "ADD":
+                      console.log(action);
+                      return {...state};  ////修改redux中的数据，必须在reducer中进行
+                  default:
+                      return state;
+              }
+          };
 ###### ·state
-          ·store对象包含所有数据
-          ·获取当前时刻的state：store.getState();
-          ·获取某个时点的数据，多store生成快照： const state = store.getState();
-          · 更新state：dispatch(action)
-          · 注册监听器：subscribe(listener) 注册监听器
-          · 注销监听器：subscribe(listener) 返回的函数注销监听器
+     ·store对象包含所有数据
+     ·获取当前时刻的state：store.getState();
+     ·获取某个时点的数据，多store生成快照： const state = store.getState();
+     · 更新state：dispatch(action)
+     · 注册监听器：subscribe(listener) 注册监听器
+     · 注销监听器：subscribe(listener) 返回的函数注销监听器
 ##### (3) action.js
-          action：发出做某件事的请求，本身不做任何逻辑处理，只是一个纯函数（在js中就是一个普通的对象）
-          action 内必须使用一个字符串类型的type字段来表示将要执行的动作；为了维护命名一致性，一般讲action type汇总到一个actionType.js文件中，写成一个常量
-          action是一个对象，type属性是必要的，标识action的名称；
-          改变内部 state 惟一方法是 dispatch 一个 action
-          在组件中执行某个时间调用action去改变state：props.dispatch({ type:"ADD"})  //
-          nnote：最好通过创建函数生成 action 对象，而不是在你 dispatch 的时候内联生成它们
-          例：export add = (num)=>{
-                    return{
-                         type:"ADD",
-                         data:num
-                      }
-                    }
+     action：发出做某件事的请求，本身不做任何逻辑处理，只是一个纯函数（在js中就是一个普通的对象）
+     action 内必须使用一个字符串类型的type字段来表示将要执行的动作；为了维护命名一致性，一般讲action type汇总到一个actionType.js文件中，写成一个常量
+     action是一个对象，type属性是必要的，标识action的名称；
+     改变内部 state 惟一方法是 dispatch 一个 action
+     在组件中执行某个时间调用action去改变state：props.dispatch({ type:"ADD"})  //
+     nnote：最好通过创建函数生成 action 对象，而不是在你 dispatch 的时候内联生成它们
+     例：export add = (num)=>{
+               return{
+                    type:"ADD",
+                    data:num
+                 }
+               }
 ##### (4) 创建store.js：保存数据的地方，只能有一个store.js
-         store.js: import {createStore} from "redux"
-                   import {data} from "./reducer"
-                   export const store = createStore(data)   //createStore:用于生成store，接受一个函数作为参数，返回新生成的store对象
+    store.js: import {createStore} from "redux"
+              import {data} from "./reducer"
+              export const store = createStore(data)   //createStore:用于生成store，接受一个函数作为参数，返回新生成的store对象
 ##### (5) 在组件中使用
-          react-redux 提供了两个重要的对象，Provider 和 connect；
-          Provider使 React 组件可被连接（connectable）；
-          connect把 React 组件和 Redux 的 store 真正连接起来
+     react-redux 提供了两个重要的对象，Provider 和 connect；
+     Provider使 React 组件可被连接（connectable）；
+     connect把 React 组件和 Redux 的 store 真正连接起来
 ###### Provider组件
      导入：import {Provider} from "react-redux"
           import store from "./store/store";
