@@ -520,6 +520,7 @@
      可看做 componentDidMount，componentDidUpdate 和 componentWillUnmount 的组合
      useEffect 可以在组件渲染后实现各种不同的副作用。有些副作用可能需要清除，所以需要返回一个函数，不必清除，则不需要返回。
 ##### useRef:可变引用useRef()保存可变数据，这些数据在更改时不会触发重新渲染
+     useRef 返回一个可变的 ref 对象，其 .current 属性被初始化为传入的参数（initialValue）。返回的 ref 对象在组件的整个生命周期内保持不变。
      例: const childrenRef = useRef(null)  //函数组件每次 render 之后，childrenRef不会被重复申明
          console.log(childrenRef.current)
 ##### useCallback:可以保证，无论 render 多少次，我们的函数都是同一个函数，减小不断创建的开销
