@@ -469,7 +469,7 @@
           NavLink：是<Link> 的一个特定版本, 会在匹配上当前 URL 的时候会给已经渲染的元素添加样式参数
           2、<Switch>：只渲染出第一个与当前访问地址匹配的 <Route> 若没有匹配则渲染 <Redirect>
           3、<Redirect>：<Redirect> 渲染时将导航到一个新地址，这个新地址覆盖在访问历史信息里面的本该访问的那个地址。
-##### 路由传参
+##### 15.3 路由传参
 ###### (1)prams方式：
      (1)配置参数：<Route path="/home/:name"/>
      (2)发送参数：<Link to='/home/JACK'>跳转到Home</Link>
@@ -479,19 +479,19 @@
      (1)发送：<Link to={{ pathname='/home',query:{name:"JACK"}}}>跳转到Home</Link>
           动态路由方式发送：<button onClick={()=>{ this.props.history.push({pathname='/home',query:{name:"JACK"})}}>点我去Home</button>
      (2)接收：this.props.location.query.name
-##### 路由渲染方式
+##### 15.4 路由渲染方式
      (1)<Route component>:只有当访问不地址和路由匹配时，一个react component才会被渲染；此时组件接受route props(match,location,history)
      (2)<Route render>:适用于内联渲染 不会引起意料之外得中心挂载
      (3)<Route children>：不管地址是否匹配都会被调用
-##### Route的三个属性
+##### 15.5 Route的三个属性
      (1)path(string)：路由匹配路径 如果没有指定path，则该路由每次都会被匹配渲染
      (2)exact(bool)：true：要求path和location.pathname必须完全匹配
      (3)strict(bool)：true:有结尾斜线得路径只能匹配有斜线得location.pathname
-##### 路由切换的三个属性
+##### 15.6 路由切换的三个属性
      (1)location：指你当前的位置，将要去的位置，或是之前所在的位置
      (2)match：match 对象包含了 <Route path> 如何与 URL 匹配的信息,如：params，url，
      (3)history：可变的，建议从 <Route> 的 prop 里来获取 location；常用方法：push()  go() 
-##### WithRouter:让不是路由切换的组件也具有路由切换的三个属性
+##### 15.7 WithRouter:让不是路由切换的组件也具有路由切换的三个属性
      function App(){
         let [val0,setVal0] = useState(0);
         let [val1,setVal1] = useState(1);
@@ -503,8 +503,8 @@
        )
      }
      userState:定义一个状态，返回一个数组[当前状态值，用于更改状态的函数]
-#### Hook
-##### useState: 简单状态管理
+#### 16. Hook
+##### 16.1 useState: 简单状态管理
      const [num,setNum] = useState(0);
      · useState 会返回一对值:num：当前状态和一个让你更新它的函数：setNum();
      · 多次调用useState()，一个函数组件可以拥有多个状态
@@ -514,20 +514,20 @@
        note：一些规则：
        (1) 仅顶层调用 Hook ：不能在循环，条件，嵌套函数等中调用useState()。在多个useState()调用中，渲染之间的调用顺序必须相同。
        (2) 仅从React 函数调用 Hook:必须仅在函数组件或自定义钩子内部调用useState()。
-##### useEffect:Effect Hook 可以让你在函数组件中执行副作用操作（网络请求，监听事件....）
+##### 16.2 useEffect:Effect Hook 可以让你在函数组件中执行副作用操作（网络请求，监听事件....）
       useEffect(fn,[]) //fn:要执行的操作，[]:监控的数据；返回一个回调函数，作用于清除上一次副作用遗留下来的状态
      默认情况下，它在第一次渲染之后和每次监控数据发生更新之后都会执行fn
      可看做 componentDidMount，componentDidUpdate 和 componentWillUnmount 的组合
      useEffect 可以在组件渲染后实现各种不同的副作用。有些副作用可能需要清除，所以需要返回一个函数，不必清除，则不需要返回。
-##### useRef:可变引用useRef()保存可变数据，这些数据在更改时不会触发重新渲染
+##### 16.3 useRef:可变引用useRef()保存可变数据，这些数据在更改时不会触发重新渲染
      useRef 返回一个可变的 ref 对象，其 .current 属性被初始化为传入的参数（initialValue）。返回的 ref 对象在组件的整个生命周期内保持不变。
      例: const childrenRef = useRef(null)  //函数组件每次 render 之后，childrenRef不会被重复申明
          console.log(childrenRef.current)
-##### useCallback:可以保证，无论 render 多少次，我们的函数都是同一个函数，减小不断创建的开销
+##### 16.4 useCallback:可以保证，无论 render 多少次，我们的函数都是同一个函数，减小不断创建的开销
      例： const onClick = useCallback(() => {
            console.log('button click')
           }, [])
-#### 16. redux
+#### 17. redux
      专门的状态管理库，集中管理react中的多个组件的状态
      需求状态：某个组件的状态需要共享的时候、组件中的状态需要改变另一个组件的状态时
 ##### 三大原则：
@@ -621,19 +621,19 @@
           const rootReducer = combineReducers(reducers);
      note:combineReducers包裹的reducer会按照配置顺序进行调用
           每一次reduce调用传递的state都是上一次的state，每个reducer之间互不干扰
-#### 17、异步action处理
+#### 18、异步action处理
      1每个API请求需要diapatch至少三种action：
      (1) 通知reducer请求开始 --- {type:"FETCH-POSTS"}
      (2) 通知reducer请求成功 --- {type:"FETCH-POSTS",status:"success",response:{...}}
      (3) 通知reducer请求失败 --- {type:"FETCH-POSTS",status:"error",error:"Oops}
-##### 17.1 处理异步的方式：中间件
+##### 18.1 处理异步的方式：中间件
      默认情况下，createStore创建的store没有中间件，只支持同步数据流
      使用applyMiddleware()来增强，处理异步问题；
 ###### 中间件Middleware：
      独立运行于各个框架之间的代码，运行在action发送出去到达reducer之间的一段代码，
      本质是一个函数：可以访问请求对象和响应对象，可以对请求进行拦截处理，处理后将控制权向下传递，可以终止请求，向客户端做出响应；
 ###### applyMiddleware():该方法可以使用多个中间件，将所有中间件组成一个数组，依次执行。
-##### 17.2 *** Middleware API:saga
+##### 18.2 *** Middleware API:saga
       redux-saga：是一个用于管理应用程序 Side Effect（例如异步获取数据，访问浏览器缓存等）的 library
       createSagaMiddleware(options): 创建一个 redux middleware，并将saga连接到redux store，通过createStore的第3个参数传入
       middleware.run(saga,...args): 动态运行saga，只能在applyMiddleware阶段之后执行saga
@@ -662,7 +662,7 @@
           const store = createStore(reducer,{},applyMiddleware(sagaMiddleware)); //传入reducer、state、中间件
           export default store
           sagaMiddleware.run(homeSaga);  //最后动态运行一下homeSaga
-##### saga辅助函数：监听action，只要action发送过来，就会触发对应的saga函数调用
+##### 18.3 saga辅助函数：监听action，只要action发送过来，就会触发对应的saga函数调用
 ##### (1) takeEvery(pattern,saga,...args):允许同时启动多个异步任务  
      在发起dispatch到store并且匹配pattern的每个action
      takeEvery('*')（使用通配符 * 模式），能捕获发起的所有类型的 action。
@@ -671,7 +671,7 @@
 ##### (3) throttle(ms,pattern,saga,...args):
      在发起dispatch到store并且匹配pattern的一个action，会执行一个异步，同时会接收一个对应action的异步任务，放到底层buffer(至多保留最近的一个)，
      第一个ms毫秒之内将不会执行异步任务 ？？？
-##### Effect创建器 
+##### 18.4 Effect创建器 
      effect：发送给 middleware 的指令以执行某些操作（Effect 是一个简单的对象，这个对象包含了一些给 middleware 解释执行的信息）
 ###### (1)call(fn, ...args):方法调用，会阻塞
      或者：yield apply(obj, obj.method, [arg1, arg2, ...])
@@ -697,7 +697,10 @@
 ###### (6) cancel(task):取消任务调用
       const task = yield fork(authorize, user, password)
       cancel(task)
-#### 18、懒加载
+#### 19、context
+     Context 提供了一个无需为每层组件手动添加 props，就能在组件树间进行数据传递的方法
+     Context 设计目的是为了共享那些对于一个组件树而言是“全局”的数据
+#### 20、懒加载
 ##### 1、import动态加载
      const MyCom = React.lazy(() => import('./MyCom'));
      React.lazy 接受一个函数，这个函数需要动态调用 import()。它必须返回一个 Promise，该 Promise 需要 resolve 一个 default export 的 React 组件
