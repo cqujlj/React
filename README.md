@@ -697,3 +697,36 @@
 ###### (6) cancel(task):取消任务调用
       const task = yield fork(authorize, user, password)
       cancel(task)
+#### 18、懒加载
+##### 1、import动态加载
+     const MyCom = React.lazy(() => import('./MyCom'));
+     React.lazy 接受一个函数，这个函数需要动态调用 import()。它必须返回一个 Promise，该 Promise 需要 resolve 一个 default export 的 React 组件
+     应在 Suspense 组件中渲染 lazy 组件，如此使得我们可以使用在等待加载 lazy 组件时做优雅降级
+     import {Suspense} from "react"
+     function App(){
+          return(
+               <div>
+                    <suqpense fallback={<div>Loading...</div>}>
+                         <Home/>
+                    </suspense>
+               </div>
+          )
+     }
+     Suspense组件可以包裹多个懒加载组件，可以置于懒加载组件之上的任意位置
+##### 2、路由懒加载
+     const Home = lazy(() => import('./routes/Home'));
+     const About = lazy(() => import('./routes/About'));
+     const App = () => (
+       <Router>
+         <Suspense fallback={<div>Loading...</div>}>
+           <Switch>
+             <Route exact path="/" component={Home}/>
+             <Route path="/about" component={About}/>
+           </Switch>
+         </Suspense>
+       </Router>
+     );
+##### 3、命名导出
+     export const MyComponent = /* ... */;
+     创建一个中间模块，来重新导出为默认模块 export { MyComponent as default } from "./ManyComponents.js";
+     const MyComponent = lazy(() => import("./MyComponent.js"));
