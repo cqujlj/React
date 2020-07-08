@@ -741,6 +741,8 @@
 ##### 21.3 *css module*
      类似于webpack环境配置下可以使用，React脚手架内置了css modules，解决了局部作用域问题
      写法：<div className={style.title}>css modules 样式</div>
+     类名不能使用连接符：className = {style.hemo-title}  无法识别
+     不方便动态修改样式
 ###### (1) css modules产生局部作用域的方法--> 产生唯一的className
      将样式文件输入到style对象，比如style.title代表一个class，构建工具会将类名style.title编译成一个哈希字符串，（唯一的,只对当前组件有效)
 ###### (2) css modules产生全局作用域
@@ -754,9 +756,6 @@
           <div className = {style.text}>ABCD</div> 编译之后变成 <div className = {titleHashx,textHashx}>ABCD</div>
      · 继承其他模块
           .text{ fontSize : 24px; composes : title from './another.css' }
-##### 缺点：
-     类名不能使用连接符：className = {style.hemo-title}  无法识别
-     不方便动态修改样式
 ##### 21.4 css in js：将样式CSS写入到JavaScript中，并且可以方便的使用JavaScript的状态
 #### 22 webpack的配置
 ##### 22.1 安装相关依赖包：
@@ -891,7 +890,7 @@
      高阶函数的定义：至少满足以下条件之一：
      · 接受一个或多个函数作为输入； 输出一个函数；
      · JavaScript中比较常见的filter、map、reduce都是高阶函数。
- *高阶组件 本身不是一个组件，而是一个函数；这个函数的参数是一个组件，返回值也是一个组件*
+      *高阶组件 本身不是一个组件，而是一个函数；这个函数的参数是一个组件，返回值也是一个组件*
      例如：redux中的connect、react-router中的withRouter；
      编写：function higherOrderComponent(WrapperComponent) {
             return class NewComponent extends PureComponent {
