@@ -1,21 +1,21 @@
-# React  
+## 一、 React  
      用于构建用户界面的JavaScript库
      声明式编程、组件化开发、多平台适配、
-## 三个库
+### 1、三个库
 ##### 1、react.js：React的核心库，包含react所必须的核心代码
 ##### 2、react-dom.js：提供操作DOM的react扩展库，react渲染在不同平台所需要的核心代码
 ##### 3、babel.min.js：将ES6代码转换成ES6、jsx语法转换成JavaScript代码
-## 添加依赖
-##### 1、直接CDN引入：
+### 2、添加依赖
+##### (1) 直接CDN引入：
      react依赖：https://unpkg.com/react@16/umd/react.development.js
      react-dom依赖：https://unpkg.com/react-dom@16/umd/react-dom.development.js
      babel依赖：https://unpkg.com/babel-standalone@6/babel.min.js
-##### 2、下载，添加本地依赖
-##### 3、通过npm管理
+##### (2) 下载，添加本地依赖
+##### (3) 通过npm管理
      npm i react --save
      npm i react-dom --save
      npm i babel-standalone --save
-## React生命周期
+### 3React生命周期
 #### 广义上：挂载、渲染、卸载
 ![react lifeCycle](https://github.com/cqujlj/React/blob/master/img/react.jpeg)
 #### 1、初始化阶段 initialization
@@ -25,14 +25,14 @@
        constructor(props) {
                 super(props);   //必须使用super，否则会导致this指向错误
             }
-### 2、挂载阶段 Mounting
+#### 2、挂载阶段 Mounting
 ##### (1) componentWillMount()
        一般在服务端渲染时使用。代表的过程时：组件已由constructor()初始化数据后，但是DOM还没有渲染
 ##### (2) componentDidMount()
       组件第一次渲染完成，DOM节点已经生成；在这里可以调用ajax请求，返回数据setState后组件会重新渲染
 ##### (3)getDerivedStateFromProps
      将传入的props映射到state上面,替代componentWillReceiveProps
-### 3、更新阶段 Update
+#### 3、更新阶段 Update
 ##### (1) componentWillReceiveProps (nextProps)   //新版本是： getDerivedStateFromProps(nextProps, prevState)
       1、在接受父组件改变后的props需要重新渲染组件时用得比较多
       2、接受一个参数：nextProps
@@ -84,13 +84,13 @@
 ##### (5) render()
       render函数会插入jsx生成的dom结构，react会生成一份虚拟DOM树，在每一次组件更新时，在此react会通过其diff算法比较更新前后的新旧DOM树，
       比较以后，找到最小的有差异的DOM节点，并重新渲染。
-### 4、卸载阶段 Unmounting
+#### 4、卸载阶段 Unmounting
 ##### (1) componentWillUnmount ()
       完成组件的卸载和数据的销毁
       1、clear在组件中所有的setTimeout、setInterval
       2、移除所有组件中监听 removeEventlistener
       3、在组件中的ajax请求返回setState,而你组件销毁的时候，请求还未完成，报warning
-## React JavaScript XML（JSX）: 用于申明react当中的元素 
+## 二、 React JavaScript XML（JSX）: 用于申明react当中的元素 
 ### 基本用法：
 #### 1、创建VDOM元素对象(JSX的顶层只能有一个根元素)
       const element = <h1> hello, react </h1>    //note： JSX语法，不是字符串、不是HTML
@@ -697,44 +697,6 @@
 ###### (6) cancel(task):取消任务调用
       const task = yield fork(authorize, user, password)
       cancel(task)
-#### 19、context
-     Context 提供了一个无需为每层组件手动添加 props，就能在组件树间进行数据传递的方法
-     Context 设计目的是为了共享那些对于一个组件树而言是“全局”的数据
-     例：
-          // Context 可以让我们无须明确地传遍每一个组件，就能将值深入传递进组件树。
-          // 为当前的 theme 创建一个 context（“light”为默认值）。
-          const ThemeContext = React.createContext('light');
-          class App extends React.Component {
-            render() {
-              // 使用一个 Provider 来将当前的 theme 传递给以下的组件树。
-              // 无论多深，任何组件都能读取这个值。
-              // 在这个例子中，我们将 “dark” 作为当前的值传递下去。
-              return (
-                <ThemeContext.Provider value="dark">
-                  <Toolbar />
-                </ThemeContext.Provider>
-              );
-            }
-          }
-
-          // 中间的组件再也不必指明往下传递 theme 了。
-          function Toolbar() {
-            return (
-              <div>
-                <ThemedButton />
-              </div>
-            );
-          }
-
-          class ThemedButton extends React.Component {
-            // 指定 contextType 读取当前的 theme context。
-            // React 会往上找到最近的 theme Provider，然后使用它的值。
-            // 在这个例子中，当前的 theme 值为 “dark”。
-            static contextType = ThemeContext;
-            render() {
-              return <Button theme={this.context} />;
-            }
-          }
 #### 20、懒加载
 ##### 20.1 import动态加载
      const MyCom = React.lazy(() => import('./MyCom'));
@@ -868,4 +830,85 @@
          · Plugins由数组中的第一个plugin开始依次执行。
          · Presets与Plugins执行顺序相反，由数组中最后一个preset开始执行
          · 完整的plugins文档：https://babeljs.io/docs/en/plugins
-#### 高阶组件
+## 三、 高阶教程
+#### 1、context
+     Context 提供了一个无需为每层组件手动添加 props，就能在组件树间进行数据传递的方法
+     Context 设计目的是为了共享那些对于一个组件树而言是“全局”的数据
+     例：
+          // Context 可以让我们无须明确地传遍每一个组件，就能将值深入传递进组件树。
+          // 为当前的 theme 创建一个 context（defaultValue)
+          const ThemeContext = React.createContext({nackName:"nini",age:17});  
+      在函数组件中使用context：
+      组件ProfileHeader：
+           function ProfileHeader(props) {
+            return (
+              <div>
+                <UserContext.Consumer>  //订阅context的变更
+                  {value => {
+                    return (
+                      <div>
+                        <h2>用户昵称: {value.nickname}</h2>
+                        <h2>用户等级: {value.level}</h2>
+                      </div>
+                    )
+                  }}
+                </UserContext.Consumer>
+              </div>
+            )
+          }
+          const ThemeContext = React.createContext({nickName:"NINI",age:"31"})
+        组件Profile:
+          function Profile(){
+               return(
+                    <div>
+                         <UserContext.Consumer>
+                                {value => {
+                                  return (
+                                    <ThemeContext.Consumer>
+                                      {
+                                        theme => (
+                                          <div>
+                                            <ProfileHeader/>  //这里取到ThemeContext的值
+                                            <h2 style={theme}>用户昵称: {value.nickname}</h2>  //这里取ThemeContext  '就近原则'
+                                            <h2 style={theme}>用户等级: {value.level}</h2>
+                                          </div>
+                                        )
+                                      }
+                                    </ThemeContext.Consumer>
+                                  )
+                                }}
+                         </UserContext.Consumer>
+                    </div>
+               )
+          }
+#### 2、事件总线
+     安装：npm install events
+     创建EventEmitter对象：eventBus对象；
+     发出事件：eventBus.emit("事件名称", 参数列表);
+     监听事件：eventBus.addListener("事件名称", 监听函数)；
+     移除事件：eventBus.removeListener("事件名称", 监听函数)；
+#### 3、高阶组件：高阶组件是参数为组件，返回值为新组件的函数
+     高阶函数的定义：至少满足以下条件之一：
+     · 接受一个或多个函数作为输入； 输出一个函数；
+     · JavaScript中比较常见的filter、map、reduce都是高阶函数。
+ *高阶组件 本身不是一个组件，而是一个函数；这个函数的参数是一个组件，返回值也是一个组件*
+     例如：redux中的connect、react-router中的withRouter；
+     编写：function higherOrderComponent(WrapperComponent) {
+            return class NewComponent extends PureComponent {
+              render() {
+                return <WrapperComponent/>
+              }
+            }
+          }
+          class App extends PureComponent {
+            render() {
+              return (
+                <div>
+                  App
+                </div>
+              )
+            }
+          }
+         //调用 const EnhancedComponent = higherOrderComponent(WrappedComponent);
+          export default EnhancedComponent：
+          ？？？？？？？？
