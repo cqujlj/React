@@ -768,3 +768,32 @@
      export const MyComponent = /* ... */;
      创建一个中间模块，来重新导出为默认模块 export { MyComponent as default } from "./ManyComponents.js";
      const MyComponent = lazy(() => import("./MyComponent.js"));
+#### 21 React中的css
+##### 21.1 内联样式：
+     <div style={{color:"red",fontSize:"24px"}}>内联样式</div>
+     样式之间不会冲突，可以动态获取state的状态，动态改变样式；
+     驼峰写法
+##### 21.2 普通css样式
+     普通css就是全局css，任何一个组件的样式规则对整个页面都有效，会导致样式冲突
+     解决方法：使用唯一的className
+##### 21.3 *css module*
+     类似于webpack环境配置下可以使用，React脚手架内置了css modules，解决了局部作用域问题
+     写法：<div className={style.title}>css modules 样式</div>
+###### (1) css modules产生局部作用域的方法--> 产生唯一的className
+     将样式文件输入到style对象，比如style.title代表一个class，构建工具会将类名style.title编译成一个哈希字符串，（唯一的,只对当前组件有效)
+###### (2) css modules产生全局作用域
+     global(.className):声明一个全局规则，这个类名则不会被编译成hash字符串，对整个页面有效
+     :local(.className)是显示的局部作用域语法
+##### (3) 配置webpack运用相关loader（见下下一个问题）
+##### (4) class的组件
+     · 一个选择器可以选择继承另一个选择器的规则，成为组合composition
+          .title{ color : red}   
+          .text{ fontSize : 24px, composes : title}
+          <div className = {style.text}>ABCD</div> 编译之后变成 <div className = {titleHashx,textHashx}>ABCD</div>
+     · 继承其他模块
+          .text{ fontSize : 24px; composes : title from './another.css' }
+##### 缺点：
+     类名不能使用连接符：className = {style.hemo-title}  无法识别
+     不方便动态修改样式
+##### 21.4 css in js：将样式CSS写入到JavaScript中，并且可以方便的使用JavaScript的状态
+#### webpack的配置
