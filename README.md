@@ -796,4 +796,74 @@
      类名不能使用连接符：className = {style.hemo-title}  无法识别
      不方便动态修改样式
 ##### 21.4 css in js：将样式CSS写入到JavaScript中，并且可以方便的使用JavaScript的状态
-#### webpack的配置
+#### 22 webpack的配置
+##### 22.1 安装相关依赖包：
+     全局安装webpack：npm i webpack -g
+     安装babel相关包：babel-loader @babel.core  @babel/preset-env @babel/preset-react @babel/runtime ......
+     安装处理样式的依赖包：npm install -D less-loader css-loader style-loader
+     安装处理图片文件的依赖包：npm install -D url-loader file-loader ......
+##### 22.2 配置webpack.config.js文件
+     const path = require("path");
+     const webpack = require("webpack");
+     const config = {
+     /*文件入口，一般是src下的index.js是整个项目的入口*/
+       entry: './src/index.js',
+       /*文件出口：path：用于输出文件的文件名；filename：输出文件名 publicPath：*/
+       output:{
+          path : __dirname+ '/res/js',
+          filename : '[name].js',
+          publicPath: 'http://127.0.0.1:3002/js/'   /*publicPath 可以留空，并且在入口起点文件运行时动态设置*/
+       },
+       resolve : {
+          extensions : ['.js','.jsx'],   //表示js  jsx文件不写后缀也可以引用
+          alias: { '@': resolve('src')    }  //配置别名 // 这样配置后 @ 可以指向 src 目录
+       },
+       module:{
+          rules:[
+                    {
+                         test: /\/.(jsx|js)?$/,  //编译js jsx文件，使用babel-loader
+                         exclude: /node_modules/,  //该目录下的js jsx文件不打包
+                         loader: 'babel-loader'  //options和plugins配置在文件.babelrc中配置
+                    },
+                    {
+                         test:/\.less$/,  //编译less文件，使用['style-loader','css-loader','less-loader']  注意顺序，Webpack Loader 解析顺序从右向左
+                         use:[
+                              'style-loader',
+                              'css-loader?modules&localIndentName = [path][name]---[local]---[hash:base64:5]',
+                              'less-loader'
+                         ]
+                    },
+                    {
+                         test:/\.css$/,  //编译css文件
+                         loader:'style-loader!css-loader'
+                         
+                    },
+                    {
+                         test:/\.(png|jpg|jpeg|svg|gif)?$/,
+                         loader:'url-loader?limit=8192'
+                    },
+               ]
+       }
+     };
+     module.exports = config;
+###### .babelrc配置
+     {
+          "presets":[
+               [
+                    "@babel/preset-env",   //根据配置转换成浏览器支持的语法 ES6 ES7 --> ES5
+                    {
+                         "useBuiltIns":"usage",
+                         "debug":false
+                    }
+               ],
+               "@babel/preset-react"   //用于react语法转换
+          ],
+          "plugins": [
+               "@babel/plugin-proposal-export-default-form",
+               "@babel/plugin-proposal-class-properties"
+          ]
+     }
+     babel执行presets和plugins的顺序如下：
+         · Plugins先于Presets执行。
+         · Plugins由数组中的第一个plugin开始依次执行。
+         · Presets与Plugins执行顺序相反，由数组中最后一个preset开始执行
