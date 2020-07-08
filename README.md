@@ -539,7 +539,7 @@
      npm install --save react-redux
      npm install --save-dev redux-devtools
 ##### (2) 创建reducer.js：
-     reducer：Reducer 只是一些纯函数，它接收先前的 state 和 action，并返回新的 state
+     reducer：Reducer 只是一些纯函数(高阶函数)，它接收先前的 state 和 action，并返回新的 state
      决定每个 action 如何改变应用的 state
      (previousState, action) => newState
      例：const products = (state ={list:[],page:1,total:0},action)=>{
@@ -736,7 +736,7 @@
             }
           }
 #### 20、懒加载
-##### 1、import动态加载
+##### 20.1 import动态加载
      const MyCom = React.lazy(() => import('./MyCom'));
      React.lazy 接受一个函数，这个函数需要动态调用 import()。它必须返回一个 Promise，该 Promise 需要 resolve 一个 default export 的 React 组件
      应在 Suspense 组件中渲染 lazy 组件，如此使得我们可以使用在等待加载 lazy 组件时做优雅降级
@@ -751,7 +751,7 @@
           )
      }
      Suspense组件可以包裹多个懒加载组件，可以置于懒加载组件之上的任意位置
-##### 2、路由懒加载
+##### 20.2 路由懒加载
      const Home = lazy(() => import('./routes/Home'));
      const About = lazy(() => import('./routes/About'));
      const App = () => (
@@ -764,7 +764,7 @@
          </Suspense>
        </Router>
      );
-##### 3、命名导出
+##### 20.3 命名导出
      export const MyComponent = /* ... */;
      创建一个中间模块，来重新导出为默认模块 export { MyComponent as default } from "./ManyComponents.js";
      const MyComponent = lazy(() => import("./MyComponent.js"));
@@ -846,7 +846,7 @@
        }
      };
      module.exports = config;
-###### .babelrc配置
+###### .babelrc配置 （适用于简单的静态配置）
      {
           "presets":[
                [
@@ -867,3 +867,5 @@
          · Plugins先于Presets执行。
          · Plugins由数组中的第一个plugin开始依次执行。
          · Presets与Plugins执行顺序相反，由数组中最后一个preset开始执行
+         · 完整的plugins文档：https://babeljs.io/docs/en/plugins
+#### 高阶组件
