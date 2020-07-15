@@ -595,13 +595,24 @@
                把store的数组作为props绑定到组件上
                state：redux中的state
                ownProps：是组件自己的props
+                    例： const mapStateToProps = state =>{
+                              return{
+                                   userMessage: state.uerState,
+                                   projectMessage: state.projectState
+                              }
+                         }
           (2) mapDispatchToProps(dispatch,ownProps)
                将 action 作为 props 绑定到组件上
                dispatch:是store中的dispatch
+                    例：requestActions是redux action，requestFunc是action内的一个函数 dispatch 'request' 就会触发saga里面的数据请求
+                    const mapDispatch = dispatch =>({
+                         requestData: params => dispatch(requestActions.requestFunc('request', {...params}))   
+                    })
+                    在UI发起数据请求：this.props.requestData({...你要传入的参数});
           (3) mergeProps <—— Object.assign ：将stateProps、dispatchProps和ownProps进行合并
-          (4) options
-          例：  const mapStateToProps = state => state
-                export default connect(mapStateToProps) (withRouter(Frame));
+          (4) option
+                使用connect来包裹你的MyCom connect(mapStateToProps,mapDispatch) (withRouter(MyCom));
+                这样，组件MyCom的props里面就有以上的函数和state，可以直接调用；this.props.xxxx
 ###### 在Product.js组件使用redux的state
           import {connect} from "react-redux"  //导入connect
           import {loadProduct} from "../../../store/actions/productAction";  //导入action方法
