@@ -30,7 +30,8 @@
        一般在服务端渲染时使用。代表的过程时：组件已由constructor()初始化数据后，但是DOM还没有渲染
 ##### (2) componentDidMount()
       组件第一次渲染完成，DOM节点已经生成；在这里可以调用ajax请求，返回数据setState后组件会重新渲染
-##### (3)getDerivedStateFromProps
+##### (3)get
+ivedStateFromProps
      将传入的props映射到state上面,替代componentWillReceiveProps
 #### 3、更新阶段 Update
 ##### (1) componentWillReceiveProps (nextProps)   //新版本是： getDerivedStateFromProps(nextProps, prevState)
@@ -66,6 +67,22 @@
                  }
                  return null;
                }
+##### getDerivedStateFromProps(props,state)
+     getDerivedStateFromProps 会在调用 render 方法之前调用，并且在初始挂载及后续更新时都会被调用。
+     它应返回一个对象来更新 state，如果返回 null 则不更新任何内容
+     此方法适用于罕见的用例，即 state 的值在任何时候都取决于 props
+     例:static getDerivedStateFromProps(props, state) {
+         // 只要当前 user 变化，
+         // 重置所有跟 user 相关的状态。
+         // 这个例子中，只有 email 和 user 相关。
+         if (props.userID !== state.prevPropsUserID) {
+           return {
+             prevPropsUserID: props.userID,
+             email: props.defaultEmail
+           };
+         }
+         return null;
+       }
 ##### (2) shouldComponentUpdate(nextProps,nextState)
       1、主要用于性能优化；唯一用于控制组件重新渲染的生命周期。
       2、由于setState之后，state会发生变化，组件会进入重新渲染的流程，return false可以组织组件的更新；
