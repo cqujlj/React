@@ -110,7 +110,12 @@
       完成组件的卸载和数据的销毁
       1、clear在组件中所有的setTimeout、setInterval
       2、移除所有组件中监听 removeEventlistener
-      3、在组件中的ajax请求返回setState,而你组件销毁的时候，请求还未完成，报warning
+      3、在组件中的ajax请求返回setState,而你组件销毁的时候，请求还未完成，报warning   
+###### 总结
+     类组件的一个组件的生命周期被划分为类render和commit两个阶段；render阶段主要负责组件渲染相关，包括对渲染函数state的更新，为了防止一次更新中render阶段重复执行
+     React将阶段可能引入side effect的生命周期函数componentWillReceiveProps、componentWillUpdate，componentWillUnMount等函数移除
+     针对需要通过props计算derived计算 derived state的需求，提供静态函数getDerivedStateFromProps；
+     针对获取更新前DOM元素的需求，React提供了getSnapshotBeforeUpdate生命周期函数
 ## 二、 React JavaScript XML（JSX）: 用于申明react当中的元素 
 ### 基本用法：
 #### 1、创建VDOM元素对象(JSX的顶层只能有一个根元素)
