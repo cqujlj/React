@@ -32,6 +32,7 @@
       组件第一次渲染完成，DOM节点已经生成；在这里可以调用ajax请求，返回数据setState后组件会重新渲染
 ##### (3) getDerivedStateFromProps(props,state)
       getDerivedStateFromProps 会在调用 render 方法之前调用，并且在初始挂载及后续更新时都会被调用。
+      无论是Mounting还是Updating，也无论是因为什么引起的Updating，全部都会被调用
       将传入的props映射到state上面,替代componentWillReceiveProps
       它应返回一个对象来更新 state，如果返回 null 则不更新任何内容
       此方法适用于罕见的用例，即 state 的值在任何时候都取决于 props
@@ -942,3 +943,16 @@
          //调用 const EnhancedComponent = higherOrderComponent(WrappedComponent);
           export default EnhancedComponent：
           ？？？？？？？？
+#### 4 React性能优化
+##### 4.1 shouldComponentUpdate
+     在react的生命周期里，通过shouldComponentUpdate来判断props和state的数据是否发生变化，
+     有变化返回true，触发render，没变化则返回false，不触发render
+##### 4.2 PureComponent
+     PureComponent可以进行react性能优化，避免不必要的render渲染
+     原理：继承了react.component，自动加载 shouldComponentUpdate，
+          当组件更新时，shouldComponentUpdate通过props和state的浅比较来实现shouldComponentUpdate，
+          如果props和state没有发生变化，则返回false，不会触发render()
+          某些情况下可以用PureComponent提升性能
+###### note：
+     PureComponent是浅比较，确保比较的数据类型是值类型
+     如果是引用类型，不应当有深层次的数据变化
