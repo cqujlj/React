@@ -647,6 +647,24 @@ props/state发生改变 --> 触发render执行 --> 产生新的DOM树 -->  新�
      useRef 返回一个可变的 ref 对象，其 .current 属性被初始化为传入的参数（initialValue）。返回的 ref 对象在组件的整个生命周期内保持不变。
      例: const childrenRef = useRef(null)  //函数组件每次 render 之后，childrenRef不会被重复申明
          console.log(childrenRef.current)
+         例：function CustomTextInput(props) {
+                 const textInput = useRef(null);  // 这里必须声明 textInput，这样 ref 才可以引用它
+                 function handleClick() {
+                   textInput.current.focus();
+                 }
+                 return (
+                   <div>
+                     <input
+                       type="text"
+                       ref={textInput} />
+                     <input
+                       type="button"
+                       value="Focus the text input"
+                       onClick={handleClick}
+                     />
+                   </div>
+                 );
+               }
 ##### 16.4 useCallback:可以保证，无论 render 多少次，我们的函数都是同一个函数，减小不断创建的开销
      例： const onClick = useCallback(() => {
            console.log('button click')
