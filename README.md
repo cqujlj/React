@@ -256,7 +256,110 @@
 ###### (3)修改state
      this.setState({ isShowText : !this.state.isShowText})
      note：state是组件内部的状态（数据），不能够直接修改，必须要通过setState来改变值的状态，从而达到更新组件内部数据的作用
-##### 7.2 props 
+##### 7.2 setState({},fn):从React.Component继承来的
+###### 7.2.1 原理:
+     Component.prototype.setState = function(partialState, callback) {
+       invariant(
+         typeof partialState === 'object' ||
+           typeof partialState === 'function' ||
+           partialState == null,
+         'setState(...): takes an object of state variables to update or a ' +
+           'function which returns an object of state variables.',
+       );
+       this.updater.enqueueSetState(this, partialState, callback, 'setState');
+     };
+     通过调用setState来修改数据：
+     当我们调用setState时，会重新执行render函数，根据最新的State来创建ReactElement对象；
+     再根据最新的ReactElement对象，对DOM进行修改
+###### 7.2.2 同步和异步
+###### 在组件生命周期或React合成事件中，setState是异步；
+    changeText() {
+       this.setState({
+         message: "newValue"
+       })
+       console.log(this.state.message); // oldValue
+     }
+     设计为异步的原因：避免频繁的render；因此会在获取道多个更新值之后才会批量render
+     setSatate有两个参数，第二个参数为回调函数，回调函数会在更新后会执行，可以在回调函数中获立即取更新后的值
+     或者在生命周期componentDidUpdate中立即获取更新后的值
+     changeText() {
+       this.setState({
+         message: "newValue"
+       }, () => {
+         console.log(this.state.message); // newValue
+       });
+        console.log(this.state.message); // oldValue
+     }
+###### 在setTimeout或者原生dom事件中，setState是同步的
+    例： changeText() {
+            setTimeout(() => {
+              this.setState({
+                message: "newValue"
+              });
+              console.log(this.state.message); // newValue
+            }, 0);
+          }
+     例： const btnEl = document.getElementById("btn");
+            btnEl.addEventListener('click', () => {
+              this.setState({
+                message: "newValue"
+              });
+              console.log(this.state.message); // newValue
+            })
+###### 7.2.3 state合并
+     setSatte的源码中源码中其实是有对 原对象 和 新对象进行合并的
+     例：add(){
+          this.setState({
+               count:this.count+1
+          })
+          this.setState({
+               count:this.count+1
+          })
+          this.setState({
+               count:this.count+1
+          })
+          }
+          执行add(),count不会+3，而是被合并了，只会+1；若想+3，可以在回调函数中操作
+     例：
+     add(){
+          this.setState((state)=>{
+               return{
+                     count:this.count+1
+               }
+          })
+          this.setState((state)=>{
+               return{
+                     count:this.count+1
+               }
+          })
+           this.setState((state)=>{
+               return{
+                     count:this.count+1
+               }
+          })
+        }
+        执行add(),count会+3；因为state进行合并时，每次遍历都会调用回调函数
+###### 7.2.4 react重新渲染流程
+props/state发生改变 --> 触发render执行 --> 产生新的DOM树 -->  新旧DOM比较(diff) --> 比较产生差异进行更新 --> patch到真实DOM树
+###### 7.2.5 diff算法
+     （1）对比不同类型的元素
+     （2）对比同一类型的元素
+      (3) 对子节点进行递归
+##### (附7) React性能优化
+##### (附7.1) shouldComponentUpdate
+     在react的生命周期里，通过shouldComponentUpdate来判断props和state的数据是否发生变化，
+     有变化返回true，触发render，没变化则返回false，不触发render
+##### (附7.2) PureComponent
+     PureComponent可以进行react性能优化，避免不必要的render渲染
+     原理：继承了react.component，自动加载 shouldComponentUpdate，
+          当组件更新时，shouldComponentUpdate通过props和state的浅比较来实现shouldComponentUpdate，
+          如果props和state没有发生变化，则返回false，不会触发render()
+          某些情况下可以用PureComponent提升性能
+###### note：
+     PureComponent是浅比较，确保比较的数据类型是值类型
+     如果是引用类型，不应当有深层次的数据变化
+
+##### 7.3 props 
      组件内部的this.props属性是只读的不可修改，子组件只能通过props来传递参数
 代码示例：[props的基本用法](https://github.com/cqujlj/React/blob/master/html/html/05-components-props.html)
 ###### 在函数组件中使用：props.属性名
@@ -943,16 +1046,3 @@
          //调用 const EnhancedComponent = higherOrderComponent(WrappedComponent);
           export default EnhancedComponent：
           ？？？？？？？？
-#### 4 React性能优化
-##### 4.1 shouldComponentUpdate
-     在react的生命周期里，通过shouldComponentUpdate来判断props和state的数据是否发生变化，
-     有变化返回true，触发render，没变化则返回false，不触发render
-##### 4.2 PureComponent
-     PureComponent可以进行react性能优化，避免不必要的render渲染
-     原理：继承了react.component，自动加载 shouldComponentUpdate，
-          当组件更新时，shouldComponentUpdate通过props和state的浅比较来实现shouldComponentUpdate，
-          如果props和state没有发生变化，则返回false，不会触发render()
-          某些情况下可以用PureComponent提升性能
-###### note：
-     PureComponent是浅比较，确保比较的数据类型是值类型
-     如果是引用类型，不应当有深层次的数据变化
