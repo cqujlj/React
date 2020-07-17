@@ -633,47 +633,65 @@ props/state发生改变 --> 触发render执行 --> 产生新的DOM树 -->  新�
      }
      userState:定义一个状态，返回一个数组[当前状态值，用于更改状态的函数]
 #### 16. Hook
-##### 16.1 useState: 简单状态管理
-     const [num,setNum] = useState(0);
-     · useState 会返回一对值:num：当前状态和一个让你更新它的函数：setNum();
-     · 多次调用useState()，一个函数组件可以拥有多个状态
-     替代类组件的this.state ={} ,setState()
-     例：const [state, setState] = useState(initialState);    //启用函数组件中的状态
+     Hook只能在函数组件中使用，为函数式组件添加了一些类组件中才会又得一些特性，让你在不编写 class 的情况下使用 state 以及其他的 React 特性
+     可通过useState()为组件添加state，通过useEffect可以在函数式组件中实现class组件生命周期函数的功能
+##### state的存储：
+##### 组件更新 --> firstCurrentHook=FiberNode.memoizedState --> 执行组件函数 --> firstCurrentHook=null --> FiberNode.memoizedState=firstWorkProgressHook
+     同一个组件的Hook都是以链表的形式组织，每个hook.next指向下一个被声明的hook，故只需要找到第一个hook(forstWorkProgressHook即可)
+     组件的 FiberNode.memoizedState 指向组件的第一个hook
+     更新过程中的state都保存在FiberNode.memoizedState属性中
+     当组件被销毁时，hooks才会被销毁
+##### 16.1 useState: 简单状态管理；用于给函数式组件提供能够持久化存储并能将变化映射到视图上的状态state hook；类似类组件的state
+     · useState 会返回一个数据；数组第一个元素是state对象，第二个元素是一个dispatch方法，用于更新state; 相当于类组件的this.state ={} ,setState()
+     · 多次调用useState()，一个函数组件可以拥有多个状态   
+     例： const [state, setState] = useState(initialState);    //启用函数组件中的状态
           setState(newState) 或  setState(state => state + 1)   //更新组件状态；组件重新渲染后，状态接收新值newState
-       note：一些规则：
+          注意：因为每次调用setXXX都是更新整个state，所以定义state时尽量颗粒化，不要把一个state定义成大对象
+      
+      note：一些规则：
        (1) 仅顶层调用 Hook ：不能在循环，条件，嵌套函数等中调用useState()。在多个useState()调用中，渲染之间的调用顺序必须相同。
        (2) 仅从React 函数调用 Hook:必须仅在函数组件或自定义钩子内部调用useState()。
-##### 16.2 useEffect:Effect Hook 可以让你在函数组件中执行副作用操作（网络请求，监听事件....）
-      useEffect(fn,[]) //fn:要执行的操作，[]:监控的数据；返回一个回调函数，作用于清除上一次副作用遗留下来的状态
+       (3) 将state初始化函数作为参数传入useState，因此state初始化函数只有在第一次调用useState函数时才会执行
+##### 16.2 useEffect:useEffect函数用于创建effect hook，用于在函数式组件的更行后执行一些 side effscts，相当于类组件的componentDidMount、componentDidUpdate
+    useEffect(fn,[]) //fn:要执行的操作，[]:监控的数据；返回一个回调函数，作用于清除上一次副作用遗留下来的状态
      默认情况下，它在第一次渲染之后和每次监控数据发生更新之后都会执行fn
-     可看做 componentDidMount，componentDidUpdate 和 componentWillUnmount 的组合
      useEffect 可以在组件渲染后实现各种不同的副作用。有些副作用可能需要清除，所以需要返回一个函数，不必清除，则不需要返回。
-##### 16.3 useRef:可变引用useRef()保存可变数据，这些数据在更改时不会触发重新渲染
-     useRef 返回一个可变的 ref 对象，其 .current 属性被初始化为传入的参数（initialValue）。返回的 ref 对象在组件的整个生命周期内保持不变。
-     例: const childrenRef = useRef(null)  //函数组件每次 render 之后，childrenRef不会被重复申明
-         console.log(childrenRef.current)
-         例：function CustomTextInput(props) {
-                 const textInput = useRef(null);  // 这里必须声明 textInput，这样 ref 才可以引用它
-                 function handleClick() {
-                   textInput.current.focus();
-                 }
-                 return (
-                   <div>
-                     <input
-                       type="text"
-                       ref={textInput} />
-                     <input
-                       type="button"
-                       value="Focus the text input"
-                       onClick={handleClick}
-                     />
-                   </div>
-                 );
+     例：实现键盘监听以及取消监听
+          useEffect( () => {
+               window.addEventListener('keydown',writing,false);
+               return () =>{
+                    windowremoveEventListener('keydown',writeing,false);
                }
+          })
+     （1）useEffect的第一个参数是一个函数，该函数在组件渲染完成后执行，主要处理一些side effect；
+     useEffect的输入函数可以返回一个函数，该函数在每次组件重新渲染前以及组件UnMount前执行
+     函数式组件重新渲染时，先执行effect hook的返回函数，再执行effect hook；对于上个例子来说就是先remove 再add
+     （2）useEffect的第二个参数是一个数组；只有当该数组中的某个state或者prpos改变时，该effect hook才会被调用
+     note：此时effect hook以及在其间的回调函数只能访问到useEffect数组参数中的state和props的最新值，其他state和props只能获取道初始值
+##### 16.3 useRef:
+###### 获取组件的ref
+###### 实现类似于类组件的实例属性this.XXX,通过useRef方法返回对象的current属性进行读写
+     例：
+          function FocusInput(){
+               const inputEl = useRef(null);   //函数组件每次 render 之后，inputElRef不会被重复申明
+     // useRef 返回一个可变的 ref 对象，其 .current 属性被初始化为传入的参数（initialValue）。返回的 ref 对象在组件的整个生命周期内保持不变。
+               const onButtonClick= () =>{
+                    console.log('聚焦到input框内')
+                    inputEl.current.focus();
+               }
+               return(
+                    <>
+                         <input ref={inputEl} type='text/>
+                         <button onClick={onButtonClick}>点击聚焦到input</button>
+                    </>
+               )
+          }
 ##### 16.4 useCallback:可以保证，无论 render 多少次，我们的函数都是同一个函数，减小不断创建的开销
      例： const onClick = useCallback(() => {
            console.log('button click')
           }, [])
+##### 16.5 useReducer:实现redux中的reducer功能，当state的逻辑比较复杂的时候，可以考虑使用useReducer来定义一个state hook
+     ？？？？？
 #### 17. redux
      专门的状态管理库，集中管理react中的多个组件的状态
      需求状态：某个组件的状态需要共享的时候、组件中的状态需要改变另一个组件的状态时
