@@ -693,8 +693,32 @@ props/state发生改变 --> 触发render执行 --> 产生新的DOM树 -->  新�
 ##### 16.5 useReducer:实现redux中的reducer功能，当state的逻辑比较复杂的时候，可以考虑使用useReducer来定义一个state hook
      useReducer 接受一个 reducer 函数作为参数，reducer 接受两个参数一个是 state 另一个是 action ；
      然后返回一个状态 count 和 dispath，count 是返回状态中的值，而 dispatch 是一个可以发布事件来更新 state 的
-     例：
+     例：function Test(){
+          const [count,dispatch]=userReducer((state,action)=>{
+               switch(action.type){
+                    case 'add':
+                         return state+1;
+                    case 'sub':
+                         return state-1;
+                    default:
+                         return state;     
+               }
+          },0);
           
+          return(
+               <div>
+                    <h1>{count}</h1>
+                    <button onClick={()=> dispatch({type:'add'})}>+1</button>
+                    <button onClick={()=> dispatch({type:'sub'})}>-1</button>
+                    {*在 button 中调用 dispatch 发布 add 事件，发布 add 事件后就会在 reducer 根据其类型对 state 进行对应操作，更新 state*}
+               </div>
+          )
+     }
+##### 16.5 useMemo：代替shouldComponentUpdate
+     useMemo(() => {console.log('修改了数组内的数据')},[a,b])
+##### hook使用规则
+     1、不再非react函数式组件外调用useXXX
+     2、不在条件语句中调用useXXX
 #### 17. redux
      专门的状态管理库，集中管理react中的多个组件的状态
      需求状态：某个组件的状态需要共享的时候、组件中的状态需要改变另一个组件的状态时
@@ -1011,11 +1035,12 @@ props/state发生改变 --> 触发render执行 --> 产生新的DOM树 -->  新�
 ## 三、 高阶教程
 #### 1、context
      Context 提供了一个无需为每层组件手动添加 props，就能在组件树间进行数据传递的方法
-     Context 设计目的是为了共享那些对于一个组件树而言是“全局”的数据
+     Context 设计目的是为了共享那些对于一个组件树而言是“全局”的数据；
+     主要解决React组件书非父子组件的状态共享问题，以及子组件与祖先组件之前多层props传递繁琐的问题
      例：
           // Context 可以让我们无须明确地传遍每一个组件，就能将值深入传递进组件树。
           // 为当前的 theme 创建一个 context（defaultValue)
-          const ThemeContext = React.createContext({nackName:"nini",age:17});  
+       const ThemeContext = React.createContext({nackName:"nini",age:17});  
       在函数组件中使用context：
       组件ProfileHeader：
            function ProfileHeader(props) {
@@ -1059,6 +1084,12 @@ props/state发生改变 --> 触发render执行 --> 产生新的DOM树 -->  新�
                     </div>
                )
           }
+###### createContext：用于创建一个Context对象，该对象支持订阅发布功能;
+     组件可以通过Context.Provider发布一个新的值，其所有订阅了该Context对象的子组件就可以即时获取到更新后的值；如果没有搜索到Context.Provider，则使用默认值
+###### Context.Provider: 用于发布Context，Provider的子组件会从context.provider组件的value属性获取Context值
+###### Context.Consumer：监听Context的变化；
+     当Context.Provider.value属性发生变化时，该Provider组件下的所有Consumer组件都会重新渲染，并且不受shouldCmponentUpdate返回值的影响
+     Consumer采用render props模式，其子组件作为一个函数，函数参数为其监听的Context的值
 #### 2、事件总线
      安装：npm install events
      创建EventEmitter对象：eventBus对象；
