@@ -691,7 +691,10 @@ props/state发生改变 --> 触发render执行 --> 产生新的DOM树 -->  新�
            console.log('button click')
           }, [])
 ##### 16.5 useReducer:实现redux中的reducer功能，当state的逻辑比较复杂的时候，可以考虑使用useReducer来定义一个state hook
-     ？？？？？
+     useReducer 接受一个 reducer 函数作为参数，reducer 接受两个参数一个是 state 另一个是 action ；
+     然后返回一个状态 count 和 dispath，count 是返回状态中的值，而 dispatch 是一个可以发布事件来更新 state 的
+     例：
+          
 #### 17. redux
      专门的状态管理库，集中管理react中的多个组件的状态
      需求状态：某个组件的状态需要共享的时候、组件中的状态需要改变另一个组件的状态时
