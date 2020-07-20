@@ -664,13 +664,17 @@ props/state发生改变 --> 触发render执行 --> 产生新的DOM树 -->  新�
                }
           })
      （1）useEffect的第一个参数是一个函数，该函数在组件渲染完成后执行，主要处理一些side effect；
-     useEffect的输入函数可以返回一个函数，该函数在每次组件重新渲染前以及组件UnMount前执行
-     函数式组件重新渲染时，先执行effect hook的返回函数，再执行effect hook；对于上个例子来说就是先remove 再add
-     （2）useEffect的第二个参数是一个数组；只有当该数组中的某个state或者prpos改变时，该effect hook才会被调用
+          useEffect的输入函数可以返回一个函数，该函数在每次组件重新渲染前以及组件UnMount前执行
+          函数式组件重新渲染时，先执行effect hook的返回函数，再执行effect hook；对于上个例子来说就是先remove 再add
+     （2）useEffect的第二个参数是一个数组；
+          方式1：不传：每次render都会调用
+          方式2：[]只有挂载和卸载时会被调用
+          方式3：[a,b,c.....]只有当该数组中的某个state或者prpos改变时，该effect hook才会被调用
      note：此时effect hook以及在其间的回调函数只能访问到useEffect数组参数中的state和props的最新值，其他state和props只能获取道初始值
 ##### 16.3 useRef:
-###### 获取组件的ref
-###### 实现类似于类组件的实例属性this.XXX,通过useRef方法返回对象的current属性进行读写
+###### 获取组件的ref；实现类似于类组件的实例属性this.XXX,通过useRef方法返回对象的current属性进行读写
+###### createRef(): 每次都会返回新的引用；useRef():每次返回的都是相同的ref
+###### forwardRef():创建一个react组件，该组件能够将其接受的ref属性转发到内部的一个组件中
      例：
           function FocusInput(){
                const inputEl = useRef(null);   //函数组件每次 render 之后，inputElRef不会被重复申明
@@ -691,6 +695,8 @@ props/state发生改变 --> 触发render执行 --> 产生新的DOM树 -->  新�
            console.log('button click')
           }, [])
 ##### 16.5 useReducer:实现redux中的reducer功能，当state的逻辑比较复杂的时候，可以考虑使用useReducer来定义一个state hook
+     const [state,dispatch] = useReducer(reducer,initialArgs,init)
+     reducer:(state,action)=>newState
      useReducer 接受一个 reducer 函数作为参数，reducer 接受两个参数一个是 state 另一个是 action ；
      然后返回一个状态 count 和 dispath，count 是返回状态中的值，而 dispatch 是一个可以发布事件来更新 state 的
      例：function Test(){
@@ -714,6 +720,8 @@ props/state发生改变 --> 触发render执行 --> 产生新的DOM树 -->  新�
                </div>
           )
      }
+     note:当state较复杂时，使用useReducer；
+          useState的setXXX()更i=新数据时异步的；useReducer的setXXX更新数据是同步的
 ##### 16.5 useMemo：代替shouldComponentUpdate
      useMemo(() => {console.log('修改了数组内的数据')},[a,b])
      只有在第二个参数数组中的元素发生变化时，才会重新执行第一个参数函数；避免了频繁渲染的高开销计算，提升性能
