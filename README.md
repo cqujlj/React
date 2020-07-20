@@ -722,10 +722,25 @@ props/state发生改变 --> 触发render执行 --> 产生新的DOM树 -->  新�
 ##### 16.7 useDispatch(): 返回redux store中对action函数的引用
      const dispatch = useDispatch()
      <button onClick={()=> dispatch({'require',...params})}>点击触发action</button>
-##### 16.8 useStore():返回redux<Provider>组件的store对象的引用
+##### 16.8 useStore():返回redux Provider 组件的store对象的引用
      const store = useStore()
      <div>{store.getState}</div>
-##### hook使用规则
+##### 16.9 useContext：在函数组件中使用context；
+###### useContext接收一个 context 对象（React.createContext 的返回值）并返回该 context 的当前值；
+###### 当前的 context 值由上层组件中距离当前组件最近的 <MyContext.Provider> 的 value prop 决定
+     例：const MyContext = createContext({nickname:'nini',level:10})
+     const app = () =>{
+               const data = useContext(MyContext)
+               return(
+                    <div>
+                         <MyContext.Provider value={nickname:'倪妮',level:100}> //若这里没有给出value，则使用默认值
+                              <h1>{data.nickname}</h1>
+                              <h1>{data.level}</h1>
+                         </MyContext.Provider>
+                    </div>
+               )
+          }
+### hook使用规则
      1、不再非react函数式组件外调用useXXX
      2、不在条件语句中调用useXXX
 #### 17. redux
@@ -814,10 +829,23 @@ props/state发生改变 --> 触发render执行 --> 产生新的DOM树 -->  新�
           (4) option
                 使用connect来包裹你的MyCom connect(mapStateToProps,mapDispatch) (withRouter(MyCom));
                 这样，组件MyCom的props里面就有以上的函数和state，可以直接调用；this.props.xxxx
-###### 在Product.js组件使用redux的state
-          import {connect} from "react-redux"  //导入connect
-          import {loadProduct} from "../../../store/actions/productAction";  //导入action方法
-          export default connect(state => state.products)(List) //导出组件时
+###### 在Product.js组件使用redux的state和actions
+         import {connect} from "react-redux"  //导入connect
+         const mapStateToProps = state => {
+            return {
+              counter: state.counter,
+              banners: state.banners,
+              recommends: state.recommends
+            }
+          }
+          const mapDispatchToProps = dispatch => {
+            return {
+              subNumber: function (number) {
+                dispatch(subAction(number));
+              }
+            }
+          }
+          export default connect(mapStateToProps, mapDispatchToProps)(Profile);
 ##### (6) combineReducers(Object):
      · 随着应用变大，你可以把它拆成多个小的 reducers，分别独立地操作 state tree 的不同部分；
      · 每个 reducer 只负责管理全局 state 中它负责的一部分。每个 reducer 的 state 参数都不同，分别对应它管理的那部分 state 数据
@@ -1049,13 +1077,30 @@ props/state发生改变 --> 触发render执行 --> 产生新的DOM树 -->  新�
      例：
           // Context 可以让我们无须明确地传遍每一个组件，就能将值深入传递进组件树。
           // 为当前的 theme 创建一个 context（defaultValue)
-       const ThemeContext = React.createContext({nackName:"nini",age:17});  
+       const ThemeContext = React.createContext({nackName:"default",age:0}); 
+        在函数组件中使用context：使用useContext 最简单的方法
+           function ProfileHeader(props) {
+           const data = useContext(ThemeContext)
+            return (
+              <div>
+                <UserContext.Provider value = {nackName:"nini",age:17}>  //订阅context的变更  consumer的第一个子组件必须是一个函数
+                    return (
+                      <div>
+                        <h2>用户昵称: {data.nickname}</h2>
+                        <h2>用户等级: {data.level}</h2>
+                      </div>
+                    )
+                </UserContext.Consumer>
+              </div>
+            )
+          }
+          const ThemeContext = React.createContext({nickName:"NINI",age:"31"})
       在函数组件中使用context：
       组件ProfileHeader：
            function ProfileHeader(props) {
             return (
               <div>
-                <UserContext.Consumer>  //订阅context的变更
+                <UserContext.Consumer>  //订阅context的变更  consumer的第一个子组件必须是一个函数
                   {value => {
                     return (
                       <div>
@@ -1096,7 +1141,7 @@ props/state发生改变 --> 触发render执行 --> 产生新的DOM树 -->  新�
 ###### createContext：用于创建一个Context对象，该对象支持订阅发布功能;
      组件可以通过Context.Provider发布一个新的值，其所有订阅了该Context对象的子组件就可以即时获取到更新后的值；如果没有搜索到Context.Provider，则使用默认值
 ###### Context.Provider: 用于发布Context，Provider的子组件会从context.provider组件的value属性获取Context值
-###### Context.Consumer：监听Context的变化；
+###### Context.Consumer：监听Context的变化；  consumer的第一个子组件必须是一个函数
      当Context.Provider.value属性发生变化时，该Provider组件下的所有Consumer组件都会重新渲染，并且不受shouldCmponentUpdate返回值的影响
      Consumer采用render props模式，其子组件作为一个函数，函数参数为其监听的Context的值
 #### 2、事件总线
