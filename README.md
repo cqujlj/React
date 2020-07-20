@@ -716,6 +716,15 @@ props/state发生改变 --> 触发render执行 --> 产生新的DOM树 -->  新�
      }
 ##### 16.5 useMemo：代替shouldComponentUpdate
      useMemo(() => {console.log('修改了数组内的数据')},[a,b])
+     只有在第二个参数数组中的元素发生变化时，才会重新执行第一个参数函数；避免了频繁渲染的高开销计算，提升性能
+##### 16.6 useSelector(): 从redux的store对象中获取state数据
+     const counter = useSelector(state => state.counter)
+##### 16.7 useDispatch(): 返回redux store中对action函数的引用
+     const dispatch = useDispatch()
+     <button onClick={()=> dispatch({'require',...params})}>点击触发action</button>
+##### 16.8 useStore():返回redux<Provider>组件的store对象的引用
+     const store = useStore()
+     <div>{store.getState}</div>
 ##### hook使用规则
      1、不再非react函数式组件外调用useXXX
      2、不在条件语句中调用useXXX
