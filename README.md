@@ -673,7 +673,7 @@ props/state发生改变 --> 触发render执行 --> 产生新的DOM树 -->  新�
      note：此时effect hook以及在其间的回调函数只能访问到useEffect数组参数中的state和props的最新值，其他state和props只能获取道初始值
 ##### 16.3 useRef:
 ###### 获取组件的ref；实现类似于类组件的实例属性this.XXX,通过useRef方法返回对象的current属性进行读写
-###### createRef(): 每次都会返回新的引用；useRef():每次返回的都是相同的ref
+###### createRef(): 每次都会返回新的引用；但是 useRef():每次返回的都是相同的ref
 ###### forwardRef():创建一个react组件，该组件能够将其接受的ref属性转发到内部的一个组件中
      例：
           function FocusInput(){
@@ -694,23 +694,30 @@ props/state发生改变 --> 触发render执行 --> 产生新的DOM树 -->  新�
      例： const onClick = useCallback(() => {
            console.log('button click')
           }, [])
-##### 16.5 useReducer:实现redux中的reducer功能，当state的逻辑比较复杂的时候，可以考虑使用useReducer来定义一个state hook
+##### 16.5 useMemo：代替shouldComponentUpdate
+     useMemo(() => {console.log('修改了数组内的数据')},[a,b])
+     只有在第二个参数数组中的元素发生变化时，才会重新执行第一个参数函数；避免了频繁渲染的高开销计算，提升性能
+###### useMemo VS useCallback
+     相同点：两者都依赖于数据发生变化，才会重新计算，起到了缓存作用
+     不同点：useMemo的计算结果是一个值，主要用于缓存计算结果
+             useCallback的计算结果是一个函数，主要用于缓存函数
+##### 16.6 useReducer:实现redux中的reducer功能，当state的逻辑比较复杂的时候，可以考虑使用useReducer来定义一个state hook
      const [state,dispatch] = useReducer(reducer,initialArgs,init)
      reducer:(state,action)=>newState
      useReducer 接受一个 reducer 函数作为参数，reducer 接受两个参数一个是 state 另一个是 action ；
      然后返回一个状态 count 和 dispath，count 是返回状态中的值，而 dispatch 是一个可以发布事件来更新 state 的
-     例：function Test(){
-          const [count,dispatch]=userReducer((state,action)=>{
-               switch(action.type){
-                    case 'add':
-                         return state+1;
-                    case 'sub':
-                         return state-1;
-                    default:
-                         return state;     
-               }
-          },0);
-          
+     例：const reducer = (state,action)=>{
+          switch(action.type){
+               case 'add':
+                    return state+1;
+               case 'sub':
+                    return state-1;
+               default:
+                    return state;     
+          }
+      },
+     function Test(){
+          const [count,dispatch]=userReducer(reducer,0);
           return(
                <div>
                     <h1>{count}</h1>
@@ -722,9 +729,6 @@ props/state发生改变 --> 触发render执行 --> 产生新的DOM树 -->  新�
      }
      note:当state较复杂时，使用useReducer；
           useState的setXXX()更i=新数据时异步的；useReducer的setXXX更新数据是同步的
-##### 16.5 useMemo：代替shouldComponentUpdate
-     useMemo(() => {console.log('修改了数组内的数据')},[a,b])
-     只有在第二个参数数组中的元素发生变化时，才会重新执行第一个参数函数；避免了频繁渲染的高开销计算，提升性能
 ##### 16.6 useSelector(): 从redux的store对象中获取state数据
      const counter = useSelector(state => state.counter)
 ##### 16.7 useDispatch(): 返回redux store中对action函数的引用
@@ -736,6 +740,8 @@ props/state发生改变 --> 触发render执行 --> 产生新的DOM树 -->  新�
 ##### 16.9 useContext：在函数组件中使用context；
 ###### useContext接收一个 context 对象（React.createContext 的返回值）并返回该 context 的当前值；
 ###### 当前的 context 值由上层组件中距离当前组件最近的 <MyContext.Provider> 的 value prop 决定
+###### context.Consumer组件的第一个子节点必须是一个函数
+###### contextType只支持class组件；provider和consumer都都可以在函数组件和class组件中使用
      例：const MyContext = createContext({nickname:'nini',level:10})
      const app = () =>{
                const data = useContext(MyContext)
