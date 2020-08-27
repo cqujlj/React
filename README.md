@@ -760,6 +760,7 @@ props/state发生改变 --> 触发render执行 --> 产生新的DOM树 -->  新�
 #### 17. redux
      专门的状态管理库，集中管理react中的多个组件的状态
      需求状态：某个组件的状态需要共享的时候、组件中的状态需要改变另一个组件的状态时
+     redux的工作流程：在middleware和reducer中处理action--> action分发后通知订阅者 --> 根据state变化更新UI
 ##### 三大原则：
      (1)整个应用的 state 被储存在一棵 object tree 中，并且这个 object tree 只存在于唯一一个 store 中；当需要拆分数据处理逻辑时，可使用reducer 组合 而不是创建多个store
      (2)唯一改变 state 的方法就是触发 action，action 是一个用于描述已发生事件的普通对象
@@ -828,7 +829,7 @@ props/state发生改变 --> 触发render执行 --> 产生新的DOM树 -->  新�
                ownProps：是组件自己的props
                     例： const mapStateToProps = state =>{
                               return{
-                                   userMessage: state.uerState,
+                                   userMessage: state.uerState,  //传入当前组件需要的state 不要把整个state传入
                                    projectMessage: state.projectState
                               }
                          }
@@ -887,6 +888,7 @@ props/state发生改变 --> 触发render执行 --> 产生新的DOM树 -->  新�
 ###### 中间件Middleware：
      独立运行于各个框架之间的代码，运行在action发送出去到达reducer之间的一段代码，
      本质是一个函数：可以访问请求对象和响应对象，可以对请求进行拦截处理，处理后将控制权向下传递，可以终止请求，向客户端做出响应；
+     ----> Middleware能够拦截分发的action并添加额外的复杂行为，添加副作用
 ###### applyMiddleware():该方法可以使用多个中间件，将所有中间件组成一个数组，依次执行。
 ##### 18.2 *** Middleware API:saga
       redux-saga：是一个用于管理应用程序 Side Effect（例如异步获取数据，访问浏览器缓存等）的 library
