@@ -770,6 +770,7 @@ props/state发生改变 --> 触发render执行 --> 产生新的DOM树 -->  新�
      npm install --save-dev redux-devtools
 ##### (2) 创建reducer.js：
      reducer：Reducer 只是一些纯函数(高阶函数)，它接收先前的 state 和 action，并返回新的 state
+     以‘不可变的方式’更新state，，复制数据，返回上层的所有数据副本，不可以直接修改原始state
      决定每个 action 如何改变应用的 state
      (previousState, action) => newState
      例：const products = (state ={list:[],page:1,total:0},action)=>{
@@ -782,19 +783,19 @@ props/state发生改变 --> 触发render执行 --> 产生新的DOM树 -->  新�
               }
           };
 ###### ·state
-     ·store对象包含所有数据
+     ·store对象包含所有数据---尽量减少state tree的嵌套深度，使用范式化state使其扁平化
      ·获取当前时刻的state：store.getState();
      ·获取某个时点的数据，多store生成快照： const state = store.getState();
      · 更新state：dispatch(action)
-     · 注册监听器：subscribe(listener) 注册监听器
+     · 注册监听器：subscribe(listener) 注册监听器----监听到数据变化则调用回调函数，默认回调函数为null
      · 注销监听器：subscribe(listener) 返回的函数注销监听器
 ##### (3) action.js
      action：发出做某件事的请求，本身不做任何逻辑处理，只是一个纯函数（在js中就是一个普通的对象）
      action 内必须使用一个字符串类型的type字段来表示将要执行的动作；为了维护命名一致性，一般讲action type汇总到一个actionType.js文件中，写成一个常量
      action是一个对象，type属性是必要的，标识action的名称；
      改变内部 state 惟一方法是 dispatch 一个 action
-     在组件中执行某个时间调用action去改变state：props.dispatch({ type:"ADD"})  //
-     nnote：最好通过创建函数生成 action 对象，而不是在你 dispatch 的时候内联生成它们
+     在组件中执行某个时间调用action去改变state：props.dispatch({ type:"ADD"})  
+     note：最好通过创建函数生成 action 对象，而不是在你 dispatch 的时候内联生成它们
      例：export add = (num)=>{
                return{
                     type:"ADD",
@@ -832,7 +833,7 @@ props/state发生改变 --> 触发render执行 --> 产生新的DOM树 -->  新�
                               }
                          }
           (2) mapDispatchToProps(dispatch,ownProps)
-               将 action 作为 props 绑定到组件上
+               将 action 作为 props 绑定到组件上---若不传入该参数，则默认将dispatch注入
                dispatch:是store中的dispatch
                     例：requestActions是redux action，requestFunc是action内的一个函数 dispatch 'request' 就会触发saga里面的数据请求
                     const mapDispatch = dispatch =>({
